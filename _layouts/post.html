@@ -35,3 +35,17 @@ layout: default
 
 {% include new-old.html %}
 {% include comments.html %}
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+    owner: 'luciferlia',
+    repo: 'luciferlia.github.io',
+    oauth: {
+        client_id: 'e46bd6bb40dd35a1d40c',
+        client_secret: '103f215424c1c15032d4efedaf1843532b893a8b',
+    },
+});
+gitment.render('gitmentContainer');
+</script>
