@@ -1,0 +1,196 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<base href="<%=basePath%>">
+<meta charset="UTF-8">
+<title>与德测试信息管理系统</title>
+
+<link rel="stylesheet" href="script/layui/css/layui.css" media="all">
+<script src="script/layui/layui.js"></script>
+<script src="script/js/jquery.js"></script>
+<script src="script/js/jquery.min.js"></script>
+
+<style>
+li {
+	color: black;
+}
+
+
+
+body{ background: url(images/1.jpg) center/cover no-repeat;}
+
+.disabled{
+pointer-events:none; 
+
+}
+
+.modal {
+  height: 530px;
+  width: 700px;
+  margin-top:100px;
+  margin-left:32%;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: .4s, box-shadow .3s .4s;
+}
+
+
+.modal div{float:left;}
+.form{
+  background:rgba(71, 71, 71, 0.6);;
+  width: 43%;
+  height: 90.5%;
+  padding: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+} 
+.form input {
+  background: rgba(255, 255, 255, 0.15);
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  color: #FFF;
+  font-size: 20px;
+}
+.invite{
+  width: 43%;
+  height: 90.5%;
+  padding: 25px;
+  position: absolute;
+/*  background: linear-gradient(-45deg,#00BFFF,#B0E2FF); */
+background:#00688B;
+   top: 0;
+ left: 50%;
+
+}
+.invite p{margin:5px 5px;font-size:1.3em;color:white;}
+.modal label{color:white;font-size:1.2em;}
+.form p{margin:3px 10px;}
+.buttonsd{
+ cursor: pointer;
+    width: 280px;
+    height: 44px;
+    
+    padding: 0;
+    background: #ef4300;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 0px;
+    -moz-box-shadow:
+        0 15px 30px 0 rgba(255,255,255,.25) inset,
+        0 2px 7px 0 rgba(0,0,0,.2);
+    -webkit-box-shadow:
+        0 15px 30px 0 rgba(255,255,255,.25) inset,
+        0 2px 7px 0 rgba(0,0,0,.2);
+    box-shadow:
+        0 15px 30px 0 rgba(255,255,255,.25) inset,
+        0 2px 7px 0 rgba(0,0,0,.2);
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.1);
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+}
+</style>
+    
+    
+<script>
+layui.use('layer', function(){
+  var layer = layui.layer;
+ 
+});
+ </script>
+
+</head>
+<body>
+	
+	<h3 style="margin-left:45%;font-weight:bold;color:white;"><i class="layui-icon" style="font-size:30px; color:white;">&#xe60c;</i> 外来人员注册</h3>
+<hr style="opacity: 0.7;height:5px;border-color:#CFCFCF;width:100%;"/>
+
+
+<div class="modal">
+<div class="form">
+<form action="Customer_reg" method="post" id="formid">
+<p><label>用户名:</label><input type="text" value="" name="username" id="username"></p>
+<p><label>姓&nbsp;名:</label><input type="text" value="" name="name" id="name"></p>
+<p><label>密&nbsp;码:</label><input type="password" value="" name="password" id="password"></p>
+<p><label>联&nbsp;系&nbsp;电&nbsp;话:</label><input type="text" value=""  name="phone" id="phone" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"></p>
+<p><label>邮&nbsp;箱:</label><input type="text" value=""  name="email" id="email" ></p>
+<p><label>部&nbsp;门:</label><input type="text" value=""  name="department" id="depart"></p>
+<p><button type="button" class="buttonsd"  onclick="check()">注　册</button></p>
+</form>
+</div>
+<div class="invite">
+    <label style="margin-left:30%;">外部人员注意事项</label>
+	<hr/>
+    <p>*实验室提前预约时间不得超过三天</p>
+	<p>*请合理使用实验室资源，不要迟到或延迟或不使用</p>
+	<p>*请爱护实验室资源，不要损坏</p>
+	<p>*如测试过程中遇到问题，请联系实验室负责人，以免不当操作造成设备损坏</p>
+  </div>
+</div>
+<script type="text/javascript">
+	function check(){
+	
+		var username=$("#username").val();
+		var name=$("#name").val();
+		var password=$("#password").val();
+		var phone=$("#phone").val();
+		var depart=$("#depart").val();
+		var email=$("#email").val();
+		//alert(username);
+		var array=[];
+		var json={};
+		json={username,name,password,phone,depart,email};
+		array.push(json);
+		//alert(array);
+		$.ajax({
+			url:"checkReg",
+			dataType:"JSON",
+			type:"POST",
+			data:{"params":JSON.stringify(array)},
+			success:function(data){
+			//alert(data);
+				if(data=='success'){
+				$("#formid").submit();
+				}else{
+				layer.msg(data,{time:3000});
+				}
+				
+			},
+			error:function(errMsg){
+				alert(errMsg);
+			}
+		
+		});
+		
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,1727 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<base href="http://10.0.10.159:80/">
+
+<title>与德测试信息管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../script/css/bootstrap.min.css">
+<script src="../script/js/jquery.min.js"></script>
+<script src="../script/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css" media="all">
+<script src="../script/layui/layui.js"></script>
+<script src="../script/js/bootstrap.min.js"></script>
+<script src="../script/page.js"></script>
+<style>
+#wai {
+	border: 1px solid #4682B4;
+}
+
+#table td {
+	font-size: 0.9em;
+	font-color: black;
+	text-align: center;
+	vertical-align: middle;
+}
+#table2 td {
+	font-size: 0.9em;
+	font-color: black;
+	text-align: center;
+	vertical-align: middle;
+}
+li {
+	list-style: none;
+}
+
+</style>
+<script type="text/javascript">
+	function console(consoleTag, caseId, stateTag) {
+		//alert("sdkl");
+		var checkedSubject = $('#table input[name=checkedId]:checkbox:checked');
+		var checkedSubject2 = $('#table2 input[name=checkedId1]:checkbox:checked');
+		var checkedIds = "";
+		var checkedIds2 = "";
+		//循环获取选中的复选框的value，这个value是数据表中每条记录的主键，传给后台，后台就能根据主键查找到数据表的相应记录
+		//将其value用逗号隔开拼接成一个字符串
+		checkedSubject.each(function() {
+			checkedIds = checkedIds + "," + $(this).val();
+		});
+		//alert(checkedIds);
+		
+		checkedSubject2.each(function() {
+			checkedIds2 = checkedIds2 + "," + $(this).val();
+		});
+		//alert(checkedIds2);
+		layer.confirm('确定授权?', {icon: 3, title:'提示'}, function(index){
+                                layer.close(index);
+                                //table表中选中的复选框赋值给checkedSubject
+
+
+			//上面的字符串赋值给隐藏域表单
+			$('#checkedIds').val(checkedIds);
+			$('#checkedIds2').val(checkedIds2);
+
+			//
+			if ("save" == consoleTag) {
+				$('#formid').prop("action", "role_rolePower?id=1");
+			}
+			//提交隐藏域表单，后台才能获取隐藏域表单的值
+			$('#formid').submit();
+                                
+                                },function(index){ layer.close(index);
+								return false;
+								});
+		
+	}
+	
+</script>
+<script>
+layui.use(['form', 'layedit', 'laydate'], function(){
+  var form = layui.form()
+  ,layer = layui.layer
+});
+</script>
+<script>
+	layui.use('element', function() {
+		var element = layui.element();
+	});
+</script>
+<body data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-37" data-genuitec-path="/TestInformation/WebRoot/person/addpower.jsp">
+
+	<div class="layui-tab layui-tab-card"
+		style="width:99%;height:auto%;min-width:600px;min-height:600px;margin-left:1%;" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-37" data-genuitec-path="/TestInformation/WebRoot/person/addpower.jsp">
+		<ul class="layui-tab-title">
+			<li class="layui-this">菜单权限</li>
+			<li>界面权限</li>
+		</ul>
+		<div class="layui-tab-content" >
+			<div class="layui-tab-item layui-show" style="height:auto;">
+				
+				<form class="layui-form">
+					<table id="table"
+						style="margin-left:1%;width:95%;min-width:300px;TABLE-LAYOUT:fixed;WORD-BREAK:break-all"
+						class="layui-table">
+
+						<tr style="background-color:#4682B4;height:40px;" id="show_tab_one">
+							<td style="width:50px;">ID</td>
+							<td>一级菜单</td>
+							<td>名称</td>
+							<td>URL</td>
+							<td>状态</td>
+						</tr>
+						<tbody id="show_tab_tr">
+							
+								<tr>
+									<td>1</td>
+									<td>项目管理</td>
+									<td>项目基本信息</td>
+									<td>Project_showProject?page=1</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="1" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>3</td>
+									<td>项目管理</td>
+									<td>项目人员信息</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="3" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>4</td>
+									<td>项目管理</td>
+									<td>项目委外信息</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="4" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>5</td>
+									<td>项目管理</td>
+									<td>项目成本信息</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="5" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>6</td>
+									<td>用例管理</td>
+									<td>硬测用例</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="6" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>7</td>
+									<td>用例管理</td>
+									<td>软测用例</td>
+									<td>Case_showCaseType</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="7" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>8</td>
+									<td>资源管理</td>
+									<td>我的资源</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="8" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>9</td>
+									<td>资源管理</td>
+									<td>设备资源管理</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="9" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>10</td>
+									<td>资源管理</td>
+									<td>设备资源申请</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="10" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>12</td>
+									<td>个人事务</td>
+									<td>我的信息</td>
+									<td>person/info.jsp</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="12" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>13</td>
+									<td>个人事务</td>
+									<td>人员状态</td>
+									<td>user_HumanStatus</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="13" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>15</td>
+									<td>工作台</td>
+									<td>我的任务</td>
+									<td>task_showMyProject?page=1&tag=1&flagg=0</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="15" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>17</td>
+									<td>工作台</td>
+									<td>任务提醒</td>
+									<td>person/personstatus.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="17" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>19</td>
+									<td>资源管理</td>
+									<td>测试卡资源管理</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="19" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>20</td>
+									<td>资源管理</td>
+									<td>测试卡资源申请</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="20" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>21</td>
+									<td>资源管理</td>
+									<td>样机资源管理</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="21" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>22</td>
+									<td>资源管理</td>
+									<td>样机资源申请</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="22" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>23</td>
+									<td>资源管理</td>
+									<td>实验室申请</td>
+									<td>error.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="23" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>25</td>
+									<td>用例管理</td>
+									<td>测试策略</td>
+									<td>policy_showPolicyPool</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="25" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>26</td>
+									<td>工作台</td>
+									<td>任务进度</td>
+									<td>task_showMyProject?page=1&tag=2&flagg=1</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="26" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>27</td>
+									<td>工作台</td>
+									<td>历史任务</td>
+									<td>task_showMyProject?page=1&tag=3&flagg=2</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="27" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>28</td>
+									<td>用例管理</td>
+									<td>客户需求</td>
+									<td>Case_showCusCasePool</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="28" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>30</td>
+									<td>工作台</td>
+									<td>今日使用人员</td>
+									<td>showTodayTime</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="30" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>31</td>
+									<td>工作台</td>
+									<td>查看今日工时</td>
+									<td>task_showSchedule?searchtime=0</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="31" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>32</td>
+									<td>工作台</td>
+									<td>在线人员列表</td>
+									<td>getUserList</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="32" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>33</td>
+									<td>实验室</td>
+									<td>实验室预约</td>
+									<td>lab_showAllLabList?tag=0</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="33" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+								<tr>
+									<td>34</td>
+									<td>实验室</td>
+									<td>数据统计</td>
+									<td>laboratory/search.jsp</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="34" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>35</td>
+									<td>实验室</td>
+									<td>申请审批</td>
+									<td>lab_showApproval</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="35" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>36</td>
+									<td>实验室</td>
+									<td>使用反馈</td>
+									<td>lab_showUserUse</td>
+									<td> 
+										 <div class="layui-input-block">
+										<input type="checkbox" name="checkedId" id="checkedId" value="36" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+										 </div>										
+										</td>
+				
+								</tr>
+							
+								<tr>
+									<td>37</td>
+									<td>工作台</td>
+									<td>周报填写</td>
+									<td>report_showWeekReports?day=0</td>
+									<td>
+									  <div class="layui-input-block">
+									  <input type="checkbox" name="checkedId" id="checkedId" value="37" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									  </div>
+										 </td>
+				
+								</tr>
+							
+						</tbody>
+					</table>
+					</form>
+					 <table style="margin-left:1%;width:95%;min-width:300px;font-size:0.9em;"><tr><td>
+                    共&nbsp;&nbsp;<span id="page" ></span>&nbsp;&nbsp;页&nbsp;&nbsp;|&nbsp;&nbsp;第&nbsp;&nbsp;<span id="curPage1"></span>&nbsp;&nbsp;页
+                     <span style="float:right;">
+                    <input id="lastpage" type="button" value="上一页" >
+   <input id="nextpage" type="button" value="下一页">
+   <select id="curPage"></select>
+    <input id="npage" type="button" value="确定" class="btn btn-primary btn-xs" style="border:1px solid black;"></span>
+   
+    </td></tr></table>
+		
+			</div>
+			<div class="layui-tab-item" style="height:400px;">
+			
+				<form class="layui-form">
+					<table id="table2"
+						style="margin-left:1%;width:95%;min-width:300px;TABLE-LAYOUT:fixed;WORD-BREAK:break-all"
+						class="layui-table">
+
+						<tr style="background-color:#4682B4;height:40px;" id="show_tab_one2">
+							<td style="width:50px;">ID</td>
+							<td>名称</td>
+							<td>URL</td>
+							<td>所在页面</td>
+							<td>备注名称</td>
+							<td>状态</td>
+						</tr>
+						<tbody id="show_tab_tr2">
+							
+								<tr>
+									<td>1</td>
+									<td>删除</td>
+									<td>Case_deleteCase</td>
+									<td>alluse.jsp</td>
+									<td>删除用例类型</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="1" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>2</td>
+									<td>增加</td>
+									<td>Case_updateCase</td>
+									<td>alluse.jsp</td>
+									<td>增加用例类型</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="2" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>3</td>
+									<td>编辑</td>
+									<td>Case_updateCase</td>
+									<td>alluse.jsp</td>
+									<td>修改用例类型</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="3" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>6</td>
+									<td>删除</td>
+									<td>case_exportCase</td>
+									<td>detailuse.jsp</td>
+									<td>删除用例分类</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="6" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>7</td>
+									<td>增加</td>
+									<td></td>
+									<td>detailuse.jsp</td>
+									<td>增加用例分类</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="7" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>8</td>
+									<td>编辑</td>
+									<td></td>
+									<td>detailuse.jsp</td>
+									<td>修改用例分类</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="8" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>9</td>
+									<td>删除</td>
+									<td></td>
+									<td>usecase.jsp</td>
+									<td>删除用例</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="9" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>10</td>
+									<td>编辑</td>
+									<td></td>
+									<td>usecase.jsp</td>
+									<td>修改用例</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="10" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>11</td>
+									<td>增加</td>
+									<td></td>
+									<td>usecase.jsp</td>
+									<td>增加用例</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="11" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>12</td>
+									<td>导入</td>
+									<td></td>
+									<td>usecase.jsp</td>
+									<td>导入用例</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="12" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>13</td>
+									<td>导出</td>
+									<td></td>
+									<td>usecase.jsp</td>
+									<td>导出用例</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="13" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>14</td>
+									<td>导出</td>
+									<td></td>
+									<td>alluse.jsp</td>
+									<td>导出所有用例</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="14" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>15</td>
+									<td>新建</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>新建项目</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="15" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>16</td>
+									<td>删除</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>删除项目</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="16" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>17</td>
+									<td>编辑</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>编辑项目</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="17" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>18</td>
+									<td>添加项目计划</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>添加项目计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="18" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>19</td>
+									<td>添加项目成员</td>
+									<td></td>
+									<td>p_plan.jsp</td>
+									<td>添加项目中的成员</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="19" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>20</td>
+									<td>编辑</td>
+									<td></td>
+									<td>p_plan.jsp</td>
+									<td>批量编辑</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="20" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>21</td>
+									<td>编辑</td>
+									<td></td>
+									<td>p_plan.jsp</td>
+									<td>单个编辑</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="21" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>22</td>
+									<td>删除</td>
+									<td></td>
+									<td>p_plan.jsp</td>
+									<td>单个删除</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="22" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>23</td>
+									<td>软件版本</td>
+									<td></td>
+									<td>p_plan.jsp</td>
+									<td>编辑项目周计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="23" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>24</td>
+									<td>删除</td>
+									<td></td>
+									<td>cusCasePool.jsp</td>
+									<td>删除客户用例类型</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="24" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>25</td>
+									<td>增加</td>
+									<td></td>
+									<td>cusCasePool.jsp</td>
+									<td>增加客户用例类型</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="25" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>26</td>
+									<td>编辑</td>
+									<td></td>
+									<td>cusCasePool.jsp</td>
+									<td>修改客户用例类型</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="26" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>27</td>
+									<td>删除</td>
+									<td></td>
+									<td>cusCase.jsp</td>
+									<td>删除客户用例分类</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="27" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>28</td>
+									<td>增加</td>
+									<td></td>
+									<td>cusCase.jsp</td>
+									<td>增加客户用例分类</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="28" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>29</td>
+									<td>编辑</td>
+									<td></td>
+									<td>cusCase.jsp</td>
+									<td>编辑客户用例分类</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="29" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>30</td>
+									<td>删除</td>
+									<td></td>
+									<td>cusCaseDetail.jsp</td>
+									<td>删除上传的用例信息</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="30" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>31</td>
+									<td>导出结果</td>
+									<td></td>
+									<td>testcase.jsp</td>
+									<td>导出用例结果</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="31" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>32</td>
+									<td>上传</td>
+									<td></td>
+									<td>cusCaseDetail.jsp</td>
+									<td>上传用例</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="32" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>33</td>
+									<td>导出</td>
+									<td></td>
+									<td>detailuse.jsp</td>
+									<td>多模块导出</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="33" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>34</td>
+									<td>人员</td>
+									<td></td>
+									<td></td>
+									<td>显示所有人员</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="34" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>35</td>
+									<td>人员</td>
+									<td></td>
+									<td></td>
+									<td>显示同组人员</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="35" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>36</td>
+									<td>人员</td>
+									<td></td>
+									<td></td>
+									<td>显示项目内成员</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="36" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>37</td>
+									<td>操作计划</td>
+									<td></td>
+									<td>mytask.jsp</td>
+									<td>分配计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="37" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>38</td>
+									<td>操作计划</td>
+									<td></td>
+									<td></td>
+									<td>查看计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="38" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>39</td>
+									<td>操作计划</td>
+									<td></td>
+									<td></td>
+									<td>执行计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="39" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>40</td>
+									<td>操作计划</td>
+									<td></td>
+									<td></td>
+									<td>查看所有计划</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="40" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>41</td>
+									<td>项目</td>
+									<td></td>
+									<td></td>
+									<td>查看所有项目</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="41" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>42</td>
+									<td>项目</td>
+									<td></td>
+									<td></td>
+									<td>查看自己的项目</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="42" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>46</td>
+									<td>任务进度</td>
+									<td></td>
+									<td></td>
+									<td>查看所有项目的任务进度</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="46" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>47</td>
+									<td>任务进度</td>
+									<td></td>
+									<td></td>
+									<td>查看自己参与项目的任务进度</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="47" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>48</td>
+									<td>增加</td>
+									<td></td>
+									<td>client.jsp</td>
+									<td>增加模板</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="48" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>49</td>
+									<td>编辑</td>
+									<td></td>
+									<td>client.jsp</td>
+									<td>编辑模板</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="49" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>50</td>
+									<td>删除</td>
+									<td></td>
+									<td>client.jsp</td>
+									<td>删除模板</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="50" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>51</td>
+									<td>导入</td>
+									<td></td>
+									<td>policy.jsp</td>
+									<td>导入3T模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="51" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>52</td>
+									<td>导出</td>
+									<td></td>
+									<td>policy.jsp</td>
+									<td>导出3T模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="52" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>53</td>
+									<td>导入</td>
+									<td></td>
+									<td>IPD.jsp</td>
+									<td>导入IPD模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="53" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>54</td>
+									<td>导出</td>
+									<td></td>
+									<td>IPD.jsp</td>
+									<td>导出IPD模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="54" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>55</td>
+									<td>导入</td>
+									<td></td>
+									<td>Auto.jsp</td>
+									<td>导入自定义模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="55" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>56</td>
+									<td>导出</td>
+									<td></td>
+									<td>Auto.jsp</td>
+									<td>导出自定义模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="56" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>57</td>
+									<td>保存</td>
+									<td></td>
+									<td>policy.jsp</td>
+									<td>保存3T模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="57" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>58</td>
+									<td>保存</td>
+									<td></td>
+									<td>IPD.jsp</td>
+									<td>保存IPD模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="58" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>59</td>
+									<td>保存</td>
+									<td></td>
+									<td>Auto.jsp</td>
+									<td>保存自定义模板策略</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="59" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>60</td>
+									<td>分配计划</td>
+									<td></td>
+									<td>p_plan.jsp</td>
+									<td>分配计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="60" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>61</td>
+									<td>日志</td>
+									<td></td>
+									<td></td>
+									<td>查看所有日志</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="61" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>62</td>
+									<td>日志</td>
+									<td></td>
+									<td></td>
+									<td>查看自己日志</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="62" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>63</td>
+									<td>工时</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>查看项目工时详情</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="63" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>64</td>
+									<td>详情</td>
+									<td></td>
+									<td>usecase.jsp</td>
+									<td>详情</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="64" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>65</td>
+									<td>计划作废</td>
+									<td></td>
+									<td>p_plan.jsp</td>
+									<td>修改计划状态</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="65" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>66</td>
+									<td>编辑</td>
+									<td></td>
+									<td>editlab.jsp</td>
+									<td>编辑实验室</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="66" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>67</td>
+									<td>删除</td>
+									<td></td>
+									<td>editlab.jsp</td>
+									<td>删除实验室</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="67" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>68</td>
+									<td>编辑</td>
+									<td></td>
+									<td>editdev.jsp</td>
+									<td>编辑实验室设备</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="68" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>69</td>
+									<td>删除</td>
+									<td></td>
+									<td>editdev.jsp</td>
+									<td>删除实验室设备</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="69" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>70</td>
+									<td>增加</td>
+									<td></td>
+									<td>editContent.jsp</td>
+									<td>增加设备测试项</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="70" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>71</td>
+									<td>编辑</td>
+									<td></td>
+									<td>editContent.jsp</td>
+									<td>编辑设备测试项</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="71" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>72</td>
+									<td>删除</td>
+									<td></td>
+									<td>editContent.jsp</td>
+									<td>删除设备测试项</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="72" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>73</td>
+									<td>增加</td>
+									<td></td>
+									<td>editlab.jsp</td>
+									<td>增加实验室</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="73" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>74</td>
+									<td>增加</td>
+									<td></td>
+									<td>editdev.jsp</td>
+									<td>增加实验室设备</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="74" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>75</td>
+									<td>预约反馈</td>
+									<td></td>
+									<td>use.jsp</td>
+									<td>查看全部反馈信息</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="75" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>76</td>
+									<td>预约反馈</td>
+									<td></td>
+									<td>use.jsp</td>
+									<td>查看自己反馈信息</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="76" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>77</td>
+									<td>实验室</td>
+									<td></td>
+									<td>search.jsp</td>
+									<td>显示所有实验室名称</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="77" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>78</td>
+									<td>实验室</td>
+									<td></td>
+									<td>search.jsp</td>
+									<td>显示自己负责的实验室名称</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="78" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>79</td>
+									<td>实验室统计</td>
+									<td></td>
+									<td>search.jsp</td>
+									<td>显示所有实验室统计</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="79" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>80</td>
+									<td>实验室统计</td>
+									<td></td>
+									<td>search.jsp</td>
+									<td>显示自己负责的实验室统计</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="80" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>81</td>
+									<td>实验室</td>
+									<td></td>
+									<td>lab.jsp</td>
+									<td>新增实验室</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="81" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>82</td>
+									<td>编辑</td>
+									<td></td>
+									<td>lab.jsp</td>
+									<td>操作实验室</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="82" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>84</td>
+									<td>设备</td>
+									<td></td>
+									<td>devlist.jsp</td>
+									<td>预约界面增加实验室设备</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="84" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+								<tr>
+									<td>85</td>
+									<td>计划</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>项目界面查看计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="85" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>86</td>
+									<td>日报</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>项目界面查看版本日报</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="86" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>87</td>
+									<td>导入计划</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>项目界面导入计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="87" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>88</td>
+									<td>导出计划</td>
+									<td></td>
+									<td>Myproject.jsp</td>
+									<td>项目界面导出计划</td>
+									<td>
+										  <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="88" class=" id-checkbox" checked="checked" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+											</div>
+										 </td>
+								</tr>
+
+							
+								<tr>
+									<td>89</td>
+									<td>实验室项目</td>
+									<td></td>
+									<td>lab.jsp</td>
+									<td>实验室项目</td>
+									<td> 
+									 <div class="layui-input-block">
+											<input type="checkbox" name="checkedId1" id="checkedId1" value="89" class=" id-checkbox" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF"/>
+									</div>	
+										</td>
+								</tr>
+
+							
+						</tbody>
+
+
+					</table>
+					</form>
+					 <table style="margin-left:1%;width:95%;min-width:300px;font-size:0.9em;"><tr><td>
+                    共&nbsp;&nbsp;<span id="page2" ></span>&nbsp;&nbsp;页&nbsp;&nbsp;|&nbsp;&nbsp;第&nbsp;&nbsp;<span id="curPage12"></span>&nbsp;&nbsp;页
+                     <span style="float:right;">
+                    <input id="lastpage2" type="button" value="上一页" >
+   <input id="nextpage2" type="button" value="下一页">
+    <!-- <input id="curPage" type="text" size="5"> --><select id="curPage2"></select>
+    <input id="npage2" type="button" value="确定" class="btn btn-primary btn-xs" style="border:1px solid black;"></span>
+   
+    </td></tr></table>
+				
+				
+			</div>
+		</div>
+		
+	</div>
+	<button class="layui-btn layui-btn-normal layui-btn-radius"
+					style="float:right;" onclick="console('save','')">确定</button>
+	
+	<form action="" method="post" id="formid">
+	<input type="hidden" name="checkedIds" id="checkedIds" />
+	<input type="hidden" name="checkedIds2" id="checkedIds2" />
+	</form>
+</body>
+</html>

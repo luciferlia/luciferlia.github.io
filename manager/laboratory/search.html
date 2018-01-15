@@ -1,0 +1,634 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>与德测试信息管理系统</title>
+<script src="../script/js/jquery.js"></script>
+<script src="../script/js/jquery.min.js"></script>
+<script src="../script/laydate/laydate.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css" media="all">
+<script src="../script/layui/layui.js"></script>
+<script src="../script/js/echarts.js"></script>
+<style>
+#search {
+	width: 90%;
+	height: 120px;
+	margin-left: 2%;
+	border-radius: 10px;
+	border: 4px solid #DCDCDC;
+}
+#main{
+   border:4px solid #DCDCDC;
+	border-radius:25px;
+	/*box-shadow:10px 10px 5px #888888;;}*/
+}
+</style>
+
+<script>
+	var form;
+	layui.use([ 'form', 'layedit', 'element' ], function() {
+		form = layui.form()
+		, layer = layui.layer
+		, layedit = layui.layedit;
+		
+		var element = layui.element;
+
+
+	});
+
+	function showlab() {
+		$.ajax({
+			type : "POST",
+			url : "getAlllab", //这里你根据后台地址改,id为项目编号       
+			success : function(data) {
+				if(data=="未创建实验室"){
+					layer.msg("还未创建实验室哦！所以暂时未获取到实验室信息");
+					
+				}else if(data=="权限限制"){
+					layer.msg("您没有查看实验室统计的权限，请联系管理员开通");
+					
+				}else{
+				var str = data.substr(1, data.length - 2).split(",");
+				var option = '<option value="0">全部</option>';
+				for (i = 0; i < str.length; i++) {
+					var strs = str[i].split(">>");
+					option += '<option value="' + strs[0] + '">' + strs[1] + '</option>';
+				}
+				$('#lab').html(option);
+				layui.form('select').render();
+				
+				}
+			},
+			error : function(e) {
+				layer.msg("加载实验室数据失败");
+				//console.log(e);
+			}
+		});
+	}
+	function getDaysInMonth(year,month){ month = parseInt(month,10); 
+	 var temp = new Date(year,month,0); return temp.getDate(); }
+	Date.prototype.Format = function(fmt) {
+		var o = {
+			"M+" : this.getMonth() + 1, //月份         
+			"d+" : this.getDate(), //日         
+			"h+" : this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时         
+			"H+" : this.getHours(), //小时         
+			"m+" : this.getMinutes(), //分         
+			"s+" : this.getSeconds(), //秒         
+			"q+" : Math.floor((this.getMonth() + 3) / 3), //季度         
+			"S" : this.getMilliseconds() //毫秒         
+		};
+		var week = {
+			"0" : "/u65e5",
+			"1" : "/u4e00",
+			"2" : "/u4e8c",
+			"3" : "/u4e09",
+			"4" : "/u56db",
+			"5" : "/u4e94",
+			"6" : "/u516d"
+		};
+		if (/(y+)/.test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+		}
+		if (/(E+)/.test(fmt)) {
+			fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "/u661f/u671f" : "/u5468") : "") + week[this.getDay() + ""]);
+		}
+		for (var k in o) {
+			if (new RegExp("(" + k + ")").test(fmt)) {
+				fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+			}
+		}
+		return fmt;
+	}
+	$(document).ready(function() {
+		var time = new Date();
+		var now = new Date(time).Format("yyyy-MM-dd");
+		document.getElementById('st').value = new Date(time).Format("yyyy-MM");
+		document.getElementById('et').value = new Date(time).Format("yyyy-MM");
+		submits();
+	});
+</script>
+</head>
+
+<body onload="showlab()">
+	<!--根据条件筛选，统计数据-->
+	<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i
+		class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#xe629;</i>实验室预约数据统计
+	</span>
+	<hr class="layui-bg-green" />
+	<form action="" method="post" id="search" class="layui-form"
+		name="form">
+		<div class="layui-form-item">
+			<div class="layui-inline" style="margin-top:10px;">
+				<label class="layui-form-label">实验室</label>
+				<div class="layui-input-inline">
+					<!--根据进来人的身份显示实验室-->
+					<select name="lab" id="lab" lay-filter="lab">
+						<option value="0">全部</option>
+					</select>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">数据类型</label>
+				<div class="layui-input-block">
+					<select name="" id="datas">
+						<option value="0">利用率</option>
+						<option value="2">使用时间</option>
+						<option value="1">跨部门情况</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<label class="layui-form-label">开始时间</label>
+				<div class="layui-input-inline">
+					<input type="text" id="st" class="layui-input" name="" readonly>
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">结束时间</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input" id="et" name="" readonly>
+				</div>
+			</div>
+			<a onclick="submits()" class="layui-btn layui-btn-normal layui-btn-radius"
+				type="button" style="float:right;">确定</a>
+			<a onclick="exportO()" class="layui-btn layui-btn-normal layui-btn-radius"
+				type="button" style="float:right;">导出预约信息</a>
+		</div>
+
+	</form>
+	<hr class="layui-bg-green" />
+   <div id="main" style="min-width:600px;width:90%;height:680px;margin-left:2%;margin-top:1%;"></div>
+</body>
+
+<script>
+	function exportO(){
+		var lab=$('#lab').val();
+		var start=$('#st').val();
+		var end=$('#et').val();
+		var st=start+'-1';
+		var str=end.split("-");
+		var year=parseInt(str[0]);
+		var month=parseInt(str[1]);
+		var days=getDaysInMonth(year,month);
+		var et=end+'-'+days;
+		if(lab==0){
+			layer.confirm('确定导出所有实验室的预约情况?', {icon: 3, title:'提示'}, function(index){
+                layer.close(index);
+                //alert(vall);
+                window.location.href="lab_exportAllLabOrder?startTime="+st+"&endTime="+et;
+				},function(index){ layer.close(index);
+				return false;
+				});
+	}else{
+		layer.confirm('确定导出每个实验室的预约情况?', {icon: 3, title:'提示'}, function(index){
+            layer.close(index);
+            //alert(vall);
+            window.location.href="lab_exportEvLabOrder?id="+lab+"&startTime="+st+"&endTime="+et;
+			},function(index){ layer.close(index);
+			return false;
+			});
+	}           
+	}
+	
+laydate.render({
+	  elem: '#st'
+	  ,type: 'month'
+	});
+laydate.render({
+	  elem: '#et'
+	  ,type: 'month'
+	});
+function showtime(obj,e){
+	window.event.returnValue = false;
+	  var e = e || window.event;
+	  //鼠标点的坐标
+	  var oX = e.clientX;
+	  var oY = e.clientY;
+	layer.open({
+		  type: 1,
+		  title: false,
+		  closeBtn: 0,
+		  offset: [oY,oX],
+			shadeClose:true,
+			shade: [0.01, '#393D49'],
+			anim: 6,
+		  area: ['300px','300px;'],
+		  content:$("#time")
+		});     
+		     
+}
+function submits(){
+	var myChart=echarts.init(document.getElementById('main'));
+	myChart.showLoading();
+	var lab=$('#lab').val();
+	var datas=$('#datas').val();
+	var start=$('#st').val();
+	var end=$('#et').val();
+	var st=start+'-1';
+	var str=end.split("-");
+	var year=parseInt(str[0]);
+	var month=parseInt(str[1]);
+	var days=getDaysInMonth(year,month);
+	var et=end+'-'+days;
+	if(lab==0){
+	$.ajax({
+	url:'showAllLabUse?startTime='+st+'&endTime='+et,
+	type:"POST",
+	dataType: 'text',
+    error: function(errMsg){    
+                 alert('Error loading XML document'); 
+                console.log(errMsg);				 
+             },    
+	success:function(result){
+		if(result!="权限限制"){
+			//alert(result);
+			var str=JSON.parse(result);
+			var dataY=new Array();
+		  	var data1=new Array();
+			var data2=new Array();
+			var data3=new Array();
+			var data4=new Array();
+			var data5=new Array();
+			//var data6=new Array();
+			for(i=0;i<str.length;i++){
+				
+				var dataA=str[i].lab;
+				var dat1=str[i].labUseRate;
+				var dat2=str[i].labUseTime;
+				var dat3=str[i].labPunctualCount;
+				var dat4=str[i].labLateCount;
+				var dat5=str[i].labUnarrvalCount;
+				//var dat6=str[i].labDelayCount;
+				
+				dataY.push(dataA);
+				data1.push(dat1);
+				data2.push(dat2);
+				data3.push(dat3);
+				data4.push(dat4);
+				data5.push(dat5);
+				//data6.push(dat6);
+			} 
+			if(datas==0){
+				shownums(dataY,data1);
+			}else if(datas==1){
+				showcond(dataY,data3,data4,data5);
+			}else{
+				shownum(dataY,data2);
+			}
+		}else{
+		layer.msg("您没有查看实验室统计的权限，请联系管理员开通");
+		}
+	}
+});
+}else{
+	$.ajax({
+		url:'showAllDevUse?id='+lab+'&startTime='+st+'&endTime='+et,
+		type:"POST",
+		dataType: 'text',
+	    error: function(errMsg){    
+	                 alert('Error loading XML document'); 
+	                console.log(errMsg);				 
+	             },    
+		success:function(result){
+			//alert(result);
+			var str=JSON.parse(result);
+			var dataY=new Array();
+		  	var data1=new Array();
+			var data2=new Array();
+			var data3=new Array();
+			var data4=new Array();
+			var data5=new Array();
+			//var data6=new Array();
+			for(i=0;i<str.length;i++){
+				
+				var dataA=str[i].dev_sty;
+				var dat1=str[i].devUseRate;
+				var dat2=str[i].devUseTime;
+				var dat3=str[i].devPunctualCount;//准时
+				var dat4=str[i].devLateCount;//迟到
+				var dat5=str[i].devUnarrvalCount;//未到
+				//var dat6=str[i].labDelayCount;
+				
+				dataY.push(dataA);
+				data1.push(dat1);
+				data2.push(dat2);
+				data3.push(dat3);
+				data4.push(dat4);
+				data5.push(dat5);
+				//data6.push(dat6);
+			} 
+			if(datas==0){
+				shownums(dataY,data1);
+			}else if(datas==1){
+				showcond(dataY,data3,data4,data5);
+			}else{
+				shownum(dataY,data2);
+			}
+			
+		
+		}
+	});
+}           
+	
+}
+
+
+function shownum(dataY,dataX){
+	
+	var myChart=echarts.init(document.getElementById('main'));
+
+	option = {
+	    title: {
+	        text: '使用时间(h)',
+	       /*  subtext: '点击可缩大或放小' */
+	    },
+		 toolbox: {
+	        show : true,
+	        feature : {
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+		  tooltip: {
+			
+	    },
+	    xAxis: {
+	        type: 'value',
+	        name: '小时',
+			 axisTick: {
+	            show: true
+	        },
+	        axisLine: {
+	            show: true
+	        },
+	       
+	        z: 10
+	    },
+		  
+	    yAxis: {
+	         type: 'category',
+	        data:dataY,
+			 axisLabel:{
+	                 interval:0,
+	                 rotate:45,
+	                 margin:2,
+	                 textStyle:{
+	                         color:"#000000"
+	                         }
+	                     },
+			 axisLine: {
+	            show: true
+	        },
+	        axisTick: {
+	            show: true
+	        },
+	        axisLabel: {
+	            textStyle: {
+	                color: '#000000'
+	            }
+	        }
+	    },
+		 grid: { // 控制图的大小，调整下面这些值就可以，
+	             x: 170,
+	             x2: 100,
+	             y2: 50,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+	         },
+	    
+	    series: [
+	        {
+	            type: 'bar',
+				barWidth : 20,
+	            itemStyle: {
+	                normal: {
+	                    color: new echarts.graphic.LinearGradient(
+	                        0, 0, 0, 1,
+	                        [
+	                            {offset: 0, color: '#00BFFF'},
+	                            {offset: 0.5, color:'#00B2EE'},
+	                            {offset: 1, color: '#009ACD'}
+	                        ]
+	                    )
+	                },
+	                emphasis: {
+	                    color: new echarts.graphic.LinearGradient(
+	                        0, 0, 0, 1,
+	                        [
+	                            {offset: 0, color: '#00B0FF'},
+	                            {offset: 0.7, color: '#40C4FF'},
+	                            {offset: 1, color: '#80D8FF'}
+	                        ]
+	                    )
+	                }
+	            },
+				
+	            data: dataX
+	        }
+	    ]
+	};
+	
+	myChart.setOption(option);
+}
+
+
+function shownums(dataY,dataX){
+	
+	var myChart=echarts.init(document.getElementById('main'));
+
+	option = {
+	    title: {
+	        text: '使用率(%)',
+	       /*  subtext: '点击可缩大或放小' */
+	    },
+		 toolbox: {
+	        show : true,
+	        feature : {
+	            dataView : {show: true, readOnly: true},
+	            magicType : {show: true, type: ['line', 'bar']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+		  tooltip: {
+			
+	    },
+	    xAxis: {
+	        type: 'value',
+	        name: '%',
+			 axisTick: {
+	            show: true
+	        },
+	        axisLine: {
+	            show: true
+	        },
+	        z: 10
+	    },
+		  
+	    yAxis: {
+	         type: 'category',
+	        data:dataY,
+			 axisLabel:{
+	                 interval:0,
+	                 rotate:45,
+	                 margin:2,
+	                 textStyle:{
+	                         color:"#000000"
+	                         }
+	                     },
+			 axisLine: {
+	            show: true
+	        },
+	        axisTick: {
+	            show: true
+	        },
+	        axisLabel: {
+	            textStyle: {
+	                color: '#000000'
+	            }
+	        }
+	    },
+		 grid: { // 控制图的大小，调整下面这些值就可以，
+	             x: 170,
+	             x2: 100,
+	             y2: 50,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+	         },
+	   
+	    series: [
+	       
+	        {
+	            type: 'bar',
+				barWidth : 20,
+	            itemStyle: {
+	                normal: {
+	                    color: new echarts.graphic.LinearGradient(
+	                        0, 0, 0, 1,
+	                        [
+	                            {offset: 0, color: '#00BFFF'},
+	                            {offset: 0.5, color:'#00B2EE'},
+	                            {offset: 1, color: '#009ACD'}
+	                        ]
+	                    )
+	                },
+	                emphasis: {
+	                    color: new echarts.graphic.LinearGradient(
+	                        0, 0, 0, 1,
+	                        [
+	                            {offset: 0, color: '#00B0FF'},
+	                            {offset: 0.7, color: '#40C4FF'},
+	                            {offset: 1, color: '#80D8FF'}
+	                        ]
+	                    )
+	                }
+	            },
+				
+	            data: dataX
+	        }
+	    ]
+	};
+	
+	myChart.setOption(option);
+
+}
+
+function showcond(dataY,data1,data2,data3){
+var max1=Math.max.apply(null,data1);
+var max2=Math.max.apply(null,data2);
+var max3=Math.max.apply(null,data3);
+var arrr=[max1,max2,max3];
+var max=Math.max.apply(null,arrr);
+var Max=max+5;
+	var myChart=echarts.init(document.getElementById('main'));
+	option = {
+	    title : {
+	        text: '跨部门使用情况(次数)'
+	    },
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data:['准时','迟到','未到']
+	    },
+	    toolbox: {
+	        show : true,
+	        feature : {
+	            dataView : {show: true, readOnly: false},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+	    calculable : true,
+	    xAxis : 
+	        {
+	            type : 'category',
+	            data : dataY,
+	            axisLabel:{
+	                 interval:0,
+	                 rotate:45,
+	                 margin:2,
+	                 textStyle:{
+	                         color:"#000000"
+	                         }
+	                     }
+	                     
+	        },
+	        grid: { // 控制图的大小，调整下面这些值就可以，
+	             x: 170,
+	             x2: 100,
+	             y2: 50,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+	         },
+	    yAxis :
+	        {
+	            type : 'value',
+	            name:'次数',
+	            max:Max,
+	          
+	        },
+	    series : [
+	        {
+	            name:'准时',
+	            type:'bar',
+	            data:data1,
+	            markLine : {
+	                data : [
+	                    {type : 'average', name: '平均值'}
+	                ]
+	            }
+	        },
+	        {
+	            name:'迟到',
+	            type:'bar',
+	            data:data2,
+	            markLine : {
+	                data : [
+	                    {type : 'average', name : '平均值'}
+	                ]
+	            }
+	        },
+	        {
+	            name:'未到',
+	            type:'bar',
+	            data:data3,
+	            markLine : {
+	                data : [
+	                    {type : 'average', name : '平均值'}
+	                ]
+	            }
+	        }
+	    ]
+	};
+
+	myChart.setOption(option);
+}
+
+</script>
+</html>

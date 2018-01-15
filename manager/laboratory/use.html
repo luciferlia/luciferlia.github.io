@@ -1,0 +1,718 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta charset="UTF-8">
+<title>与德测试信息管理系统</title>
+<script src="../script/js/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css" media="all">
+<script src="../script/layui/layui.js"></script>
+<style>
+li {
+	float: left;
+}
+
+button {
+	color: black;
+	cursor: pointer;
+}
+
+.layui-table td {
+	font-size: 0.7em;
+}
+
+.sek {
+	width: 100px;
+}
+
+.button {
+	background-color:#008B8B;
+	border: none;
+	color: white;
+	padding: 2px 3px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 0.6em;
+	margin: 2px 1px;
+	cursor: pointer;
+	border-radius: 2px;
+}
+
+.button:hover {
+	background-color: #104E8B;
+}
+
+.sel {
+	width: 70px;
+	height: 30px;
+	border-radius: 2px;
+	border: 1px solid #008B8B;
+}
+</style>
+
+<script>
+	var form;
+	layui.use([ 'form', 'layedit', 'laydate', 'element' ], function() {
+		form = layui.form()
+		, layer = layui.layer
+		, layedit = layui.layedit
+		, laydate = layui.laydate;
+		var element = layui.element;
+
+	});
+	var pageSize = 12; //每页显示的记录条数   
+	var curPage = 0; //显示第curPage页
+	var len; //总行数
+	var page; //总页数    
+	$(function() {
+	if($('#tables').length>0){
+		len = $("#tables tr").length - 1; //去掉表头     
+		page = len % pageSize == 0 ? len / pageSize : Math.floor(len / pageSize) + 1; //根据记录条数，计算页数
+
+		document.getElementById("page").innerHTML = page;
+		for (var j = 1; j < page + 1; j++) {
+			$('#curPage').append('<option value=' + j + '>' + j + '</option>');
+		}
+		curPage = 1;
+		displayPage(); //显示第一页
+		$("#nextpage").click(function() { //下一页
+			if (curPage < page) {
+				curPage += 1;
+			} else {
+				layer.msg("已经是最后一页");
+			}
+			displayPage();
+		});
+		$("#lastpage").click(function() { //上一页
+			if (curPage > 1) {
+				curPage -= 1;
+			} else {
+				layer.msg("已经是第一页");
+			}
+			displayPage();
+		});
+		$("#npage").click(function() { //跳到固定某一页
+			var npage = parseInt(document.getElementById("curPage").value);
+			if (npage > page || npage < 1) {
+				layer.msg("该页不存在");
+			} else {
+				curPage = npage;
+			}
+			displayPage();
+		});
+		}
+	});
+
+	function displayPage() {
+		var begin = (curPage - 1) * pageSize; //起始记录号
+		var end = begin + pageSize;
+
+		if (end > len)
+			end = len;
+		$("#tables tr").hide();
+		$("#tables tr").each(function(i) {
+			if (i - 1 >= begin && i - 1 < end) //显示第page页的记录
+			{
+				$("#show_tab_one").show();
+				$(this).show();
+				document.getElementById("curPage1").innerHTML = curPage;
+
+			}
+		});
+	}
+	function pageSize() {
+		curPage = 0; //显示第curPage页   
+		pageSize = parseInt(document.getElementById("pageSize").value);
+		len = $("#tables tr").length - 1; //去掉表头     
+		page = len % pageSize == 0 ? len / pageSize : Math.floor(len / pageSize) + 1; //根据记录条数，计算页数
+		curPage = 1;
+		displayPage(); //显示第一页   
+	}
+</script>
+
+</head>
+<body>
+	
+	<span style="float:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="button" onclick="submits()"
+				class="layui-btn layui-btn-primary layui-btn-radius">提交</button>
+	</span>
+	<hr class="layui-bg-green" />
+
+	<table class="layui-table" id="tables"
+		style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:100%;margin-top:0px;"
+		id="tables" lay-skin="line">
+		
+		<tr style="background-color:#008B8B;height:30px;color:white;"
+			id="show_tab_one">
+			<td style="display:none;">tag</td>
+			<td style="display:none;">id</td>
+			<td>预定名称</td>
+			<td>实验室</td>
+			<td>设备类别</td>
+			<td>设备型号</td>
+			<td>预订人</td>
+			<td>开始时间</td>
+			<td>结束时间</td>
+			<td>状态</td>
+			<td>评价</td>
+			<td style="display:none;">时间</td>
+			<td style="display:none;">理由</td>
+			<td style="width:30px;"></td>
+		</tr>
+
+		<tbody id="show_tab_tr">
+		
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="56" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdfsdgvdfgdfgdfg"></td>
+					<td></td>
+				</tr>
+			<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="234" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdsdfsdfdsdfsdsds"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="86" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="2.5"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdfsdfsdfsdfsdfsdf"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="23" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="dfcsdfsadasdasdasdasdasd"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="6" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="2"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="ssssssssssssssss"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="12" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="3"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="asdfasdasdasda"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="87" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1.5"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdffffffffffffff"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="7" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="zdfdgdfvxcvsdfsdfsdfs"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="54" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdfsdfdgdfgsdfs"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="4" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="adfsadfasdfsdffsd"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="54" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="2"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdfsdfsdfsdfsdfs"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="32" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdfsfsdsdfs"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="1" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="4"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="assdfdfsd"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="12" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="1"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="dfsdfsdfs"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="32" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="2"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="dasda"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="0" name="tags"></td>
+					<td style="display:none;"><input type="text" value="22" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="2"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="asdasda"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td style="display:none;"><input type="text" value="1" name="tags"></td>
+					<td style="display:none;"><input type="text" value="22" name="cid"></td>
+					<td>测试</td>
+					<td>设备1</td>
+					<td>RTY</td>
+					<td>v3.0</td>
+					<td>luna</td>
+					<td>2017-12-6</td>
+					<td>2017-12-8</td>
+					<td>正常</td>
+					<td><select class="sel" name="feed" onChange='feedu(this)'>
+					 <option value="准时">准时</option>  
+					 <option value="迟到">迟到</option>
+					 <option value="延迟">延迟</option>  
+					 <option value="准时">未到</option>
+					 </select>  
+					<td style="display:none;"><input type="text" name="ctime" value="3"></td>
+					<td style="display:none;"><input type="text" name="cremark" value="sdfadasds"></td>
+					<td></td>
+				</tr>
+		</tbody>
+	</table>
+
+	<table style="width:100%;font-size:0.9em;">
+		<tr>
+			<td>共&nbsp;&nbsp;<span id="page"></span>&nbsp;&nbsp;页&nbsp;&nbsp;|&nbsp;&nbsp;第&nbsp;&nbsp;<span
+				id="curPage1"></span>&nbsp;&nbsp;页 <span style="float:right;">
+					<input id="lastpage" type="button" value="上一页" class="button">
+					<input id="nextpage" type="button" value="下一页" class="button">
+					<select id="curPage"></select> <input id="npage" type="button"
+					value="确定" class="button">
+			</span>
+
+			</td>
+		</tr>
+	</table>
+	<div id="feed" style="display:none;">
+		<label style="margin-left:35%;margin-top:1%;"><i
+			class="layui-icon" style="font-size: 25px; color:#1E9FFF;;">&#xe6b2;</i><span
+			id="seld"></span>情况填写</label>
+		<hr class="layui-bg-green" style="width:100%;" />
+		<form id="feedform" action="" method="post" class="layui-form">
+			<div class="layui-form-item">
+				<label class="layui-form-label">浪费时间：</label>
+				<div class="layui-input-block">
+					<input type="text" name="" style="width:200px;" class="layui-input" onkeyup="sount(this)"
+						id="l1">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><span id="selds"></span>原因：
+				</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" name="" class="layui-textarea" style="min-height:70px;width:400px;"
+						id="l2" style="width:350px;"></textarea>
+				</div>
+			</div>
+
+		</form>
+	</div>
+<!--
+<c:if test="${message!='' }">
+
+			<div style="width:980px;height:70px;margin:auto;margin-top:20%;position:relative">
+<div class="under-animatel" style="width:100%;height:100%;line-height:70px; position:absolute; left:0px; top:0px">
+</div>
+  <div class='is-animate styles' id="divs" style="width:100%; height:99%; position:absolute; left:0px; top:0px; z-index:2;">
+  
+</div>
+</div>
+</c:if>-->
+</body>
+<script>
+$(document).ready(function(){
+
+if($('#divs').length>0){
+var link = document.createElement( "link" ); 
+link.type = "text/css"; 
+link.rel = "stylesheet"; 
+link.href ="../script/css/animations.css"; 
+document.getElementsByTagName( "head" )[0].appendChild( link ); 
+var html='<div>哇</div><div>哦</div><div>，</div><div>您</div><div>很</div><div>勤</div> <div>快</div><div>，</div><div>没</div><div>有</div><div>要</div><div>处</div><div>理</div><div>的</div><div>任</div><div>务</div><div>耶</div>';
+//document.getElementById('divs').innerHTML=html;
+setTimeout(function(){document.getElementById('divs').innerHTML=html;},800);
+setTimeout(function(){$('.is-animate > div').css('animation-play-state','paused');},5000);
+}
+})
+</script>
+<script>
+
+	function sount(obj){//input框只能输入2为小数的数字
+		 obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符     
+		      obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的     
+		      obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");    
+		      obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入2个小数     
+		      if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额    
+		       obj.value= parseFloat(obj.value);    
+		      }    
+		}
+function showdev(id){
+	window.location.href="laboratory/devlist.jsp?id="+id;
+	  		 
+}
+function feedu(obj){
+
+var html='<i class="layui-icon" style="font-size:20px; color:#32CD32;">&#xe618;</i>  ';
+var tr=obj.parentNode.parentNode;
+document.getElementById('l1').value=$(tr).children('td').eq(11).find("input").val();
+document.getElementById('l2').value=$(tr).children('td').eq(12).find("input").val();
+$(tr).children('td').eq(0).find("input").val(0);
+$(tr).css('background-color','white');
+$(tr).children('td').eq(13).html(html);
+var re=obj.value;
+
+if(re=='迟到'||re=='延迟'||re.indexOf('未到')!=-1)
+{
+	document.getElementById('seld').innerHTML=re;
+	document.getElementById('selds').innerHTML=re;
+	layer.open({
+			type:1,
+			title:'实验室预订反馈',
+			btn:['取消','确定'],
+			skin:"layui-layer-molv",
+			area: ['520px', '360px'], //宽高
+			content:$("#feed"),
+			btn: ['确定', '取消']
+           ,yes: function(){
+           var time=document.getElementById('l1').value;
+           var remark=document.getElementById('l2').value;
+           if(time==""||time==null){
+           layer.msg("您还没有填写浪费时间，请填写");
+           }else{
+           $(tr).children('td').eq(11).find("input").val(time);		
+		   $(tr).children('td').eq(12).find("input").val(remark);         
+			layer.closeAll();	
+           }
+						
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+		 }
+		  else{
+		  $(tr).children('td').eq(11).find("input").val("");
+		  $(tr).children('td').eq(12).find("input").val("");
+		  }
+	
+}
+function submits(){
+//获值传给后台
+var a=document.getElementsByName('tags');
+var b=document.getElementsByName('cid');
+var c=document.getElementsByName('feed');
+var d=document.getElementsByName('ctime');
+var e=document.getElementsByName('cremark');
+var array=[];
+for(i=0;i<a.length;i++){
+var tags=a[i].value;
+var cid=b[i].value;
+var feed=c[i].value;
+var ctime=d[i].value;
+var cremark=e[i].value;
+if(tags==0){
+var json={tags,cid,feed,ctime,cremark};
+alert(feed);
+array.push(json);
+}
+}
+console.log(array);
+		$.ajax({
+			type : "POST",
+			url : "editUserUse", //这里你根据后台地址改,id为项目编号       
+			data:{"params":JSON.stringify(array)},
+			dataType : "json",
+			success : function(data) {
+
+				window.location.reload();
+				layer.msg('提交反馈成功!', {
+					time : 1000
+				});
+			},
+			error : function(e) {
+				layer.msg('提交反馈失败!', {
+					time : 1000
+				});
+				console.log(e);
+				window.location.reload();
+			}
+		});
+	
+}
+	$(function(){
+	if($('#tables').length>0){
+var row=document.getElementById('tables').rows.length;
+for(i=1;i<row;i++){
+var tags=$('#tables tr:eq("'+i+'") td:eq(0)').find("input").val();
+if(tags==1){
+$('#tables tr:eq("'+i+'")').css('background-color','#FFE4E1');
+}
+}
+}
+}); 
+</script>
+ <script src="../script/js/autosize.js"></script>
+	<script>
+
+		autosize(document.querySelectorAll('textarea'));
+
+	</script>
+</html>

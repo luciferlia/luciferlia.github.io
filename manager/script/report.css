@@ -1,0 +1,32 @@
+.table td {
+	border: 1px solid #A9A9A9;
+	font-weight: bold;
+}
+.divb {
+	border-radius: 5px;
+	border: 3px solid black;
+	width: 95%;
+	margin-left: 2%;
+}
+
+.reportul li {
+	float: left;
+}
+
+.reportul {
+	width: 100%;
+	margin-left: 2%;
+	margin-top: 2px;
+}
+
+.clear {
+	clear: both;
+	height: 0;
+}
+
+.mysapn {
+	display: -moz-inline-box;
+	display: inline-block;
+	width: 130px;
+	font-weight: bold;
+}

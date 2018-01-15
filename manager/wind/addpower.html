@@ -1,0 +1,1612 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<base href="http://10.0.10.159:80/">
+
+<title>与德测试信息管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../script/css/bootstrap.min.css">
+<script src="../script/js/jquery.min.js"></script>
+<script src="../script/js/bootstrap.min.js"></script>
+<script src="../script/page.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css" media="all">
+<script src="../script/layui/layui.js"></script>
+<script src="../script/js/bootstrap.min.js"></script>
+
+
+<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+<style type="text/css">
+li{list-style:none;}
+#table td{ font-size:0.9em;font-color:black;text-align:center;vertical-align:middle;}
+td{font-size:0.9em;font-color:black;}
+</style>
+<script type="text/javascript">
+layui.use(['form', 'layedit', 'layer','element','laydate'], function(){
+  var form = layui.form()
+  ,layer = layui.layer;
+  var element = layui.element();
+});
+	function checkDelete(id){
+
+		 layer.confirm('删除该角色将会同时删除其所有关联数据。确认删除该角色吗?', {icon: 3, title:'提示'}, function(index){
+                                layer.close(index);
+                               window.location.href='role_deleteRole?id='+id;//href="role_deleteRole?id="
+                                },function(index){ layer.close(index);
+								return false;
+								});
+		
+		
+		
+	}
+	function checkDelete1(id){
+		 layer.confirm('确认删除该菜单吗?', {icon: 3, title:'提示'}, function(index){
+                                layer.close(index);
+                               window.location.href='function_deleteFunction?id='+id;//href="function_deleteFunction?id=" 
+                                },function(index){ layer.close(index);
+								return false;
+								});
+		
+		
+		
+	}
+	function checkDelete2(id){
+		 layer.confirm('确认删除该菜单吗?', {icon: 3, title:'提示'}, function(index){
+                                layer.close(index);
+                               window.location.href='menu_deleteMenu?id='+id; 
+                                },function(index){ layer.close(index);
+								return false;
+								});
+		
+	} 
+	function updateRow1(obj){
+	var tr=obj.parentNode.parentNode;
+	var 
+	}
+</script>
+
+<body  data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-49" data-genuitec-path="/TestInformation/WebRoot/person/usepower.jsp">
+
+	<table style="width:95%;margin-left:1%;min-width:600px;" data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-49" data-genuitec-path="/TestInformation/WebRoot/person/usepower.jsp"><tr><td>
+	<ul >
+			<li style="float:left;"><a onclick="showDivFun()"
+				type="button" class="btn btn-primary">新增角色</a></li>
+			
+				<li style="float:right;"><a onclick="showDivFun1()" type="button" class="btn btn-primary">新增界面权限</a></li>
+				<li style="float:right;"><a onclick="showDivFun2()" class="btn btn-primary">新增权限</a></li>				
+			
+		</ul>	
+	</td></tr></table>
+		<div class="layui-tab layui-tab-card" style="width:95%;height:auto;min-width:600px;min-height:500px;margin-left:1%;">
+     <ul class="layui-tab-title">
+      <li class="layui-this">角色管理</li>
+      <li>页面权限</li>
+     <li>菜单权限</li>
+    
+  </ul>
+  <div class="layui-tab-content" style="height:auto;">
+    <div class="layui-tab-item layui-show">
+    <table id="table1" style="margin-left:1%;width:95%;min-width:700px;TABLE-LAYOUT:fixed;WORD-BREAK:break-all" class="layui-table">
+				<tr style="background-color:#4682B4;height:40px;">
+					
+					<td style="width:50px;"><h4><font color="white">ID</font></h4></td>
+					<td><h4><font color="white">角色名</font></h4></td>
+					<td><h4><font color="white">创建时间</font></h4></td>
+					<td><h4><font color="white">备注</font></h4></td>
+					<td><h4><font color="white">操作</font></h4></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">1</font></td>
+					<td><font color="black">软测测试经理</font></td>
+					<td><font color="black">2017-04-12 11:59:43.0</font></td>
+					<td><font color="black">软件测试部的测试经理</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(1)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">2</font></td>
+					<td><font color="black">软测主测</font></td>
+					<td><font color="black">2017-04-12 12:00:06.0</font></td>
+					<td><font color="black">软件测试部主测</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(2)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">3</font></td>
+					<td><font color="black">软测组长</font></td>
+					<td><font color="black">2017-04-12 12:03:42.0</font></td>
+					<td><font color="black">软件测试部的组长</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(3)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">4</font></td>
+					<td><font color="black">软测系统测试</font></td>
+					<td><font color="black">2017-04-12 13:52:43.0</font></td>
+					<td><font color="black">软件测试部系统测试人员</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(4)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">5</font></td>
+					<td><font color="black">用例维护人员</font></td>
+					<td><font color="black">2017-04-12 13:53:30.0</font></td>
+					<td><font color="black">对用例进行操作的人员</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(5)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">6</font></td>
+					<td><font color="black">资源管理者</font></td>
+					<td><font color="black">2017-04-12 13:53:56.0</font></td>
+					<td><font color="black">软测资源管理者</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(6)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">7</font></td>
+					<td><font color="black">部门经理</font></td>
+					<td><font color="black">2017-05-15 12:16:24.0</font></td>
+					<td><font color="black">部门经理</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(7)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">8</font></td>
+					<td><font color="black">测试开发人员</font></td>
+					<td><font color="black">2017-05-15 12:16:24.0</font></td>
+					<td><font color="black">工具开发和脚本开发人员</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(8)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">9</font></td>
+					<td><font color="black">部门副经理</font></td>
+					<td><font color="black">2017-05-15 12:16:24.0</font></td>
+					<td><font color="black">部门副经理</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(9)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">10</font></td>
+					<td><font color="black">访客</font></td>
+					<td><font color="black">2017-08-31 15:27:17.0</font></td>
+					<td><font color="black">其他人员</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(10)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">11</font></td>
+					<td><font color="black">组长助理</font></td>
+					<td><font color="black">2017-10-19 14:19:53.0</font></td>
+					<td><font color="black">系统主测</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(11)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">12</font></td>
+					<td><font color="black">硬测经理</font></td>
+					<td><font color="black">2017-11-20 10:29:02.0</font></td>
+					<td><font color="black">硬测经理、副经理、主管</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(12)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">13</font></td>
+					<td><font color="black">实验室管理员</font></td>
+					<td><font color="black">2017-11-20 10:31:11.0</font></td>
+					<td><font color="black">每个实验室的负责人</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(13)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">14</font></td>
+					<td><font color="black">硬测系统测试</font></td>
+					<td><font color="black">2017-11-20 10:32:19.0</font></td>
+					<td><font color="black">普通测试人员</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(14)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">15</font></td>
+					<td><font color="black">实验室总管理员</font></td>
+					<td><font color="black">2017-11-21 09:38:19.0</font></td>
+					<td><font color="black">硬测实验室总管理员</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(15)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">16</font></td>
+					<td><font color="black">硬测测试经理</font></td>
+					<td><font color="black">2017-11-29 11:43:41.0</font></td>
+					<td><font color="black">硬测测试经理</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(16)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">17</font></td>
+					<td><font color="black">总监</font></td>
+					<td><font color="black">2017-12-01 17:54:43.0</font></td>
+					<td><font color="black">总监</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(17)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">18</font></td>
+					<td><font color="black">副总裁</font></td>
+					<td><font color="black">2017-12-01 17:58:29.0</font></td>
+					<td><font color="black">副总裁</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(18)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+				<tr style="height:30px;">
+					<td ><font color="black">19</font></td>
+					<td><font color="black">用例开发兼主测</font></td>
+					<td><font color="black">2018-01-12 11:46:22.0</font></td>
+					<td><font color="black">用例开发兼主测</font></td>
+					<td><a onclick="updateRow1(this);">编辑</a>|<a  onclick="checkDelete(19)" >删除</a>|<a href="power.html">授权</a></td>
+				</tr>
+				
+			</table>
+    </div>
+    <div class="layui-tab-item">
+    <table id="table" style="margin-left:1%;width:95%;min-width:700px;TABLE-LAYOUT:fixed;WORD-BREAK:break-all" class="layui-table">
+				<tr style="background-color:#4682B4;height:40px;" id="show_tab_one">
+				<td style="width:50px;"><h4><font color="white">ID</font></h4></td>
+					<td><h4><font color="white">权限名称</font></h4></td>
+					<td><h4><font color="white">URL</font></h4></td>
+					<td><h4><font color="white">所在页面</font></h4></td>
+					<td><h4><font color="white">备注名称</font></h4></td>
+					<td><h4><font color="white">操作</font></h4></td>
+				</tr>
+				 <tbody id="show_tab_tr">  
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">1</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black">Case_deleteCase</font></td>
+					<td><font color="black">alluse.jsp</font></td>
+					<td ><font color="black">删除用例类型</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(1)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">2</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black">Case_updateCase</font></td>
+					<td><font color="black">alluse.jsp</font></td>
+					<td ><font color="black">增加用例类型</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(2)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">3</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black">Case_updateCase</font></td>
+					<td><font color="black">alluse.jsp</font></td>
+					<td ><font color="black">修改用例类型</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(3)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">6</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black">case_exportCase</font></td>
+					<td><font color="black">detailuse.jsp</font></td>
+					<td ><font color="black">删除用例分类</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(6)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">7</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">detailuse.jsp</font></td>
+					<td ><font color="black">增加用例分类</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(7)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">8</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">detailuse.jsp</font></td>
+					<td ><font color="black">修改用例分类</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(8)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">9</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">usecase.jsp</font></td>
+					<td ><font color="black">删除用例</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(9)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">10</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">usecase.jsp</font></td>
+					<td ><font color="black">修改用例</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(10)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">11</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">usecase.jsp</font></td>
+					<td ><font color="black">增加用例</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(11)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">12</font></h4></td>
+					<td><font color="black">导入</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">usecase.jsp</font></td>
+					<td ><font color="black">导入用例</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(12)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">13</font></h4></td>
+					<td><font color="black">导出</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">usecase.jsp</font></td>
+					<td ><font color="black">导出用例</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(13)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">14</font></h4></td>
+					<td><font color="black">导出</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">alluse.jsp</font></td>
+					<td ><font color="black">导出所有用例</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(14)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">15</font></h4></td>
+					<td><font color="black">新建</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">新建项目</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(15)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">16</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">删除项目</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(16)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">17</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">编辑项目</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(17)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">18</font></h4></td>
+					<td><font color="black">添加项目计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">添加项目计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(18)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">19</font></h4></td>
+					<td><font color="black">添加项目成员</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">p_plan.jsp</font></td>
+					<td ><font color="black">添加项目中的成员</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(19)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">20</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">p_plan.jsp</font></td>
+					<td ><font color="black">批量编辑</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(20)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">21</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">p_plan.jsp</font></td>
+					<td ><font color="black">单个编辑</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(21)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">22</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">p_plan.jsp</font></td>
+					<td ><font color="black">单个删除</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(22)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">23</font></h4></td>
+					<td><font color="black">软件版本</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">p_plan.jsp</font></td>
+					<td ><font color="black">编辑项目周计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(23)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">24</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCasePool.jsp</font></td>
+					<td ><font color="black">删除客户用例类型</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(24)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">25</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCasePool.jsp</font></td>
+					<td ><font color="black">增加客户用例类型</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(25)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">26</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCasePool.jsp</font></td>
+					<td ><font color="black">修改客户用例类型</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(26)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">27</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCase.jsp</font></td>
+					<td ><font color="black">删除客户用例分类</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(27)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">28</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCase.jsp</font></td>
+					<td ><font color="black">增加客户用例分类</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(28)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">29</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCase.jsp</font></td>
+					<td ><font color="black">编辑客户用例分类</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(29)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">30</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCaseDetail.jsp</font></td>
+					<td ><font color="black">删除上传的用例信息</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(30)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">31</font></h4></td>
+					<td><font color="black">导出结果</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">testcase.jsp</font></td>
+					<td ><font color="black">导出用例结果</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(31)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">32</font></h4></td>
+					<td><font color="black">上传</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">cusCaseDetail.jsp</font></td>
+					<td ><font color="black">上传用例</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(32)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">33</font></h4></td>
+					<td><font color="black">导出</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">detailuse.jsp</font></td>
+					<td ><font color="black">多模块导出</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(33)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">34</font></h4></td>
+					<td><font color="black">人员</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">显示所有人员</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(34)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">35</font></h4></td>
+					<td><font color="black">人员</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">显示同组人员</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(35)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">36</font></h4></td>
+					<td><font color="black">人员</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">显示项目内成员</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(36)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">37</font></h4></td>
+					<td><font color="black">操作计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">mytask.jsp</font></td>
+					<td ><font color="black">分配计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(37)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">38</font></h4></td>
+					<td><font color="black">操作计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(38)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">39</font></h4></td>
+					<td><font color="black">操作计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">执行计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(39)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">40</font></h4></td>
+					<td><font color="black">操作计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看所有计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(40)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">41</font></h4></td>
+					<td><font color="black">项目</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看所有项目</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(41)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">42</font></h4></td>
+					<td><font color="black">项目</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看自己的项目</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(42)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">46</font></h4></td>
+					<td><font color="black">任务进度</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看所有项目的任务进度</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(46)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">47</font></h4></td>
+					<td><font color="black">任务进度</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看自己参与项目的任务进度</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(47)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">48</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">client.jsp</font></td>
+					<td ><font color="black">增加模板</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(48)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">49</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">client.jsp</font></td>
+					<td ><font color="black">编辑模板</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(49)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">50</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">client.jsp</font></td>
+					<td ><font color="black">删除模板</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(50)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">51</font></h4></td>
+					<td><font color="black">导入</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">policy.jsp</font></td>
+					<td ><font color="black">导入3T模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(51)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">52</font></h4></td>
+					<td><font color="black">导出</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">policy.jsp</font></td>
+					<td ><font color="black">导出3T模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(52)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">53</font></h4></td>
+					<td><font color="black">导入</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">IPD.jsp</font></td>
+					<td ><font color="black">导入IPD模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(53)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">54</font></h4></td>
+					<td><font color="black">导出</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">IPD.jsp</font></td>
+					<td ><font color="black">导出IPD模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(54)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">55</font></h4></td>
+					<td><font color="black">导入</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Auto.jsp</font></td>
+					<td ><font color="black">导入自定义模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(55)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">56</font></h4></td>
+					<td><font color="black">导出</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Auto.jsp</font></td>
+					<td ><font color="black">导出自定义模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(56)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">57</font></h4></td>
+					<td><font color="black">保存</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">policy.jsp</font></td>
+					<td ><font color="black">保存3T模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(57)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">58</font></h4></td>
+					<td><font color="black">保存</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">IPD.jsp</font></td>
+					<td ><font color="black">保存IPD模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(58)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">59</font></h4></td>
+					<td><font color="black">保存</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Auto.jsp</font></td>
+					<td ><font color="black">保存自定义模板策略</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(59)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">60</font></h4></td>
+					<td><font color="black">分配计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">p_plan.jsp</font></td>
+					<td ><font color="black">分配计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(60)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">61</font></h4></td>
+					<td><font color="black">日志</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看所有日志</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(61)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">62</font></h4></td>
+					<td><font color="black">日志</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black"></font></td>
+					<td ><font color="black">查看自己日志</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(62)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">63</font></h4></td>
+					<td><font color="black">工时</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">查看项目工时详情</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(63)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">64</font></h4></td>
+					<td><font color="black">详情</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">usecase.jsp</font></td>
+					<td ><font color="black">详情</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(64)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">65</font></h4></td>
+					<td><font color="black">计划作废</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">p_plan.jsp</font></td>
+					<td ><font color="black">修改计划状态</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(65)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">66</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editlab.jsp</font></td>
+					<td ><font color="black">编辑实验室</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(66)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">67</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editlab.jsp</font></td>
+					<td ><font color="black">删除实验室</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(67)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">68</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editdev.jsp</font></td>
+					<td ><font color="black">编辑实验室设备</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(68)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">69</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editdev.jsp</font></td>
+					<td ><font color="black">删除实验室设备</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(69)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">70</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editContent.jsp</font></td>
+					<td ><font color="black">增加设备测试项</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(70)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">71</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editContent.jsp</font></td>
+					<td ><font color="black">编辑设备测试项</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(71)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">72</font></h4></td>
+					<td><font color="black">删除</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editContent.jsp</font></td>
+					<td ><font color="black">删除设备测试项</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(72)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">73</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editlab.jsp</font></td>
+					<td ><font color="black">增加实验室</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(73)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">74</font></h4></td>
+					<td><font color="black">增加</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">editdev.jsp</font></td>
+					<td ><font color="black">增加实验室设备</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(74)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">75</font></h4></td>
+					<td><font color="black">预约反馈</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">use.jsp</font></td>
+					<td ><font color="black">查看全部反馈信息</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(75)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">76</font></h4></td>
+					<td><font color="black">预约反馈</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">use.jsp</font></td>
+					<td ><font color="black">查看自己反馈信息</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(76)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">77</font></h4></td>
+					<td><font color="black">实验室</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">search.jsp</font></td>
+					<td ><font color="black">显示所有实验室名称</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(77)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">78</font></h4></td>
+					<td><font color="black">实验室</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">search.jsp</font></td>
+					<td ><font color="black">显示自己负责的实验室名称</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(78)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">79</font></h4></td>
+					<td><font color="black">实验室统计</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">search.jsp</font></td>
+					<td ><font color="black">显示所有实验室统计</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(79)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">80</font></h4></td>
+					<td><font color="black">实验室统计</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">search.jsp</font></td>
+					<td ><font color="black">显示自己负责的实验室统计</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(80)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">81</font></h4></td>
+					<td><font color="black">实验室</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">lab.jsp</font></td>
+					<td ><font color="black">新增实验室</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(81)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">82</font></h4></td>
+					<td><font color="black">编辑</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">lab.jsp</font></td>
+					<td ><font color="black">操作实验室</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(82)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">84</font></h4></td>
+					<td><font color="black">设备</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">devlist.jsp</font></td>
+					<td ><font color="black">预约界面增加实验室设备</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(84)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">85</font></h4></td>
+					<td><font color="black">计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">项目界面查看计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(85)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">86</font></h4></td>
+					<td><font color="black">日报</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">项目界面查看版本日报</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(86)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">87</font></h4></td>
+					<td><font color="black">导入计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">项目界面导入计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(87)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">88</font></h4></td>
+					<td><font color="black">导出计划</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">Myproject.jsp</font></td>
+					<td ><font color="black">项目界面导出计划</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(88)" >删除</a></td>
+				</tr>
+				
+			
+						<tr style="height:30px;">
+					<td><h4><font color="black">89</font></h4></td>
+					<td><font color="black">实验室项目</font></td>
+					<td ><font color="black"></font></td>
+					<td><font color="black">lab.jsp</font></td>
+					<td ><font color="black">实验室项目</font></td>
+					<td><a onclick="updateRow(this);">编辑</a>|<a  onclick="checkDelete1(89)" >删除</a></td>
+				</tr>
+				
+				</tbody>
+			</table>
+			 <table style="margin-left:1%;width:95%;min-width:700px;font-size:0.9em;"><tr><td>
+                    共&nbsp;&nbsp;<span id="page" ></span>&nbsp;&nbsp;页&nbsp;&nbsp;|&nbsp;&nbsp;第&nbsp;&nbsp;<span id="curPage1"></span>&nbsp;&nbsp;页
+                     <span style="float:right;">
+                    <input id="lastpage" type="button" value="上一页" >
+   <input id="nextpage" type="button" value="下一页">
+    <!-- <input id="curPage" type="text" size="5"> --><select id="curPage"></select>
+    <input id="npage" type="button" value="确定" class="btn btn-primary btn-xs" style="border:1px solid black;"></span>
+   
+    </td></tr></table>
+    </div>
+    <div class="layui-tab-item">   
+    <table id="table2" style="margin-left:1%;width:95%;min-width:700px;TABLE-LAYOUT:fixed;WORD-BREAK:break-all" class="layui-table">
+				<tr style="background-color:#4682B4;height:40px;" id="show_tab_one2">
+					<td style="width:50px;"><h4><font color="black">ID</font></h4></td>
+					<td><h4><font color="white">菜单名</font></h4></td>
+					<td><h4><font color="white">URL</font></h4></td>
+					<td><h4><font color="white">操作</font></h4></td>
+				</tr>
+				 <tbody  id="show_tab_tr2"> 
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">1</font></td>
+					<td ><font color="black">项目基本信息</font></td>
+					<td><font color="black">Project_showProject?page=1</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(1)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">3</font></td>
+					<td ><font color="black">项目人员信息</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(3)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">4</font></td>
+					<td ><font color="black">项目委外信息</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(4)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">5</font></td>
+					<td ><font color="black">项目成本信息</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(5)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">6</font></td>
+					<td ><font color="black">硬测用例</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(6)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">7</font></td>
+					<td ><font color="black">软测用例</font></td>
+					<td><font color="black">Case_showCaseType</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(7)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">8</font></td>
+					<td ><font color="black">我的资源</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(8)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">9</font></td>
+					<td ><font color="black">设备资源管理</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(9)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">10</font></td>
+					<td ><font color="black">设备资源申请</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(10)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">12</font></td>
+					<td ><font color="black">我的信息</font></td>
+					<td><font color="black">person/info.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(12)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">13</font></td>
+					<td ><font color="black">人员状态</font></td>
+					<td><font color="black">user_HumanStatus</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(13)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">15</font></td>
+					<td ><font color="black">我的任务</font></td>
+					<td><font color="black">task_showMyProject?page=1&tag=1&flagg=0</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(15)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">17</font></td>
+					<td ><font color="black">任务提醒</font></td>
+					<td><font color="black">person/personstatus.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(17)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">19</font></td>
+					<td ><font color="black">测试卡资源管理</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(19)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">20</font></td>
+					<td ><font color="black">测试卡资源申请</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(20)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">21</font></td>
+					<td ><font color="black">样机资源管理</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(21)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">22</font></td>
+					<td ><font color="black">样机资源申请</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(22)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">23</font></td>
+					<td ><font color="black">实验室申请</font></td>
+					<td><font color="black">error.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(23)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">25</font></td>
+					<td ><font color="black">测试策略</font></td>
+					<td><font color="black">policy_showPolicyPool</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(25)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">26</font></td>
+					<td ><font color="black">任务进度</font></td>
+					<td><font color="black">task_showMyProject?page=1&tag=2&flagg=1</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(26)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">27</font></td>
+					<td ><font color="black">历史任务</font></td>
+					<td><font color="black">task_showMyProject?page=1&tag=3&flagg=2</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(27)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">28</font></td>
+					<td ><font color="black">客户需求</font></td>
+					<td><font color="black">Case_showCusCasePool</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(28)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">30</font></td>
+					<td ><font color="black">今日使用人员</font></td>
+					<td><font color="black">showTodayTime</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(30)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">31</font></td>
+					<td ><font color="black">查看今日工时</font></td>
+					<td><font color="black">task_showSchedule?searchtime=0</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(31)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">32</font></td>
+					<td ><font color="black">在线人员列表</font></td>
+					<td><font color="black">getUserList</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(32)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">33</font></td>
+					<td ><font color="black">实验室预约</font></td>
+					<td><font color="black">lab_showAllLabList?tag=0</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(33)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">34</font></td>
+					<td ><font color="black">数据统计</font></td>
+					<td><font color="black">laboratory/search.jsp</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(34)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">35</font></td>
+					<td ><font color="black">申请审批</font></td>
+					<td><font color="black">lab_showApproval</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(35)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">36</font></td>
+					<td ><font color="black">使用反馈</font></td>
+					<td><font color="black">lab_showUserUse</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(36)" >删除</a></td>
+				</tr>
+			
+						<tr style="height:30px;">
+					
+					<td><font color="black">37</font></td>
+					<td ><font color="black">周报填写</font></td>
+					<td><font color="black">report_showWeekReports?day=0</font></td>
+					<td><a onclick="updateRow2(this);">编辑</a>|<a  onclick="checkDelete2(37)" >删除</a></td>
+				</tr>
+			
+			</tbody>
+			</table>
+			 <table style="margin-left:1%;width:95%;min-width:700px;font-size:0.9em;"><tr><td>
+                    共&nbsp;&nbsp;<span id="page2" ></span>&nbsp;&nbsp;页&nbsp;&nbsp;|&nbsp;&nbsp;第&nbsp;&nbsp;<span id="curPage12"></span>&nbsp;&nbsp;页
+                     <span style="float:right;">
+                    <input id="lastpage2" type="button" value="上一页" >
+   <input id="nextpage2" type="button" value="下一页">
+    <!-- <input id="curPage" type="text" size="5"> --><select id="curPage2"></select>
+    <input id="npage2" type="button" value="确定" class="btn btn-primary btn-xs" style="border:1px solid black;"></span>
+   
+    </td></tr></table>
+			</div>
+   </div>
+  </div>
+  <div id="hid"></div>
+  	<!--   *************************************************************   增加        *************************************************************       -->
+	<div id="popDiv" class="mydiv" style="display:none;">
+		<div align="right" style="padding:2px;z-index:2000;font-size:12px;cursor:pointer;position:absolute;right:0;" onclick="closeDivFun()">
+		<span><font color="black">X</font></span>
+		</div>
+		<form action="role_addRole" method="post">
+		<table style="height:100%;width:100%;margin-top:0px; margin-bottom:0px;">
+		<tr style="background-color:#4682B4;">
+					<td colspan="2" style="height:30px;">
+						<h4 style="margin-left:30%"><font color="black" >增加角色</font></h4>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">角色名称：</font></td>
+					<td><input type="text" name="role.roleName" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">备注：</font></td>
+					<td><input type="text" name="role.description" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr style="background-color:#4682B4;">
+                 <td colspan="2" style="height:40px;">
+				<div style="margin-left:30%;height:40px;">
+			      <input type="submit" value="提交" style="border:1px solid black;" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;	
+			      <input type="reset" value="取消" onclick="closeDivFun()" style="border:1px solid black;" class="btn btn-primary"></div></td>				
+				</tr>
+			</table>
+			</form>
+		</div>
+		<div id="popDiv1" class="mydiv" style="display:none;">
+		<div align="right" style="padding:2px;z-index:2000;font-size:12px;cursor:pointer;position:absolute;right:0;" onclick="closeDivFun1()">
+		<span><font color="black">X</font></span>
+		</div>
+		<form action="function_addFunction" method="post" style="height:100%;width:100%;">
+		<table style="height:100%;width:100%;margin-top:0px; margin-bottom:0px;">
+		<tr style="background-color:#4682B4;">
+					<td colspan="2" style="height:30px;">
+						<h4 style="margin-left:30%"><font color="black" >增加界面权限</font></h4>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">权限名称：</font></td>
+					<td><input type="text" name="function.name" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">URL：</font></td>
+					<td><input type="text" name="function.url" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">所在页面：</font></td>
+					<td><input type="text" name="function.jsp" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">备注名称：</font></td>
+					<td><input type="text" name="function.description" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr style="background-color:#4682B4;">
+                 <td colspan="2" style="height:40px;">
+				<div style="margin-left:30%;height:40px;">
+			      <input type="submit" value="提交"  style="border:1px solid black;" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;	
+			      <input type="reset" value="取消" onclick="closeDivFun1()" style="border:1px solid black;" class="btn btn-primary"></div></td>				
+				</tr>
+			</table>
+			</form>
+		</div>
+
+       <div id="popDiv2" class="mydiv" style="display:none;">
+		<div align="right" style="padding:2px;z-index:2000;font-size:12px;cursor:pointer;position:absolute;right:0;" onclick="closeDivFun2()">
+		<span><font color="black">X</font></span>
+		</div>
+		
+		<form action="menu_addMenu" method="post">
+		<table style="height:100%;width:100%;margin-top:0px; margin-bottom:0px;">
+		<tr style="background-color:#4682B4;">
+					<td colspan="2" style="height:30px;">
+						<h4 style="margin-left:30%"><font color="black" >增加菜单权限</font></h4>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">菜单名称：</font></td>
+					<td><input type="text" name="menu.name" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">URL：</font></td>
+					<td><input type="text" name="menu.url" value="" class="form-control" style="width:150px;"></td>
+				</tr>
+				<tr>
+					<td><font style="margin-left:20%;">一级菜单：</font></td>
+					<td><select name="moduleId" class="form-control" style="width:150px;"><option value="1">首页</option><option value="2">项目管理</option><option value="3">用例管理</option><option value="4">资源管理</option><option value="5">个人事务</option><option value="6">工作台</option><option value="7">日志</option><option value="8">实验室</option> </select> </td>
+				</tr>
+				<tr style="background-color:#4682B4;">
+                 <td colspan="2" style="height:40px;">
+				<div style="margin-left:30%;height:40px;">
+			      <input type="submit" value="提交"  style="border:1px solid black;" class="btn btn-primary">&nbsp;&nbsp;&nbsp;&nbsp;	
+			      <input type="reset" value="取消" onclick="closeDivFun2()"style="border:1px solid black;" class="btn btn-primary" ></div></td>				
+				</tr>
+			</table>
+		</form>
+		</div>
+		<!--   *************************************************************    编辑        *************************************************************       -->
+		<div style="display:none;" id="update1" class="mydiv" >
+	   
+		<div align="right"
+			style="padding:2px;z-index:2000;font-size:12px;cursor:pointer;position:absolute;right:0;"
+			onclick="hideAddInput1()">
+			<span><font color="black">X</font></span>
+		</div>
+		<form action="role_updateRole" method="post">
+		<table style="height:100%;width:100%;margin-top:0px; margin-bottom:0px;">
+		<tr style="background-color:#4682B4;height:30px;">
+		<td colspan="2" style="height:30px;">
+		<h4 style="margin-left:30%"><font color="black" >编辑角色</font></h4></td>
+		</tr>		
+		
+				<tr style="dispaly:none;">
+					<td></td>
+					<td><input type="hidden" id="p1"  name="role.roleId" class="form-control" style="width:150px;"/></td>
+				</tr>
+				<tr>
+					<td ><span style="margin-left:10%;">角色名：</span></td>
+					<td><input type="text" id="p2"  name="role.roleName" class="form-control" style="width:150px;"/></td>
+				</tr>
+			<tr style="display:none;">
+					<td ><span style="margin-left:10%;"></span></td>
+					<td><input type="hidden" id="p3"  name="" class="form-control" style="width:150px;"/></td>
+				</tr>
+			<tr>
+					<td ><span style="margin-left:10%;">备注：</span></td>
+					<td><input type="text" id="p4"  name="role.description" class="form-control" style="width:150px;"/></td>
+				</tr>
+			
+              <tr style="background-color:#4682B4;height:40px;">
+				<td colspan="2" >
+				<div style="margin-left:30%;">
+			<input type="submit" value="提交" onclick="updateInfo1()" style="border:1px solid black;" class="btn btn-primary"
+				 id="btn_update1" >
+				&nbsp;&nbsp;&nbsp;&nbsp;	<input type="button" style="border:1px solid black;"
+				value="取消" onclick="hideAddInput1()" class="btn btn-primary"></div></td>
+				
+				</tr>
+		
+	 </table>
+	 </form>
+	</div>
+	<div style="display:none;" id="update" class="mydiv" >
+	   
+		<div align="right"
+			style="padding:2px;z-index:2000;font-size:12px;cursor:pointer;position:absolute;right:0;"
+			onclick="hideAddInput()">
+			<span><font color="black">X</font></span>
+		</div>
+		<form action="function_updateFunction" method="post">
+		<table style="height:100%;width:100%;margin-top:0px; margin-bottom:0px;">
+		<tr style="background-color:#4682B4;height:30px;">
+		<td colspan="2" style="height:30px;">
+		<h4 style="margin-left:30%"><font color="black" >编辑页面权限</font></h4></td>
+		</tr>		
+		        <tr style="dispaly:none;">
+					<td></td>
+					<td><input type="hidden" id="l1"  name="id" /></td>
+				</tr>
+				<tr>
+					<td><span style="margin-left:10%;">权限名称：</span></td>
+					<td><input type="text" id="l2"  name="function.name" class="form-control" style="width:150px;"/></td>
+				</tr>
+				<tr style="dispaly:none;">
+					<td ></td>
+					<td><input type="hidden" id="l3"  name="function.url"/></td>
+				</tr>
+				<tr style="dispaly:none;">
+					<td></td>
+					<td><input type="hidden" id="l4" name="function.jsp" /></td>
+				</tr>
+				<tr>
+					<td><span style="margin-left:10%;">备注名称：</span></td>
+					<td><input type="text" id="l5" name="function.description" class="form-control" style="width:150px;"/></td>
+				</tr>
+				<tr style="dispaly:none;">
+					<td><span style="margin-left:10%;"></span></td>
+					<td><input type="hidden" id="l6" /></td>
+				</tr>
+              <tr style="background-color:#4682B4;height:40px;">
+				<td colspan="2" >
+				<div style="margin-left:30%;">
+			<input type="submit" value="提交" onclick="updateInfo()" style="border:1px solid black;"
+				 id="btn_update" class="btn btn-primary">
+				&nbsp;&nbsp;&nbsp;&nbsp;	<input type="button" style="border:1px solid black;"
+				value="取消" onclick="hideAddInput()" class="btn btn-primary"></div></td>
+				
+				</tr>
+		
+	 </table>
+	 </form>
+	</div>
+	<div style="display:none;" id="update2" class="mydiv" >
+	   
+		<div align="right"
+			style="padding:2px;z-index:2000;font-size:12px;cursor:pointer;position:absolute;right:0;"
+			onclick="hideAddInput2()">
+			<span><font color="black">X</font></span>
+		</div>
+		<form action="menu_editMenu" method="post">
+		<table style="height:100%;width:100%;margin-top:0px; margin-bottom:0px;">
+		<tr style="background-color:#4682B4;height:30px;">
+		<td colspan="2" style="height:30px;">
+		<h4 style="margin-left:30%"><font color="black" >编辑菜单</font></h4></td>
+		</tr>		
+		
+				<tr style="dispaly:none;">
+					<td></td>
+					<td><input type="hidden" id="r1"  name="menu.id"/></td>
+				</tr>
+				<tr>
+					<td ><span style="margin-left:10%;">菜单名：</span></td>
+					<td><input type="text" id="r2"  name="menu.name" class="form-control" style="width:150px;"/></td>
+				</tr>
+				<tr style="dispaly:none;">
+					<td></td>
+					<td><input type="hidden" id="r3" /></td>
+				</tr>
+				
+              <tr style="background-color:#4682B4;height:40px;">
+				<td colspan="2" >
+				<div style="margin-left:30%;">
+			<input type="submit" value="提交" onclick="updateInfo2()"
+				 id="btn_update2" class="btn btn-primary" style="border:1px solid black;">
+				&nbsp;&nbsp;&nbsp;&nbsp;	<input type="button" style="border:1px solid black;"
+				value="取消" onclick="hideAddInput2()" class="btn btn-primary"></div></td>
+				
+				</tr>
+		
+	 </table>
+	 </form>
+	</div>
+		<script>
+		layui.use('element', function(){
+       var element = layui.element();
+       });
+		</script>
+</body>
+</html>

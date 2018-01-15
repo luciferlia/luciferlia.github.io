@@ -1,0 +1,302 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<base href="">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>与德测试信息管理系统</title>
+<link rel="stylesheet" href="../script/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/jquery/1.12.3/jquery.min.js"></script>
+<script src="../script/logout.js"></script>
+
+<style type="text/css">
+label{color:red;}
+#table span {
+	font-size: 1.5em;
+}
+
+.panel {
+	width: 90%;
+}
+
+a:hover, a:focus {
+	text-decoration: none;
+	outline: none;
+}
+
+#accordion {
+	padding-right: 24px;
+	padding-left: 24px;
+	z-index: 1;
+}
+
+#accordion .panel {
+	border: none;
+	box-shadow: none;
+}
+
+#accordion .panel-heading {
+	padding: 0;
+	border-radius: 0;
+	border: none;
+}
+
+#accordion .panel-title {
+	padding: 0;
+}
+
+#accordion .panel-title a {
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	background: #4682B4;
+	color: white;
+	padding: 15px 25px;
+	position: relative;
+	margin-left: -24px;
+	transition: all 0.3s ease 0s;
+}
+
+#accordion .panel-title a.collapsed {
+	background: #87CEFA;
+	color: black;
+	margin-left: 0;
+	transition: all 0.3s ease 0s;
+}
+
+#accordion .panel-title a:before {
+	content: "";
+	border-left: 24px solid #4682B4;
+	border-top: 24px solid transparent;
+	border-bottom: 24px solid transparent;
+	position: absolute;
+	top: 0;
+	right: -24px;
+	transition: all 0.3s ease 0s;
+}
+
+#accordion .panel-title a.collapsed:before {
+	border-left-color: #87CEFA;
+}
+
+#accordion .panel-collapse {
+	position: relative;
+}
+
+#accordion .panel-collapse.in:before {
+	content: "";
+	border-right: 24px solid #4682B4;
+	border-bottom: 18px solid transparent;
+	position: absolute;
+	top: 0;
+	left: -24px;
+}
+
+#accordion .panel-body {
+	border: 1px solid #4682B4;
+	font-size: 14px;
+	color: black;
+	background: white;
+	border-top: none;
+	z-index: 1;
+}
+</style>
+</head>
+<body>
+            <div style="border-radius:10px;width:150px;background: #C1CDCD;height:50px;margin-left:2%; text-align: center;line-height:50px;">各岗位人员操作手册</div>
+		                 
+		                    <div class="panel-group" id="accordion"   role="tablist" aria-multiselectable="true" style="width:70%;height:100%;min-width:800px;margin-left:2%;margin-top:1%;float:left;">
+		                  
+		                        <div class="panel panel-default">
+		                            <div class="panel-heading " role="tab" id="headingOne">
+		                                <h4 class="panel-title">
+		                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >
+		                                    <span class="glyphicon glyphicon-tasks"></span>
+		                    测试经理        
+		                                    </a>
+		                                </h4>
+		                            </div>
+		                            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+		                              <form>
+		                                <div class="panel-body" style="min-height:200px;">
+		                                   <p> 
+		                                        
+		                                    
+		                                    <label> 1.新建项目</label><br/>
+		                                                                                                                                     点击左侧菜单栏里的项目管理项目基本信息，进入项目管理界面；点击左上角的新建按钮，弹出增加项目对话框，相应的填写项目名称、客户名称、策略模板，项目等级，点击提交按钮，对应的项目就新建完成了。
+		                                   <br/>  <label>  2.制定计划</label><br/> 
+		                                    项目建立完成后，就可以在表中第一条数据查看到自己新建的项目信息，然后点击计划，就会进入选择的策略模板界面。进入到模板界面后，可以看到一个项目计划应该有的信息，如：项目阶段、软件版本、测试类型、测试内容等，这里的每个项都是可以编辑的。
+如果需要编辑改变信息：<br/>
+1).项目版本下拉选择（自定义模板的项目版本支持手动填入）；<br/>
+2).填入软件版本；<br/>
+3).点击版本发布时间，会弹出时间选择器，选择相应时间；<br/>
+4).测试类型下拉选择；<br/>
+5).选择好测试类型后，再点击测试内容，会弹出选项框，可以对模块进行多选，<br/>
+也可以按等级和功能进行多选，勾选好需要的测试内容后，点击确定按钮；<br/>
+6).选择测试内容后，用例条数和人力投入会自动关联显示出来，项目经理也可以根据实际项目需求，再进行编辑。注意，用例条数框只能输入整数数字，人力投入只能输入有2位小数的数字<br/>
+7).后面依次填入人数安排，测试机需求数，测试机复用数；<br/>
+8).选择开始时间后，在把鼠标放在开始时间框上，结束时间会根据计算的人力投入、人数安排和开始时间自动显示，测试经理也可以自己选择；<br/>
+9).填入备注或者不填<br/>
+10).需要增加行的，点击后面的增加字样，弹出询问框，点击确定后自动在下面增加一行，也可以点击背景色的行，同样会增加行。需要删除行，点击删除字样；<br/>
+11).计划填写完成后，点击保存按钮，保存填写的计划；<br/>
+计划保存成功后将进入计划查看界面，可以查看到自己已经制定好的计划；
+点击计划界面左上角的编辑按钮可以对整个计划进行批量编辑；
+<br/>  
+		                                    
+		                                  <label>   3.添加项目成员</label><br/>  
+		                                    在计划界面点击左上角添加项目成员按钮，进入添加项目成员的界面；勾选需要加入的项目成员（这里只能添加主测和组长）后，点击添加即可把人员添加到项目中。一旦将人员添加到项目中，这些人员就与项目关联起来，添加的人员在自己的“项目管理”下的“项目基本信息”界面就可以看到这条项目；
+		                                  <br/>   <label>  4.分配任务</label><br/>  点击计划里的测试内容，弹出分配任务选择框，有三种分配方式：<br/> 
+第一，	分配给组长，意思是分配是身份为组长的人，或者分配给自己组内成员（项目组成员）；<br/> 
+第二，	均分：均分就是任务分配给组内成员，例如有7天的工作量，需要分配给2个人，每个人平均就有3.5天的工作量；<br/> 
+第三，	凑时分：凑时分就是凑天数分，将任务分配给组内成员，例如10天的工作量，需要分配给3个人，每个人先均分有3天的工作量，还剩下1天的工作量，再分配给其中1个人，这样3个人就分别有4天、3天、3天的工作量。
+		                             <br/>   <label>  5.查看任务进度</label><br/>     点击工作台——任务进度，所有未进行和进行中的任务都在“任务进度”中查看，选择要查看项目的任务进度，点击项目名称，进入任务进度查看界面  
+		                                   点击工作台——历史任务，所有已完成的任务都在“历史任务”中查看，选择要查看项目的任务进度，点击项目名称，进入任务进度查看界面； 
+		                                   <br/>  <label> 6.填写日报功能</label><br/>
+		                                   进入“项目管理”下的“项目基本信息”，点击“查看日报”,文本框中内容需要填写,点击右下角“保存”按钮.点击“编辑”可以对日报进行修改。点击“导出”，将日报导出为Excle表格.
+		                                    </p>
+		                                </div>
+		                                </form>
+		                            </div>
+		                        </div>
+		                        
+		                        
+		                        <div class="panel panel-default">
+		                            <div class="panel-heading" role="tab" id="headingTwo">
+		                                <h4 class="panel-title">
+		                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+		                                     <span class="glyphicon glyphicon-tasks"></span>
+		                                               用例开发者
+		                                    </a>
+		                                </h4>
+		                            </div>
+		                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+		                                <div class="panel-body" style="min-height:200px;">
+		                                    <p>
+		                                     <label>  1.用例分类的管理——一级用例</label><br/>
+		                            用例开发人员的主要工作就是对用例进行维护；
+用例开发人员登录系统后，点击用例管理软测用例，进入用例库界面(一级用例界面)；
+A、增加用例分类：如果有新增模块，点击左上角增加按钮进行添加模块；
+B、编辑用例分类：如果要修改用例分类名称，点击对应模块后面的编辑按钮即可实现修改功能；
+C、删除用例分类：如果要删除某个用例分类，点击对应模块后面的删除按钮即可实现删除功能；这时该用例下的子模块同样被删除；
+用例模块的管理——二级用例同一级用例
+		                                    <br/><label> 2.具体用例的管理——三级用例</label><br/> 
+		                                用例开发人员登录系统后，点击用例管理软测用例，进入用例库界面(一级用例界面)；然后再点击用例库界面中的分类，如功能测试，将进入功能测试的子模块界面(二级用例界面)；继续点击用例模块界面中的测试内容，如开机向导，将进入开机向导的具体用例界面(三级用例界面)； <br/>
+		                                 <label>3.分配任务</label><br/>  
+		                                    A、增加用例：如果有新增模块，点击左上角增加按钮进行添加模块；
+		                                    B、查看用例详情：如果想查看用例详情，点击对应用例后面的查看按钮即可查看该条用例详情信息；
+		                                    C、编辑用例：如果要修改用例，点击对应用例后面的编辑按钮即可实现修改功能；
+		                                    D、删除用例：如果要删除某个用例，先勾选要删除的用例，然后点击左上角删除按钮即可实现删除该用例功能；
+E、	导入用例：点击右上角导入按钮，弹出导入弹框，按要求填写，确定提交即可导入用例；
+F、	导出用例：点击右上角导出按钮，即可将用例导出到本地；
+		                                    
+		                                 
+		                              
+		                                   </p>
+		                                </div>
+		                            </div>
+		                        </div>
+		                      
+		                        <div class="panel panel-default">
+		                            <div class="panel-heading" role="tab" id="headingThree">
+		                                <h4 class="panel-title">
+		                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+		                                     <span class="glyphicon glyphicon-tasks"></span>
+		                                   项目主测
+		                                    </a>
+		                                </h4>
+		                            </div>
+		                            <div id="collapseThree" class="panel-collapse collapse " role="tabpanel" aria-labelledby="headingThree">
+		                                <div class="panel-body" style="min-height:200px;">
+		                                    <p> 
+		                                    <label> 1.查看项目及总体计划</label><br/>
+		                                    主测点击项目管理—>项目基本信息，主测可到自己所参与的项目；点击项目信息右边的“计划”，可查看到对应的项目计划，主测有编辑修改项目计划的权限。
+		                                    <br/><label> 2.制定周计划</label><br/> 
+		                                    在计划界面，根据版本制定周计划。点击软件版本如B02，进入到版本计划（周计划）制定界面；然后填写版本类型、需缺人力、版本路径（必填）、版本计划、归档路径、下载工具、BUG库路径等，点击确定后即可保存周计划。
+		                                    <br/><label> 3.分配任务</label><br/>  
+		                                    周计划制定完成后，可以点击右侧的分配按钮进行任务分配；或者和测试经理一样，在计划界面，点击计划界面里的测试内容进行任务分配；
+三种分配方式：第一，分配给组长；第二，均分；第三，凑时分；（分配方式同测试经理）
+		                                 <br/><label> 4.查看任务进度</label><br/>     
+		                                    点击工作台——任务进度（查看自己参与项目的任务进度），所有未进行和进行中的任务都在“历史任务”中查看，选择要查看哪个项目的任务进度，点击项目名称，进入任务进度查看界面；
+点击任务进度界面上的测试内容，进入“用例执行结果统计”界面，即可查看对应的测试结果；
+		                                      <br/>5.填写日报功能<br/> 
+		                                      同测试经理   
+		                                    </p>
+		                                </div>
+		                            </div>
+		                        </div>
+								<div class="panel panel-default">
+		                            <div class="panel-heading" role="tab" id="headingFour">
+		                                <h4 class="panel-title" >
+		                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+		                                     <span class="glyphicon glyphicon-tasks"></span>
+		                                组长
+		                                    </a>
+		                                </h4>
+		                            </div>
+		                            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+		                                <div class="panel-body" style="min-height:200px;">
+		                                <p>
+		                                     <label> 1.查看项目和项目计划</label><br/>
+		                               组长被测试经理加入到项目中后，也可以在项目管理->项目基本信息界面看到项目
+		                                    <br/><label> 2.执行任务</label><br/> 
+		                              点击工作台我的任务，可看到自己负责的项目，选择对应项目，就可以看到测试经理或者主测分配给自己的任务；组长一方面可以点击测试内容自己执行测试任务；执行完任务，回到用例执行界面，可查看到用例的执行情况；
+		                              执行完任务，回到自己的工作台，点击“我的任务”，可查看到自己任务的完成情况；如果执行的测试内容是入口用例，点击入口用例执行界面的左上角的“生成报告”按钮，入口报告填写完成，点击右下角“保存”按钮。入口报告保存成功后进去入口报告查看界面
+		                             点击左上角“编辑”可以对入口报告进行修改。点击“导出”，可将入口报告导出为Excle <br/>
+		                             <label> 3.分配任务</label><br/>  
+		                                另一方面可点击分配，将任务分配给自己组内成员；（具体分配方式同测试经理）
+		                                 <br/><label> 4.查看任务进度（同测试经理）</label><br/>     
+		                              点击工作台——任务进度（查看自己参与项目的任务进度），选择要查看哪个项目的任务进度，点击项目名称，进入任务进度查看界面；
+点击任务进度界面上的测试内容，进入“用例执行结果统计”界面，即可查看对应的测试结果；
+</p>  </div>
+		                            </div>
+		                        </div>
+								 <div class="panel panel-default">
+		                            <div class="panel-heading" role="tab" id="headingFive">
+		                                <h4 class="panel-title">
+		                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+		                                     <span class="glyphicon glyphicon-tasks"></span>
+		                                     系统测试
+		                                    </a>
+		                                </h4>
+		                            </div>
+		                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+		                                <div class="panel-body" style="min-height:200px;">
+		                                      <p>
+		                                   <label>  1.查看任务</label><br/>
+		                       系统测试人员登录系统，在“工作台”栏下点击“我的任务”，查看到自己的任务；
+		                                    <br/><label> 2.线上执行任务（同组长执行任务）</label><br/> 
+		                           点击“我的任务”—>“项目名称”—>“测试内容”，进入到测试用例界面——点击“查看”，可看到该用例详情——在线执行用例并填写结果保存提交，进去下一条用例继续执行； <br/><label> 3.线下执行任务</label><br/>  
+		                                线下执行任务，有两种导出方式，一种单模块导出，一种多模块导出；导出用例后，线下执行用例并填入结果，点击我的任务右侧的导入按钮，将线下执行结果导入系统；
+A 在“我的任务”界面，可以将多个模块整体导出：
+B:点击“测试内容”，进入“模块测试用例详情”，如下图，选择用例可以导出单模块用例
+
+		                                 <br/><label> 4.查看任务进度（同测试经理）</label><br/>     
+		                              点击工作台——任务进度（查看自己参与项目的任务进度），选择要查看哪个项目的任务进度，点击项目名称，进入任务进度查看界面；
+点击任务进度界面上的测试内容，进入“用例执行结果统计”界面，即可查看对应的测试结果；
+</p>  </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		  <div style="float:left;margin-top:2%;">
+		  <table style="width:2px;border-right:2px solid #4682B4;height:600px;"><tr><td></td></tr></table></div>
+          <div style="float:left;width:25%;height:100%;margin-left:2%;marfin-top:2%;min-height:400px;">
+          
+          <table style="width:100%;margin-left:2%;margin-top:10%;height:50%;min-height:100px;max-height:200px;min-width:350px;" id="table">
+          <tr>
+          <td><span class="glyphicon glyphicon-envelope"> <a href="http://mail.wind-mobi.com/" target="_blank">邮箱</a></span></td>
+          <td><span class="	glyphicon glyphicon-list-alt"> <a href="http://10.0.80.8/ocm/Api/Auth/Login" target="_blank">EDOC</a></span></td>
+          <td><span class="	glyphicon glyphicon-book"> <a href="http://10.0.10.6/windwiki/index.php/%E9%A6%96%E9%A1%B5" target="_blank">WiKi</a></span></td>
+          </tr>
+          <tr>
+          <td><span class="	glyphicon glyphicon-leaf"> <a href="http://redmine.wind-mobi.com/redmine/login" target="_blank">Redmine</a></span></td>
+          <td><span class="	glyphicon glyphicon-folder-open"> <a href="http://10.0.80.5/wui/theme/ecology7/page/login.jsp" target="_blank">OA</a></span></td>
+          <td><span class="	glyphicon glyphicon-briefcase"> <a href="http://wu/" target="_blank">ERP</a></span></td>
+          </tr>
+          </table>
+           <hr/></div>
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+		 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+<style>
+li {
+	list-style: none;
+}
+#table td{border:1px solid #DCDCDC;
+text-align:center;vertical-align:middle;}
+.header td{color:white;}
+#table tbody tr:hover{background-color:#FFF0F5;}
+</style>
+<script>
+layui.use('layer', function(){
+  var layer = layui.layer;
+});  
+	layui.use('form', function(){
+  var form = layui.form;
+					});
+					$(document).ready(function(){
+					fen();
+					})
+
+ </script>
+    </head>
+
+    <body>
+      	<div class="layui-tab layui-tab-card" 
+		style="width:90%;height:99%;min-width:600px;min-height:830px;margin-left:5%;margin-top:1%;border:1px solid #4682B4;">
+		<ul class="layui-tab-title" style="background-color:#4682B4;border-left:1px solid #4682B4;">
+			<li class="layui-this">设备申请审批</li>
+			<li>流程图</li>
+		</ul>
+		<div class="layui-tab-content" >
+			<div class="layui-tab-item layui-show" >
+			
+				<h4 class="glyphicon glyphicon-tasks" style="margin-left:45%;">设备申请审批</h4>
+				<hr/>
+				<form class="layui-form" action="" style="margin-left:2%;" onSubmit="return check();">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">申请人</label>
+							<div class="layui-input-inline">
+								<input type="text" class="layui-input" name="">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">紧急程度</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" name="" value="一般" readonly>
+							</div>
+						</div>
+					</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">申请项目</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-inline">
+								<label class="layui-form-label">申请小组</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" class="layui-input">
+								</div>
+							</div>
+						</div>
+                        <div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">申请时间</label>
+							<div class="layui-input-inline">
+								<input type="text" name="" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">使用时间</label>
+							<div class="layui-input-block">
+								<input type="text" name="" class="layui-input">
+							</div>
+						</div>
+						</div>
+						
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">申请需求</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" name="" class="layui-textarea" style="width:600px;"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">同意</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+				</div>
+			</div>
+	</form>
+	<hr class="layui-bg-green"/>
+
+	<button class="layui-btn layui-btn-normal layui-btn-radius" type="submit" style="float:right;">确定</button>
+	</div>
+	
+	<div class="layui-tab-item"><img src="images/liucheng.png"></div>
+	</div>
+	</div>
+	
+	<script>
+function search(){
+  $("#table tr:gt(0)").hide();
+     var $d = $("#table tr:gt(0)").filter(":contains('"+$.trim($("#search").val())+"')");
+          $d.show();
+          
+}
+$('#search').bind('input propertychange',function(){
+search();
+})
+</script>
+    </body>
+</html>

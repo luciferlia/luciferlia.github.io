@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+		 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+<style>
+#table td{border:1px solid #DCDCDC;
+text-align:center;vertical-align:middle;}
+.header td{color:white;}
+#table tbody tr:hover{background-color:#FFF0F5;}
+</style>
+<script>
+layui.use('layer', function(){
+  var layer = layui.layer;
+ 
+});
+
+layui.use('element', function(){
+  var element = layui.element;
+  
+ 
+});
+
+$(document).ready(function(){
+var table=document.getElementById('table');
+var row=table.rows.length;
+for(i=1;i<row;i++){
+var num=$("#table tr:eq('"+i+"') td:eq(4)").text();
+if(parseFloat(num)==0){
+$("#table tr:eq('"+i+"')").css('background-color','#FFFACD');
+}
+
+}
+});
+
+function showadd(){
+shownull();
+layer.open({
+			type: 1,
+			title:'新增IOT实验室资源',
+			skin: 'layui-layer-rim', //加上边框
+			area: ['750px', '250px'], //宽高
+			content:$("#add"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+function shownull(){
+document.getElementById('l1').value='';
+document.getElementById('l2').value='';
+document.getElementById('l3').value='';
+document.getElementById('l4').value='';
+
+
+}
+function showedit(obj){
+var tr=obj.parentNode.parentNode;
+document.getElementById('l1').value=$(tr).children('td').eq(1).text();
+document.getElementById('l2').value=$(tr).children('td').eq(2).text();
+document.getElementById('l3').value=$(tr).children('td').eq(3).text();
+document.getElementById('l4').value=$(tr).children('td').eq(4).text();
+
+
+layer.open({
+			type: 1,
+			title:'修改IOT实验室资源',
+			skin: 'layui-layer-rim', //加上边框
+			area: ['750px', '250px'], //宽高
+			content:$("#add"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+ </script>
+    </head>
+
+    <body>
+      	<ul style="margin-top:2%;width:95%;margin-left:3%;">
+		<li style="float:left;"><a onclick="showadd()" type="button" class="layui-btn layui-btn-radius layui-btn-normal">增加</a></li>
+		<li style="float:left;"><button onclick="console('delete','')" class="layui-btn layui-btn-radius layui-btn-danger">删除</button></li>
+		<li style="float:left;"><a href="IOT_apply.html"type="button" class="layui-btn layui-btn-radius layui-btn-normal">申请</a></li>
+		<li style="float:right;"><input type='text' placeholder='搜索' class="layui-input" style="width:200px;"id="search"></li>
+		</ul>
+	<hr class="layui-bg-green"/>
+	<table id="table"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:95%;margin-left:3%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header">
+				<td style="width:30px;"><input type="checkbox"  lay-skin="primary"  name="all" id="all" /></td>
+				<td>总编号</td>
+				<td>设备</td>
+				<td>品牌</td>
+				<td>资源数量</td>
+				<td>借出数量</td>
+				
+				<td>操作</td>
+			</tr>
+		
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>A</td>
+				<td>蓝牙体重秤</td>
+				<td>A-1 云麦好轻 智能体脂秤</td>
+				<td>1</td>
+				<td><a onclick="showbp(this,event)">1</a></td>				
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>B</td>
+				<td>其它</td>
+				<td>B-8 集线器 ports 3.0USB</td>
+				<td>1</td>
+				<td><a onclick="showbp(this,event)">0</a></td>
+				
+				
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>C</td>
+				<td>补光灯</td>
+				<td>C-1 兴皇玛 补光灯</td>
+				<td>1</td>
+				<td><a onclick="showbp(this,event)">1</a></td>
+				
+				
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>D</td>
+				<td>USB键盘鼠标</td>
+				<td>D-1 戴尔鼠标 USB键盘鼠标</td>
+				<td>2</td>
+				<td><a onclick="showbp(this,event)">1</a></td>
+
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>E</td>
+				<td>盒子</td>
+				<td>E-2 小米盒子3  蓝牙4.1</td>
+				<td>1</td>
+				<td><a onclick="showbp(this,event)">0</a></td>
+				
+				
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>F</td>
+				<td>WIFI DISPLAY</td>
+				<td>F-5 PHILIPS TD-LTE</td>
+				<td>0</td>
+				<td><a onclick="showbp(this,event)">0</a></td>
+				
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+		</table>
+		<div id="add" style="display:none;">
+		<table style="width:95%;height:100%;margin-left:2%;">
+		<tr>
+		<td style="width:70px;">总编号</td><td><input type='text' class="layui-input" style="width:200px;" id="l1"></td>
+		<td style="width:70px;">设备</td><td><input type='text' class="layui-input" style="width:200px;" id="l2"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">品牌</td><td><input type='text' class="layui-input" style="width:200px;" id="l3"></td>
+		<td style="width:70px;">资源数量</td><td><input type='text' class="layui-input" style="width:200px;" id="l4"></td>
+		</tr>
+		
+		</table>
+		</div>
+		<div id="showbp" style="display:none;">
+		<label>&nbsp;&nbsp;方丽    <span style="float:right;">1&nbsp;&nbsp;&nbsp;<span></label><br/>
+		<hr/>
+		<label>&nbsp;&nbsp;蒋雪    <span style="float:right;">1&nbsp;&nbsp;&nbsp;<span></label><br/>
+		<hr/>
+		<label>&nbsp;&nbsp;罗绿梅    <span style="float:right;">1&nbsp;&nbsp;&nbsp;<span></label><br/>
+		<hr/>
+		</div>
+    </body>
+<script>
+
+function showbp(obj,e){
+window.event.returnValue = false;
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY;
+  //菜单出现后的位置 
+   layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY,oX],
+				shadeClose:true,
+				closeBtn: 0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['200px', 'auto'], //宽高
+			   
+				content:$("#showbp")
+				
+	              });
+	}
+function search(){
+  $("#table tr:gt(0)").hide();
+     var $d = $("#table tr:gt(0)").filter(":contains('"+$.trim($("#search").val())+"')");
+          $d.show();
+}
+$('#search').bind('input propertychange',function(){
+search();
+})
+</script>
+</html>

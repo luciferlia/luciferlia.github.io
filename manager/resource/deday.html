@@ -1,0 +1,1352 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title></title>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="../script/js/echarts.js" charset="utf-8"></script>
+<link rel="stylesheet" href="../script/dist/css/bootstrap-select.css">
+<link rel="stylesheet" href="../script/css/bootstrap.min.css">
+<script src="../script/js/bootstrap.min.js"></script>
+<script src="../script/dist/js/bootstrap-select.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css" media="all">
+<script src="../script/layui/layui.js"></script>
+<style>
+#tab1 td {
+	border: 1px solid #CFCFCF;
+	font-size: 0.9em;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.usenum {
+	display: none;
+}
+
+#choose {
+	width: 70px;
+	height: 30px;
+	border-radius: 2px;
+	border: 1px solid #E8E8E8;
+}
+
+#main {
+	border: 4px solid #DCDCDC;
+	border-radius: 25px;
+}
+
+#mains {
+	border: 4px solid #DCDCDC;
+	border-radius: 25px;
+}
+
+#mainss {
+	border: 4px solid #DCDCDC;
+	border-radius: 25px;
+}
+.standar{background-color:green;}
+#allresult td{border: 1px solid #CFCFCF;
+	font-size: 0.9em;
+	text-align: center;
+	vertical-align: middle;}
+	textarea{position:static;}
+	.btn-group.bootstrap-select{width:260px;}
+	
+</style>
+<script type="text/javascript">
+var form;
+var indexpro;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form()
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var element = layui.element;
+  
+});
+//由于设计统计思路是在填写一个数字后就需要计算，那么为了统一计算，会将input里面的值放在td里面的span中
+function addCol(tds) {
+
+	layer.open({
+			type:1,
+			title:'请输入增加的列的信息',
+			btn:['取消','确定'],
+			skin:"layui-layer-molv",
+			area: ['280px', '200px'], //宽高
+			content:$("#addlie"),
+			btn: ['确定', '取消']
+           ,yes: function(){
+           layer.closeAll();
+		   var title=document.getElementById('title').value;
+		    var teamtype=$('#teamtype').val();//计算tag
+		      //确定后传输到后台，计算方式	
+		     $.ajax({
+        url:'addWeekReportlie',
+		dataType:'text',
+		type:'POST',
+		data:{"params":teamtype,"name":title}, 
+		error:function(errMsg){
+			alert(errMsg);
+		},
+		success:function(data){ 
+		alter("成功");
+		}
+		
+	});	 
+		    		  
+			$th = $("<td oncontextmenu='delCol(this,event);'class='nums' name='nums' style='background-color:#00CED1;'><p>"+title+"</p><span style='display:none;'>"+teamtype+"</span></td>");    
+		    $col = $("<td><input type='text' class='layui-input' onblur='toinput(this)'><span class='usenum'>0</span></td>");
+		   
+		   $tf=$("<td></td>");
+			$("#tab1 thead  tr td:nth-child("+tds+")").after($th);
+            $("#tab1 tbody  tr td:nth-child("+tds+")").after($col);
+			$("#tab1 tfoot  tr td:nth-child("+tds+")").after($tf);
+			
+			
+			var row=document.getElementById('tab1').rows.length;
+			for(i=1;i<row-1;i++){
+			var tags=$('#tab1 tr:eq('+i+') td:eq(0)').find('p').text();
+			if(tags!=0){
+			$('#tab1 tr:eq('+i+') td:eq(0)').find('p').text(0);
+			}
+			}
+		   }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  }); 	
+}
+function dellie(obj){
+var tds=$(obj).prevAll().length+1;
+var tdnum=$(obj).revAll().length;
+var tdnum=$(obj).prevAll().length;
+	var trs=$(obj).parent().prevAll().length+1;
+	var names=$("#tab1 tr:eq(0) td:eq("+tdnum+")").text();
+	var name=names.substring(0,names.length-1);
+	//获取所有数据的id值，组成字符串
+	var ids='';
+	var row=document.getElementById('tab1').rows.length;
+	for(i=1;i<row-1;i++){
+	ids +=$('#tab1 tr:eq('+i+') td:eq(0)').find('span').text()+',';
+	}
+	
+	$.ajax({
+     url:'delWeekReportlie',
+		dataType:'text',
+		type:'POST',
+		data:{"params":ids,"name":name}, 
+		error:function(errMsg){
+			alert(errMsg);
+		},
+		success:function(data){
+			layer.msg("编辑周报成功",{time:3000});
+			 setTimeout(function() {
+				window.location.reload();
+			}, 3000) 
+		}
+		
+	});
+  $("#tab1 tr :nth-child("+tds+")").remove();
+ //移除最后一列
+  //$("#tab1 tr :last-child").remove();
+  //移除第一列
+  //$("#tab1 tr :first-child").remove();
+  //移除指定的列, 注:这种索引从1开始 
+  //移除第一列之外的列
+  //$("#tab1 tr :not(:nth-child(1))").remove();
+}
+  function isFireFox() {
+                var i = navigator.userAgent.toLowerCase().indexOf("firefox");
+                return i >= 0;
+            }
+function delCol(obj,e) {
+	var tds=$(obj).prevAll().length+1;
+	var trs=$(obj).parent().prevAll().length+1;
+	if(isFireFox()){
+	 e.preventDefault();
+	}else{
+	window.event.returnValue=false;
+	}
+  // window.event.returnValue=false;
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY;
+  var person=$('#personstaus').text();
+  if(person.indexOf('部门经理')!=-1){
+   layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY,oX],
+				btn: ['删除列','增加列','增加行','删除行','编辑'],
+				shade: [0.001, '#393D49'],
+				shadeClose:true,
+				btnAlign: 'l',
+				closeBtn:0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['120px', '230px'], //宽高
+			   
+				content:$("#caozuo"),
+				yes: function(index, layero){
+ dellie(obj);
+ layer.close(index);
+},btn2: function(){
+    layer.closeAll();
+    addCol(tds);
+  },btn3: function(){
+    layer.closeAll();
+   addhang(obj);
+  },btn4: function(){
+    layer.closeAll();
+   delhang(obj);
+  },btn5: function(){
+    layer.closeAll();
+  edit(obj);
+  }
+ });
+  
+  }else{
+   layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY,oX],
+				btn: ['增加行','删除行','编辑'],
+				shade: [0.001, '#393D49'],
+				shadeClose:true,
+				btnAlign: 'l',
+				closeBtn:0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['120px', '180px'], //宽高
+			   
+				content:$("#caozuo"),
+				yes: function(index, layero){
+addhang(obj);
+ layer.close(index);
+},btn2: function(){
+    layer.closeAll();
+   delhang(obj);
+  },btn3: function(){
+    layer.closeAll();
+   edit(obj);
+  }
+ });
+ }
+
+  
+}
+function delCols(obj,e) {
+	var tds=$(obj).prevAll().length+1;
+	var trs=$(obj).parent().prevAll().length+1;
+ if(isFireFox()){
+	 e.preventDefault();
+	}else{
+	window.event.returnValue=false;
+	}
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY;
+ layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY,oX],
+				btn: ['增加行','删除行','编辑'],
+				shade: [0.001, '#393D49'],
+				shadeClose:true,
+				btnAlign: 'l',
+				closeBtn:0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['120px', '130px'], //宽高
+			   
+				content:$("#caozuo"),
+				yes: function(index, layero){
+layer.closeAll();
+   addhang(obj);
+},btn2: function(){
+    layer.closeAll();
+   delhang(obj);
+  },btn3: function(){
+    layer.closeAll();
+  edit(obj);
+  }
+ });
+  
+}
+
+function delColf(obj,e) {
+	var tds=$(obj).prevAll().length+1;
+	var trs=$(obj).parent().prevAll().length+1;
+   if(isFireFox()){
+	 e.preventDefault();
+	}else{
+	window.event.returnValue=false;
+	}
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY;
+  var person=$('#personstaus').text();
+  if(person.indexOf('部门经理')!=-1){
+  layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY,oX],
+				btn: ['删除列','增加列','增加行'],
+				shade: [0.001, '#393D49'],
+				shadeClose:true,
+				btnAlign: 'l',
+				closeBtn:0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['120px', '170px'], //宽高
+			   
+				content:$("#caozuo"),
+				yes: function(index, layero){
+ dellie(obj);
+ layer.close(index);
+},btn2: function(){
+    layer.closeAll();
+    addCol(tds);
+  },btn3: function(){
+    layer.closeAll();
+   addhang(obj);
+  }
+ });
+  
+  
+  }else{
+  layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY,oX],
+				btn: ['增加行'],
+				shade: [0.001, '#393D49'],
+				shadeClose:true,
+				btnAlign: 'l',
+				closeBtn:0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['120px', '80px'], //宽高			   
+				content:$("#caozuo"),
+				yes: function(index, layero){
+    layer.closeAll();
+   addhang(obj);
+  }
+ });
+  
+  }
+ 
+}
+function delColsf(obj,e) {
+	var tds=$(obj).prevAll().length+1;
+	var trs=$(obj).parent().prevAll().length+1;
+  if(isFireFox()){
+	 e.preventDefault();
+	}else{
+	window.event.returnValue=false;
+	}
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY;
+ layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY,oX],
+				btn: ['增加行'],
+				shade: [0.001, '#393D49'],
+				shadeClose:true,
+				btnAlign: 'l',
+				closeBtn:0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['120px', '80px'], //宽高
+			   
+				content:$("#caozuo"),
+				yes: function(index, layero){
+layer.closeAll();
+   addhang(obj);
+}
+ });
+  
+}
+function edit(obj){
+var tr=obj.parentNode;
+var trs=$(obj).parent().prevAll().length+2;
+var size=$('tr:eq('+trs+') td').size();//获取了td的数目
+$('tr:eq('+trs+') td:eq(0)').find('p').text('0');
+for(i=1;i<size-1;i++){
+var vals=$('tr:eq('+trs+') td:eq('+i+')').find('span').text();
+var spamname=$($('tr:eq('+trs+') td:eq('+i+')').find('span')).attr('name');
+$('tr:eq('+trs+') td:eq('+i+')').removeAttr('oncontextmenu');	
+var html='<input type="text" class="layui-input" value="'+vals+'"onblur="toinput(this)">';
+$('tr:eq('+trs+') td:eq('+i+')').find('p').remove();
+if(spamname=='problem'){
+var textar='<textarea  onblur="toinput(this)" style="min-height:30px;width:100%;"value="'+vals+'">'+vals+'</textarea>';
+$('tr:eq('+trs+') td:eq('+i+')').append(textar);
+//autosize.update(document.querySelectorAll('textarea'));
+autosize(document.querySelectorAll('textarea'));
+}else{
+$('tr:eq('+trs+') td:eq('+i+')').append(html);
+}
+
+}
+}
+function addhang(obj){
+var tr=obj.parentNode;
+var trs=$(obj).parent().prevAll().length+1;
+var size=$('tr:eq('+trs+') td').size();//获取了td的数目
+var row=document.getElementById('tab1').rows.length;
+layer.open({
+	type:1,
+	title:'请输入增加的行的组别信息',
+	btn:['取消','确定'],
+	skin:"layui-layer-molv",
+	area: ['280px', '200px'], //宽高
+	content:$("#addhangs"),
+	btn: ['确定', '取消']
+   ,yes: function(){
+   layer.closeAll();
+   var pass=$('#addhangtype').val();
+   var html="";
+   var tou = '<tr><td style="display:none;"><p>0</p><span>0</span></td><td oncontextmenu="delCols(this,event);">'+pass+'<span class="usenum" name="proteam">'+pass+'</span></td>'+
+   '<td><input type="text" class="layui-input" onblur="toinput(this)" value="0"><span class="usenum" name="pro">0</span></td>'+
+   '<td><input type="text" class="layui-input" onblur="toinput(this)" value=""><span class="usenum" name="status">dvt</span></td>'+
+   '<td><input type="text" class="layui-input" onblur="toinput(this)" value="0"><span class="usenum" name="version">0</span></td>'+
+   '<td><input type="text" class="layui-input" onblur="toinput(this)" value="0"><span class="usenum" name="person">0</span></td>'+
+   '<td><textarea  onblur="toinput(this)"style="min-height:30px;width:100%;" value="无"></textarea><span class="usenum" name="problem">无</span></td>';
+   for(i=0;i<size-8;i++){
+ 	  html +='<td><input type="text" class="layui-input" onblur="toinput(this)" value="0"><span class="usenum" name="usenum">0</span></td>';
+   } 
+  
+   var end='<td></td></tr>';
+   var all=tou+html+end;
+  
+   if(row==2){
+    $('#tab1 tbody').append(all);
+   }
+   else if(trs==1){
+    $('#tab1 tbody').append(all);
+   }
+   else{
+   $(tr).after(all);
+   }
+   autosize(document.querySelectorAll('textarea'));
+   }
+   ,btn2: function(){
+   layer.closeAll();
+  }					
+  }); 	
+}
+function delhang(obj){
+	var tr=obj.parentNode;
+	tr.remove();
+	var ids=parseInt($(tr).children('td').eq(0).find('span').text());
+	$.ajax({
+			url : 'delWeekReporthang',
+			dataType : 'text',
+			type : 'POST',
+			data : {"params" : ids},
+			error : function(errMsg) {
+				alter(errMsg);
+			},
+			success : function(data) {
+				alter("成功");
+			}
+		})
+	
+		}
+
+function sumlie(trnum){
+//由于行和列都可以新增，所以无法通过固定的td来计算，所以设置为第一行中td带有
+//name="nums" class="nums"的所在列的td为计算的
+//首先查找所有的带有name="nums"的td所在的td  index
+var a=document.getElementsByName('nums');
+var tds,nums=0;
+var arr=[];
+for(i=0;i<a.length;i++){
+	tds= $(a[i]).prevAll().length;
+	arr.push(tds);
+	//计算该行的这些td的值并添加到行的最后一个td里面
+//这是为了后面添加的时候一行一行或者一列一列的改变
+ var num=$('#tab1 tr:eq('+trnum+') td:eq('+tds+')').find('span.usenum').text();
+ if(num==""||num==null){
+	 num==0;
+ }
+     nums +=parseFloat(num);
+}
+
+$('#tab1 tr:eq('+trnum+') td:last').text(nums);
+}
+function sumhang(tds){
+//此函数只需传递含有nam="nums"的td坐在的index 
+var tds,nums=0;
+
+var row=document.getElementById('tab1').rows.length;
+var last=parseInt(row-1);
+for(i=1;i<row-1;i++){
+	var num=$('#tab1 tr:eq('+i+') td:eq('+tds+')').find('span.usenum').text();
+	if(num==""||num==null){
+	 num==0;
+ }
+ nums +=parseFloat(num);
+}	
+	
+$('#tab1 tr:eq('+last+') td:eq('+tds+')').text(nums);	
+}
+function version(){
+	var vsion=document.getElementById('vnums');
+	var tds= $(vsion).prevAll().length;
+	sumhang(tds);
+}
+//关于新增列或者行的计算，是input里面输入值，则计算，首先是把值写入到span中，然后计算
+function toinput(obj){
+	var tdn=obj.parentNode;
+	var tds=$(tdn).prevAll().length;
+	var trs=$(tdn).parent().prevAll().length+1;
+     //判断是否是计算列
+	 var firsttd=$('#tab1 tr:eq(0) td:eq('+tds+')').hasClass('nums');
+	 var firsttdv=$('#tab1 tr:eq(0) td:eq('+tds+')').hasClass('vnums');
+	  var firsttdp=$('#tab1 tr:eq(0) td:eq('+tds+')').hasClass('pro');
+	 if(firsttd){	 
+	//判断是否存在class="usenum"的span存在
+	var numss=$(tdn).find('span').length;
+	if(numss>0){
+		//将值写入span中
+		var valn=obj.value;
+		$(tdn).find('span').text(valn);
+		//console.log('响应了'+trs+'   '+tds);
+		sumlie(trs);
+		sumhang(tds);
+	}
+	}
+	else if(firsttdv){
+		var valn=obj.value;
+		$(tdn).find('span').text(valn);
+		version();
+	}
+	else if(firsttdp){
+		var valn=obj.value;
+		$(tdn).find('span').text(valn);
+	}
+	else{
+	var valn=obj.value;
+		$(tdn).find('span').text(valn);
+	}
+	
+	allresult();
+}
+
+function sumofp(){
+	//统计项目的版本数 
+	var pro=document.getElementsByName('pro');
+	var tdsp= $(pro[0]).prevAll().length;
+	var vsion=document.getElementById('vnums');
+	var tdsv= $(vsion).prevAll().length;
+	//获值 组成json 数组
+	var row=document.getElementById('tab1').rows.length;
+	var json={};
+	var arrs=[];
+	for(n=1;n<row-1;n++){
+		var project=$('#tab1 tr:eq('+n+') td:eq('+tdsp+')').find('span').text();
+        var version=$('#tab1 tr:eq('+n+') td:eq('+tdsv+')').find('span').text();	
+         json={project,version};
+    	arrs.push(json);	 
+	}
+	return arrs;
+}
+function sumofpn(){
+	//统计项目的人力数
+	var pro=document.getElementsByName('pro');
+	var tdsp= $(pro[0]).prevAll().length;
+	//获值 组成json 数组
+	var row=document.getElementById('tab1').rows.length;
+	var json={};
+	var arrs=[];
+	for(n=1;n<row-1;n++){
+		var project=$('#tab1 tr:eq('+n+') td:eq('+tdsp+')').find('span').text();
+        var person=$('#tab1 tr:eq('+n+') td:last').text();	
+         json={project,person};
+    	arrs.push(json);	 
+	}
+	return arrs;
+}
+var myChart1,myChart2,myChart3;
+function showfp(){
+	var arrs=sumofp();
+	console.log(arrs);
+	var dataX=[];
+	var dataY=[];
+	for(i=0;i<arrs.length;i++){
+		dataX.push(arrs[i].project);
+		dataY.push(arrs[i].version);
+	}
+	var max=Math.max.apply(null,dataY);
+     var Max=max+5;
+	var main=document.getElementById('main');
+	var resizemain=function (){
+		main.style.width=(window.innerWidth*0.9)+'px';
+		main.style.height=(window.innerHeigth*0.5)+'px';;
+	}
+	//console.log(dataX);
+	//console.log(dataY);
+	resizemain();
+	var barcampaign=echarts.init(document.getElementById('main'));
+	myChart1=barcampaign;
+     $(window).on('resize',function(){//
+            //屏幕大小自适应，重置容器高宽
+           resizemain();
+            myChart1.resize();
+        });
+	option = {
+	    title: {
+	        text: '版本数量'
+	       
+	    },
+		 toolbox: {
+	        show : true,
+	        feature : {
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+		  tooltip: {
+			
+	    },
+	    xAxis: {
+	        type: 'category',
+			data:dataX,
+	        
+			 axisTick: {
+	            show: true
+	        },
+	        axisLine: {
+	            show: true
+	        },
+	       axisLabel:{
+	                 interval:0,
+	                 rotate:30,
+	                 margin:2,
+	                 textStyle:{
+	                         color:"#000000"
+	                         }
+	                     },
+	        z: 10
+	    },
+		  
+	    yAxis: {
+	         type: 'value',
+	        name: '个',
+	        max:Max,
+			 axisLine: {
+	            show: true
+	        },
+	        axisTick: {
+	            show: true
+	        },
+	        axisLabel: {
+	            textStyle: {
+	                color: '#000000'
+	            }
+	        }
+	    },
+		grid: { // 控制图的大小，调整下面这些值就可以，
+	             x: 170,
+	             x2: 100,
+	             y2: 50,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+	         },
+	    
+	    series: [
+	        {
+	            type: 'bar',
+				barWidth : 20,
+	            itemStyle: {
+	                normal: {
+	                 label : {show: true, position:'top', textStyle: {
+                         color: 'black'
+                        }},
+	                    color: new echarts.graphic.LinearGradient(
+	                        0, 0, 0, 1,
+	                        [
+	                            {offset: 0, color: '#00BFFF'},
+	                            {offset: 0.5, color:'#00B2EE'},
+	                            {offset: 1, color: '#009ACD'}
+	                        ]
+	                    )
+	                },
+	                 label : {show: true,
+	                 position: 'top',
+                     textStyle: {
+                         color: 'black'
+                        }
+	                 },
+	                emphasis: {
+	                    color: new echarts.graphic.LinearGradient(
+	                        0, 0, 0, 1,
+	                        [
+	                            {offset: 0, color: '#00B0FF'},
+	                            {offset: 0.7, color: '#40C4FF'},
+	                            {offset: 1, color: '#80D8FF'}
+	                        ]
+	                    )
+	                }
+	            },
+				
+	            data: dataY
+	        }
+	    ]
+	};
+	window.onresize = myChart1.resize;
+	myChart1.setOption(option);
+	showfpe();
+}
+function showfpe(){
+	var arrs=sumofpn();
+	console.log(arrs);
+	var dataX=[];
+	var dataY=[];
+	for(i=0;i<arrs.length;i++){
+		dataX.push(arrs[i].project);
+		dataY.push(arrs[i].person);
+	}
+	var max=Math.max.apply(null,dataY);
+     var Max=max+5;
+	var main=document.getElementById('mains');
+	var resizemain=function (){
+		main.style.width=(window.innerWidth*0.9)+'px';
+		main.style.height=(window.innerHeigth*0.5)+'px';;
+	}
+	//console.log(dataX);
+	//console.log(dataY);
+	resizemain();
+	var barcampaign=echarts.init(document.getElementById('mains'));
+	myChart2=barcampaign;
+     $(window).on('resize',function(){//
+            //屏幕大小自适应，重置容器高宽
+           resizemain();
+            myChart2.resize();
+        });
+	option = {
+	    title: {
+	        text: '本周项目人力状态'
+	       
+	    },
+		 toolbox: {
+	        show : true,
+	        feature : {
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar']},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+		  tooltip: {
+			
+	    },
+	    xAxis: {
+	        type: 'category',
+			data:dataX,
+	        
+			 axisTick: {
+	            show: true
+	        },
+	        axisLine: {
+	            show: true
+	        },
+	       axisLabel:{
+	                 interval:0,
+	                 rotate:30,
+	                 margin:2,
+	                 textStyle:{
+	                         color:"#000000"
+	                         }
+	                     },
+	        z: 10
+	    },
+		  
+	    yAxis: {
+	         type: 'value',
+	        name: '个',
+	         max:Max,
+			 axisLine: {
+	            show: true
+	        },
+	        axisTick: {
+	            show: true
+	        },
+	        axisLabel: {
+	            textStyle: {
+	                color: '#000000'
+	            }
+	        }
+	    },
+		grid: { // 控制图的大小，调整下面这些值就可以，
+	             x: 170,
+	             x2: 100,
+	             y2: 50,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+	         },
+	    
+	    series: [
+	    
+	        {
+	            type: 'bar',
+				barWidth : 20,
+	            itemStyle: {
+	                normal: {
+	                label : {show: true, position:'top', textStyle: {
+                         color: 'black'
+                        }},
+	                }
+	            },
+				
+	            data: dataY
+	        }
+	    ]
+	};
+	window.onresize = myChart2.resize;
+	myChart2.setOption(option);
+	
+}
+function sumofper(){
+
+	//统计部门的人力饱和度
+	//人力饱和是部门人数对比本周使用人数   
+	//按照计算规则，项目=人力，上海=上海系统，南昌=五组+六组，专项=其余相加
+	var pronum=parseFloat($('#allre1').text());
+	var spro=parseFloat($('#allre2').text());
+	var sh=parseFloat($('#allre3').text());
+	var ssh=parseFloat($('#allre4').text());
+	var nanchang=parseFloat($('#allre5').text());
+	var snan=parseFloat($('#allre6').text());
+	var zhuan=parseFloat($('#allre7').text());
+	var szhuan=parseFloat($('#allre8').text());
+	var dataY=['项目','SH系统','南昌','专项'];
+	var data1=[spro,ssh,snan,szhuan];
+	var data2=[pronum,sh,nanchang,zhuan];
+	var max1=Math.max.apply(null,data1);
+var max2=Math.max.apply(null,data2);
+
+var arrr=[max1,max2];
+var max=Math.max.apply(null,arrr);
+var Max=max+5;
+	
+		var main=document.getElementById('mainss');
+	var resizemain=function (){
+		main.style.width=(window.innerWidth*0.9)+'px';
+		main.style.height=(window.innerHeigth*0.5)+'px';;
+	}
+	resizemain();
+	var barcampaign=echarts.init(document.getElementById('mainss'));
+	myChart3=barcampaign;
+     $(window).on('resize',function(){//
+            //屏幕大小自适应，重置容器高宽
+           resizemain();
+            myChart3.resize();
+        });
+	
+	option = {
+	    title : {
+	        text: '部门周人力饱和情况'
+	    },
+	    tooltip : {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data:['标准','实际']
+	    },
+	    toolbox: {
+	        show : true,
+	        feature : {
+	            dataView : {show: true, readOnly: false},
+	            restore : {show: true},
+	            saveAsImage : {show: true}
+	        }
+	    },
+	    calculable : true,
+	    xAxis : 
+	        {
+	            type : 'category',
+	            data : dataY,
+	            axisLabel:{
+	                 interval:0,
+	                 //rotate:45,
+	                 margin:2,
+	                 textStyle:{
+	                         color:"#000000"
+	                         }
+	                     }
+	                     
+	        },
+	        grid: { // 控制图的大小，调整下面这些值就可以，
+	             x: 170,
+	             x2: 100,
+	             y2: 50,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+	         },
+	    yAxis :
+	        {
+	            type : 'value',
+	            name:'次数',
+	            max:Max,
+	          
+	        },
+	    series : [
+	        {
+	            name:'标准',
+	            type:'bar',
+	            barWidth : 30,
+	            data:data1,
+	            markLine : {
+	                data : [
+	                    {type : 'average', name: '平均值'}
+	                ]
+	            },
+	            itemStyle:{
+	                normal: {
+	                label : {show: true, position:'top', textStyle: {
+                         color: 'black'
+                        }},
+	                   
+	                }
+	            }
+	        },
+	        
+	        {
+	            name:'实际',
+	            type:'bar',
+	            barWidth : 30,
+	            data:data2,
+	            markLine : {
+	                data : [
+	                    {type : 'average', name : '平均值'}
+	                ]
+	            },
+	            itemStyle:{
+	                normal: {
+	                label : {show: true, position:'top', textStyle: {
+                         color: 'black'
+                        }},
+	                   
+	                }
+	            }
+	        }
+	    ]
+	};
+
+	myChart3.setOption(option);
+	
+}
+
+
+function saveall(){
+	//获取td的数目
+	var tdnums=$('#tab1 tr:eq(0) td').size();
+	//前6列属于固定列，基本信息，后面的列属于组别信息，可变列，将组成一个字段
+	var trs=document.getElementById('tab1').rows.length;
+	var array=[];
+	var json={};
+	var str=[1,2,0,0,0,0];
+	for(i=1;i<trs-1;i++){
+	//获取每行td的span数据
+	var team='';
+	var tag=$('#tab1 tr:eq('+i+') td:eq(0)').find('p').text();
+	var wid=$('#tab1 tr:eq('+i+') td:eq(0)').find('span').text();
+	var proteam=$('#tab1 tr:eq('+i+') td:eq(1)').find('span').text();
+	var pro=$('#tab1 tr:eq('+i+') td:eq(2)').find('span').text();
+	var status=$('#tab1 tr:eq('+i+') td:eq(3)').find('span').text();
+	var version=$('#tab1 tr:eq('+i+') td:eq(4)').find('span').text();
+	var person=$('#tab1 tr:eq('+i+') td:eq(5)').find('span').text();
+	var problem=$('#tab1 tr:eq('+i+') td:eq(6)').find('span').text();
+	var day=$("#day").text();
+	//alert(day);
+	//获取组，要获取组名，由于json的key是汉字的时候，后台处理会比较麻烦，所以拼接成字符串
+	for(j=7;j<tdnums-1;j++){
+	//获取每个td的span的数据
+	team +=$('#tab1 tr:eq(0) td:eq('+j+')').find("p").text()+'>>'+$('#tab1 tr:eq('+i+') td:eq('+j+')').find('span').text()+'-';
+	}
+	if(tag==0){
+	json={proteam,pro,status,version,person,problem,team,wid,day};
+		array.push(json);
+	}	
+	}
+	console.log(array);
+	
+	
+	$.ajax({
+		url:'editWeekReport',
+		dataType:'json',
+		type:'POST',
+		data:{"params":JSON.stringify(array)},
+		error:function(errMsg){
+			alert(errMsg);
+		},
+		success:function(data){
+			layer.msg("编辑周报成功",{time:3000});
+			setTimeout(function() {
+				window.location.reload();
+			}, 3000);
+		}
+		
+	});
+	
+}
+
+function allresult(){
+var pronum=$('#tab1 tr:last td:eq(5)').text();
+var sh=0,nanchang=0,zhuan=0;
+$('#allre1').text(pronum);
+//获取td的数目
+	var tdnums=$('#tab1 tr:eq(0) td').size();
+	//获取区分哪些是上海，哪些是南昌，哪些是专项
+	for(i=7;i<tdnums-2;i++){
+	var texts=$('#tab1 tr:eq(0) td:eq('+i+')').find('span').text();
+	var result=parseFloat($('#tab1 tr:last td:eq('+i+')').text());
+	if(texts==0){
+	sh +=result;
+	}
+	else if(texts==1){
+	nanchang +=result;
+	}else{
+	zhuan +=result;
+	}
+	}
+   $('#allre3').text(sh);
+    $('#allre5').text(nanchang);
+     $('#allre7').text(zhuan);
+}
+function exportall(){
+showfp();
+sumofper();
+var ids='';
+	var row=document.getElementById('tab1').rows.length;
+	for(i=1;i<row-1;i++){
+	ids +=$('#tab1 tr:eq('+i+') td:eq(0)').find('span').text()+',';
+	}
+//导出，导出当前数据和图形的base64编码 
+var picinfo1=myChart1.getDataURL();
+var picinfo2=myChart2.getDataURL();
+var picinfo3=myChart3.getDataURL();
+$.ajax({
+		url:'exportWeekReport',
+		dataType:'text',
+		type:'POST',
+		data:{"params":ids,"pic1":picinfo1,"pic2":picinfo2,"pic3":picinfo3},
+		error:function(errMsg){
+			alert(errMsg);
+		},
+		success:function(data){
+			//layer.msg("导出周报成功",{time:3000});
+			window.location.href = "report_downloadWeekreport";
+			 /* setTimeout(function() {
+				window.location.reload();
+			}, 3000)  */
+		}
+		
+	}); 
+}
+$(function (){
+$('p.problemsde').mouseenter(function (event){
+	//alert('dsf');
+	var to=document.getElementById('remark');
+	var objwidth=$(this).width();
+	   var event = event || window.event;
+	    var x=event.clientX+document.body.scrollLeft;
+	    var y=event.clientY+document.body.scrollTop;
+	 var text=$(this).text();
+	  var a=document.getElementById('remark');
+	a.innerHTML=text;
+	if(text.trim().length>6){
+	to.style.top=y-50;
+	to.style.left=x-objwidth-260;
+	
+	$('#remark').show();
+	}
+});
+$('p.problemsde').mouseleave(function (event){
+$('#remark').hide();
+});
+var time=$('#searchtime').val();
+if(parseInt(time)>1){
+$('#tab1 tr td').removeAttr('oncontextmenu');
+}
+})
+
+
+function searchS(){
+	$("#searchForm").submit();
+}
+</script> 
+</head>
+<body>
+<p id="personstaus" style="display:none;">${sessionScope.role.roleName }</p>
+<p id="day" style="display:none;">${day }</p>
+	<table style="margin-left:1%;margin-top:1%;min-width:200px;"><tr><td>
+		<form action="report_showWeekReports" method="POST"  id="searchForm">
+
+			<select name="day" id="searchtime" class="selectpicker"style="width:290px;height:40px;border-radius:2px;border:1px solid #E8E8E8;" onChange="searchS()">
+				<!-- 1,2,3,4,5,6,7,8,9 -->
+				<!-- 8,7,6,5,4,3,2,1,0 -->
+				<!--<c:forEach var="h" items="${list}" varStatus="status">
+					
+					<c:if test="${h==nowTime}">
+									<option value="${9-status.count }" selected="selected">${h}</option>
+									</c:if>
+					<c:if test="${h!=nowTime}">
+									<option value="${9-status.count }">${h}</option>
+									</c:if>
+				</c:forEach>-->
+				<option value="1">2018-1-8--2018-1-14</option>
+				<option value="2">2018-1-1--2018-1-7</option>
+				<option value="3">2017-12-25--2017-12-31</option>
+			</select> 
+			<!-- <button type="submit" class="layui-btn layui-btn-radius">确定</button> -->
+		</form>
+		</td>
+		<td>
+				<a href="report_showWeekReports?day=${day+1}" type="button"
+					class="layui-btn layui-btn-radius" >上一阶段</a>
+		</td>
+		<td><a href="report_showWeekReports?day=0"
+			type="button" class="layui-btn layui-btn-radius">今天</a></td>
+		<td>
+				<a href="report_showWeekReports?day=${day-1}" type="button"
+					class="layui-btn layui-btn-radius" >下一阶段</a>
+			</td>
+		<td>
+	<button onclick="exportall()" class="layui-btn layui-btn-radius"
+		style="margin-left:1%;margin-top:1%;">导出周报</button></td></tr>
+		</table>
+	<div class="layui-tab layui-tab-card"
+		style="height:auto;width:98%;margin-left:1%;min-width:1000px;">
+		<ul class="layui-tab-title">
+			<li class="layui-this">周会总结</li>
+			<li onclick="showfp()">项目人力</li>
+			<li onclick="sumofper()">人力饱和</li>
+		</ul>
+		<div class="layui-tab-content" style="height:auto;">
+			<div class="layui-tab-item layui-show">
+				<table id="tab1"
+					style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:99%;margin-left:0.5%;height:auto;min-width:1000px;">
+					<thead>
+						<tr style="height:40px;position:relative;" id="startTop">
+							<td style="display:none;">ID</td>
+							<td oncontextmenu="delColsf(this,event);"
+								style="background-color:#FA8072;">项目组</td>
+							<td oncontextmenu="delColsf(this,event);" class="pro" name="pro"
+								style="background-color:#FA8072;">项目</td>
+							<td oncontextmenu="delColsf(this,event);"
+								style="background-color:#FA8072;">阶段</td>
+							<td oncontextmenu="delColsf(this,event);" class="vnums" id="vnums"
+								style="background-color:#FA8072;">版本</td>
+							<td oncontextmenu="delColsf(this,event);" class="nums" name="nums"
+								style="background-color:#FA8072;">人力</td>
+							<td oncontextmenu="delColsf(this,event);"
+								style="background-color:#FA8072;">主要问题</td>
+                            <td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>上海组</p><span style="display:none;">0</span></td>
+							<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>南昌五组</p><span style="display:none;">1</span></td>
+							<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>南昌六组</p><span style="display:none;">1</span></td>
+							<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>自动化组</p><span style="display:none;">2</span></td>
+							<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>无线组</p><span style="display:none;">2</span></td>
+							<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>多媒体组</p><span style="display:none;">2</span></td>
+							<!--<c:if test="${not empty weekreportForms }">
+								<c:forEach items="${weekreportForms }" var="wf" varStatus="i">
+
+									<c:if test="${i.count==1 }">
+										<c:forEach items="${wf.weekreportExtends }" var="we"
+											varStatus="j">
+											<c:if test="${j.count%2==0 }">
+												<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#CDC9A5;"><p>${we.weekextend.extendName }</p><span style="display:none;">${we.weekextend.flag }</span></td>
+											</c:if>
+											<c:if test="${j.count%2==1 }">
+												<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>${we.weekextend.extendName }</p><span style="display:none;">${we.weekextend.flag }</span></td>
+											</c:if>
+										</c:forEach>
+									</c:if>
+
+								</c:forEach>
+							</c:if>
+							<c:if test="${empty weekreportForms }">
+								<c:forEach items="${weekextends }" var="wt" varStatus="i">
+									<c:if test="${i.count%2==0 }">
+										<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#CDC9A5;"><p>${wt.extendName }</p><span style="display:none;">${we.weekextend.flag }</span></td>
+									</c:if>
+									<c:if test="${i.count%2==1 }">
+										<td oncontextmenu="delColf(this,event);" class="nums"name="nums" style="background-color:#00CED1;"><p>${wt.extendName }</p><span style="display:none;">${we.weekextend.flag }</span></td>
+									</c:if>
+								</c:forEach>
+							</c:if>-->
+							
+
+							<td style="background-color:#00CED1;">总计</td>
+
+						</tr>
+					</thead>
+					<tbody style="postion:absolute">
+						
+							<tr style="height:50px;">
+								<td name="wid" style="display:none;"><p>12</p>
+									<span>12</span></td>
+								<td oncontextmenu="delCols(this,event);"><p>项目一组</p>
+									<span name="proteam" class="usenum">项目一组</span></td>
+								<td oncontextmenu="delCols(this,event);"><p>ERSD</p>
+									<span style="display:none;" name="pro">ERSD</span></td>
+								<td oncontextmenu="delCols(this,event);"><p>DVT</p>
+									<span class="usenum" name="status">DVT</span></td>
+								<td oncontextmenu="delCols(this,event);"><p>2</p>
+									<span class="usenum" name="version">2</span></td>
+								<td oncontextmenu="delCols(this,event);"><p>4</p>
+									<span class="usenum" name="person">4</span></td>
+								<td oncontextmenu="delCols(this,event);" ><p class="problemsde"style="overflow:hidden;text-overflow: ellipsis;white-space: nowrap;width:100%;height:100%;display:inline-block;" >各个地方个电饭锅电饭锅豆腐干豆腐干豆腐干电饭锅电饭锅的风格地覆盖的风格地方方改的</p>
+									<span class="usenum" name="problem">各个地方个电饭锅电饭锅豆腐干豆腐干豆腐干电饭锅电饭锅的风格地覆盖的风格地方方改的</span></td>
+<td oncontextmenu="delCol(this,event);"><p>3</p>
+										<span class="usenum">3</span></td>
+								
+									<td oncontextmenu="delCol(this,event);"><p>3</p>
+										<span class="usenum">3</span></td>
+								<td oncontextmenu="delCol(this,event);"><p>3</p>
+										<span class="usenum">3</span></td>
+										<td oncontextmenu="delCol(this,event);"><p>3</p>
+										<span class="usenum">3</span></td>
+										<td oncontextmenu="delCol(this,event);"><p>3</p>
+										<span class="usenum">3</span></td>
+										<td oncontextmenu="delCol(this,event);"><p>3</p>
+										<span class="usenum">3</span></td>
+
+								<td></td>
+
+							</tr>
+						</c:forEach>
+					</tbody>
+					<tfoot>
+						<tr style="height:50px;" id='endfoot'>
+							<td style="display:none;"></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td ></td>
+							<td ></td>
+							<td ></td>
+							<td ></td>
+							<td ></td>
+							<td ></td>
+							<td ></td>
+							
+							<td></td>
+						</tr>
+					</tfoot>
+				</table>
+				<table id="allresult"
+					style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:60%;margin-left:20%;margin-top:1%;height:35px;min-width:300px;">
+					<tr>
+						<td>项目组</td>
+						<td id="allre1"></td>
+						<td class="standar" id="allre2">130</td>
+						<td>上海</td>
+						<td id="allre3"></td>
+						<td class="standar" id="allre4">145</td>
+						<td>南昌</td>
+						<td id="allre5"></td>
+						<td class="standar" id="allre6">310</td>
+						<td>专项</td>
+						<td id="allre7"></td>
+						<td class="standar" id="allre8">190</td>
+					</tr>
+				</table>
+				<button onclick="saveall()" class="layui-btn layui-btn-radius"
+					style="margin-left:95%;">提交</button>
+
+			</div>
+			<div class="layui-tab-item">
+				<div id="main"
+					style="min-width:600px;width:90%;height:400px;margin-left:2%;margin-top:2%;"></div>
+				<div id="mains"
+					style="min-width:600px;width:90%;height:400px;margin-left:2%;margin-top:2%;"></div>
+			</div>
+			<div class="layui-tab-item">
+				<div id="mainss"
+					style="min-width:600px;width:90%;height:400px;margin-left:2%;margin-top:2%;"></div>
+			</div>
+		</div>
+	</div>
+	<div id="addlie" style="display:none;">
+		<table style="margin-top:3%;margin-left:5%;">
+			<tr>
+				<td>名称：</td>
+				<td><input type="text" id="title" class="layui-input"></td>
+			<tr>
+			<tr>
+				<td>组别：</td>
+				<td><select name="teamtype" style="width:120px;height:40px;border-radius:2px;border:1px solid #E8E8E8;" id="teamtype"><option value="0">上海系统组</option>
+				<option value="1">南昌组</option>
+				<option value="2">专项组</option></select></td>
+			<tr>
+		</table>
+	</div>
+	<div id="addhangs" style="display:none;">
+		<table style="margin-top:3%;margin-left:5%;">
+			<tr>
+				<td>组名称：</td>
+				<td><select name="teamtype" style="width:120px;height:40px;border-radius:2px;border:1px solid #E8E8E8;" id="addhangtype">
+				<option value="项目一组">项目一组</option>
+				<option value="项目二组">项目二组</option>
+				<option value="项目三组">项目三组</option>
+				<option value="项目四组">项目四组</option>
+				<option value="项目五组">项目五组</option>
+				<option value="项目六组">项目六组</option>
+				
+				</select></td>
+			<tr>
+		</table>
+	</div>
+	<div id="caozuo" style="display:none;text-align:center;">
+		操作
+		<hr />
+	</div>
+
+<div id="remark" style="display:none;position: absolute;z-index:3;background-color:white;border:5px solid #CFCFCF;border-radius:5px;width:300px;height:auto;font-size:0.9em;word-wrap:break-word;"></div>
+</body>
+
+<script>
+$(function(){
+	//先计算行
+	var row=document.getElementById('tab1').rows.length;
+	for(k=1;k<row-1;k++){
+		sumlie(k);		
+	}
+	var b=document.getElementsByName('nums');
+	//再计算列
+	version();
+	for(m=0;m<b.length;m++){
+		tda= $(b[m]).prevAll().length;
+		sumhang(tda);
+	}
+	
+	allresult();
+});
+
+</script>
+<script src="../script/js/scrollfix.js"></script>
+<script type="text/javascript">
+		$(function(){
+			var fixStartTop = $("#startTop");			
+			fixStartTop.scrollFix({startTop:"#startTop"});
+			var tr=document.getElementById('endfoot');
+			var size=parseInt(tr.cells.length);
+			for(i=0;i<size;i++){
+			var wid=parseFloat($('#tab1 tr:eq(1) td:eq('+i+')').width())+1+'px';
+			
+			$('#startTop td:eq('+i+')').css('width',wid);
+			}
+			$('#startTop td').css('height','40px');			
+		})
+
+
+	
+	</script>
+	<script src="../script/js/autosize.js"></script>
+	<script>
+
+		autosize(document.querySelectorAll('textarea'));
+
+	</script>
+</html>

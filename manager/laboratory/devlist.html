@@ -1,0 +1,1779 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta charset="UTF-8">
+<title>与德测试信息管理系统</title>
+	 <script src="../script/js/jquery.js"></script>
+<script src="../script/js/jquery.min.js"></script>
+<link rel="stylesheet" href="../script/dist/css/bootstrap-select.css">
+<link rel="stylesheet" href="../script/css/bootstrap.min.css">
+<script src="../script/js/bootstrap.min.js"></script>
+<script src="../script/dist/js/bootstrap-select.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css" media="all">
+<script src="../script/layui/layui/layui.js"></script>
+	<link rel="stylesheet" href="../script/css/fm.selectator.jquery.css"/>
+	
+<style>
+
+.reportul li {
+	float:left;
+}
+/* .layui-layer-btn .layui-layer-btn0{background-color:white;color:black;border:1px solid white;} */
+a{color:#00B2EE;}
+
+.top{
+top:0;
+height:30px;
+opacity:1;
+z-index:99;	
+}
+.mytest{
+
+display:-moz-inline-box;
+display:inline-block;
+  text-align: center;   
+  text-decoration: none;
+width: 100%;
+height:auto; 
+font-size:0.9em;
+border:1px solid #8DEEEE;
+border-radius:15px;
+ box-shadow: 1px 9px #9C9C9C;
+ }		
+.calen{
+position: absolute;
+height:15px; 
+font-size:0.8em;
+border-radius:4px;
+border:1px solid #CFCFCF;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+ }
+ .clear{clear:both;}
+.time:hover{background-color:#BFEFFF;vertical-align:bottom;}
+.time:hover:after{content:'more';font-size:0.5em;clear:both;cursor: pointer;}
+#table td{border:1px dashed #CFCFCF;font-size:0.9em;
+
+}
+#table{min-height:800px;}
+.tagp{width:0px;height:0px;display:none;}
+.layui-tab-content{padding:0px;}
+.table{left:0px;top:0px;width:100%;height:100%;z-index:1;position:absolute}
+.table td{border:1px dashed #CFCFCF;width:70px;}
+
+.list{table-layout:fixed;left:0px;top:5px;width:100%;height:auto;z-index:2;position:absolute;}
+.list td{width:70px;padding:0px;margin:0;}
+.layui-form-label{width:80px;}
+</style>
+
+<script>
+
+var form;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var element = layui.element;
+  
+  
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#startdate' //指定元素
+	 ,type: 'datetime'
+	 ,done: function(value, date, endDate){
+		 var time=new Date();
+		 var nowdate=new Date(time).Format("yyyy-MM-dd");//获取当前时间
+		 console.log(value);
+    var date=value.split(' ');
+     var a=date[0].replace(/\-/gi,"/");
+    var starts=new Date(a).getTime();//选择的时间的时间戳
+	var  b=nowdate.replace(/\-/gi,"/");
+	var now=new Date(b).getTime();//获取当前时间戳
+	var eg=(starts-now)/(24*60*60*1000);
+	var advTime=$("#advTime").val();
+	if(eg>3){
+		layer.msg("预约时间不得提前超过3天");
+		
+	}else{
+		var s=new Date(value).getTime();
+		var e=s+(advTime*60*60*1000);
+		var end=new Date(e).Format("yyyy-MM-dd HH:mm:ss");
+		$("#enddate").val(end);
+	}
+	
+  }
+  });
+    laydate.render({
+    elem: '#enddate' //指定元素
+	 ,type: 'datetime'
+  });
+  laydate.render({
+    elem: '#testt' 
+	 ,type: 'month'//指定元素
+  });
+  form.on('select(lab)', function(data){
+  labselect(data);
+  console.log(data.value); //得到被选中的值
+});
+});
+  function getLocalTime(nS) {     
+        return new Date( parseInt(nS) * 1000).toString().replace(/:\d{1,2}$/,' ');       
+     
+   
+    } 
+   
+    
+function gethour(times){
+	var tim=times.split(" ");
+		var hour=tim[4];
+		var hou=hour.split("/");
+		var ho=hou[0];
+		return ho;
+}
+function getday(times){
+	var tim=times.split(" ");
+		var day=tim[2];
+		return day;
+}
+function getDaysInMonth(year,month){ month = parseInt(month,10); 
+ var temp = new Date(year,month,0); return temp.getDate(); }
+
+Date.prototype.Format=function(fmt) {         
+    var o = {         
+    "M+" : this.getMonth()+1, //月份         
+    "d+" : this.getDate(), //日         
+    "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时         
+    "H+" : this.getHours(), //小时         
+    "m+" : this.getMinutes(), //分         
+    "s+" : this.getSeconds(), //秒         
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度         
+    "S" : this.getMilliseconds() //毫秒         
+    };         
+    var week = {         
+    "0" : "/u65e5",         
+    "1" : "/u4e00",         
+    "2" : "/u4e8c",         
+    "3" : "/u4e09",         
+    "4" : "/u56db",         
+    "5" : "/u4e94",         
+    "6" : "/u516d"        
+    };         
+    if(/(y+)/.test(fmt)){         
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));         
+    }         
+    if(/(E+)/.test(fmt)){         
+        fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);         
+    }         
+    for(var k in o){         
+        if(new RegExp("("+ k +")").test(fmt)){         
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));         
+        }         
+    }         
+    return fmt;         
+} 
+
+function resulte(id){
+if(id==''){
+layer.msg("当前实验室无设备！！",{time:3000});
+}else{
+$('.list tr:gt(0)').remove();
+$('.list tr:eq(0)').remove();
+document.getElementById('chuid').value=id;	
+
+var time=document.getElementById('testt').innerText;
+var str=time.split("-");
+var year=parseInt(str[0]);
+var month=parseInt(str[1]);
+
+//获取当月的天数
+var mday=getDaysInMonth(year,month);
+var endm="";
+if(month==12){
+	endm=(year+1)+"-01";
+}else{
+endm=year+"-"+parseInt(month+1);
+}
+
+var a=time.replace(/\-/gi,"/");
+var starts=new Date(a).getTime();//月初的时间戳
+var b=endm.replace(/\-/gi,"/");
+var ends=new Date(b).getTime();//月末的时间戳
+//获取当前时间 去数据库查询当前实验室的当前日期的数据，
+//处理，并返回，将数据放在相应地方，改变颜色
+document.getElementById("devId").value=id;
+$.ajax({
+	url:"getCalendar?devId="+id+'&start='+time+'&end='+endm,
+	type:"POST",
+	dataType:'text',
+	success:function(result){
+	//alert(result);
+	//获取了开始时间为当天的当前实验室的数据
+     var str=JSON.parse(result);
+	//当前数据是由数组组成的json数据，先转换
+	//首先要匹配到table表中的设备，然后再匹配到对应小时时间
+	//先循环table，再循环结果	
+	for(i=0;i<str.length;i++)
+	{
+		var eventid=str[i].id;
+		var title=str[i].title;
+		var color=str[i].color;
+		var dev_sty=str[i].dev_sty;
+		//获取开始时间戳
+		var time=str[i].starttime;	
+		//获取结束时间分钟
+		var smin=parseInt(new Date(time*1000).getMinutes());
+		//获取开始时间的小时
+		var shour=parseInt(new Date(time*1000).getHours());
+		//获取开始时间天数
+		var sday=parseInt(new Date(time*1000).getDate());
+        //获取开始时间的月
+		var smonth=parseInt(new Date(time*1000).getMonth()+1);
+        //获取开始时间的年
+         var sy=parseInt(new Date(time*1000).getFullYear());		
+		var etime=str[i].endtime;		
+		//获取结束时间分钟
+		var emin=parseInt(new Date(etime*1000).getMinutes());
+		//获取结束时间的小时
+		var ehour=parseInt(new Date(etime*1000).getHours());
+		//获取结束时间天数
+		var eday=parseInt(new Date(etime*1000).getDate());
+        //获取结束时间的月
+		var emonth=parseInt(new Date(etime*1000).getMonth()+1);
+        //获取结束时间的年
+        var ey=parseInt(new Date(etime*1000).getFullYear());
+        if(emin>29){
+        
+        ehour=ehour+1;}
+       // alert('stime'+sy+' '+smonth+' '+sday+' '+shour+'    etime'+ey+' '+emonth+' '+eday+' '+ehour);
+        //通用 头部和尾部
+		var head='<tr style="height:11px;"><td style="width:38px;"></td>';
+		var end='</tr>';
+        if(eday>sday){
+        
+         var trnum=$('#lists'+sday+'').find("tr").length;
+          if(trnum<3){
+			//处理跨天，分三段，shour-24,1-24,1-ehour
+			var content1='<td colspan="'+shour+'" style="width:'+(70*shour)+'px;"></td>'+
+		 	'<td colspan="'+(24-shour)+'" style="width:'+(70*(24-shour))+'px;background-color:'+color+';border:1px solid white;" onclick="showd('+eventid+')" oncontextmenu="details('+eventid+',event)">'+title+'</td>';
+		    	 $('#lists'+sday+'').append(head+content1+end);	   
+			//连续的天
+			for(t1=(sday+1);t1<eday;t1++){
+				var content2='<td colspan="24" style="width:'+(70*24)+'px;background-color:'+color+';border:1px solid white;" onclick="showd('+eventid+')" oncontextmenu="details('+eventid+',event)">'+title+'</td>';
+			$('#lists'+t1+'').append(head+content2+end);
+			}
+			//结束的天
+			var content3='<td colspan="'+ehour+'" style="width:'+(70*ehour)+'px;background-color:'+color+';border:1px solid white;" onclick="showd('+eventid+')" oncontextmenu="details('+eventid+',event)">'+title+'</td>'+
+			'<td colspan="'+(24-ehour)+'" style="width:'+(70*(24-ehour))+'px;"></td>';
+			$('#lists'+eday+'').append(head+content3+end);
+			  }
+		}
+        //同一天
+		else{		  
+			//处于当月，查找天，根据div的id和table的id查找，在id=lists+'eday'的table
+			//判断开始小时和结束小时,然后生成一个tr，追加到id=lists+'eday'的table中
+			//tr的第一个td固定为<td style="width:40px;"></td>
+			 var trnum=$('#lists'+sday+'').find("tr").length;
+          if(trnum<3){
+			var content='<td colspan="'+shour+'" style="width:'+(70*shour)+'px;"></td>'+
+			'<td colspan="'+(ehour-shour)+'" style="background-color:'+color+';width:'+(70*parseInt((ehour-shour)))+'px;border:1px solid white;" onclick="showd('+eventid+')" oncontextmenu="details('+eventid+',event)">'+title+'</td>'+
+			'<td colspan="'+(24-ehour)+'" style="width:'+(70*(24-ehour))+'px;"></td>';
+            
+           $('#lists'+sday+'').append(head+content+end);	
+           }		  
+		}
+		
+			
+		
+        		
+	}		
+	},
+	error:function(errMsg){
+	alert(errMsg);	
+	}
+	
+});
+
+}
+var time=new Date();
+var days=parseInt(new Date(time).Format("dd"))-1;
+scrolloffset($("#t"+days+"").offset()); 
+}
+
+$(document).ready(function (){
+var time=new Date();
+var year=parseInt(new Date(time).Format("yyyy"));
+var month=parseInt(new Date(time).Format("MM"));
+
+document.getElementById('testt').innerHTML=new Date(time).Format("yyyy-MM");
+document.getElementById('startdate').value=new Date(time).Format("yyyy-MM-dd 00:00:00");
+var ids=$('#li1').find('p.devids').text();
+
+searchs();
+resulte(ids,"1");
+
+})
+
+function searchs(){
+
+	var time=document.getElementById('testt').innerText;
+	var str=time.split("-");
+	var year=parseInt(str[0]);
+	var month=parseInt(str[1]);
+	var days=getDaysInMonth(year,month);
+var day=document.getElementById('calendar');
+var html='';
+for(i=1;i<=days;i++){
+	html+='<div style="position:relative;height:70px;width:1720px;" id="t'+i+'"><table  class="table"><tr><td style="font-weight:bold;text-align:center;vertical-align:middle;width:40px;">'+i+'</td>'+
+	'<td class="time t0" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t1" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t2" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t3" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t4" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t5" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t6" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t7" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t8" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t9" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t10" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t11" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t12" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t13" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t14" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t15" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t16" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t17" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t18" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t19" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t20" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t21" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t22" oncontextmenu="ordera(this,event);"></td>'+
+	'<td class="time t23" oncontextmenu="ordera(this,event);"></td>'+
+	'</tr></table>'+'<table class="list" id="lists'+i+'" style="margin-top:2px;"></table></div>';
+	} 
+    
+day.innerHTML=html;
+
+}
+
+function showyu(id,num){
+	//id 该设备的id号 
+	//num 对应的tab的div的id号
+	resulte(id);
+
+}
+	function searchss(){
+	var devId=document.getElementById('devId').value;
+	searchs();
+	resulte(devId);
+	}
+	
+	
+	function scrolloffset(offsets){
+     $('body,html').animate({scrollTop:offsets.top-70},1000);
+	}
+	
+ </script>
+
+</head>
+<body>
+
+<input id="chuid" type="hidden">
+
+<ul style="width:98%;margin-left:1%;" class="reportul">
+<li>实验室使用情况  |</li>
+<li>&nbsp;&nbsp;&nbsp;&nbsp;<a onclick="orderass();" style="cursor:pointer;">
+<i class="layui-icon" style="font-size:15px;color:#2E8B57;">&#xe608;</i>预约</a>|
+
+<li><div id="testt" style="height:20px;line-height:20px;width:90px;cursor:pointer;border-bottom:1px solid #e2e2e2;float:left;"></div></li>
+<li><a onclick="searchss();" style="cursor:pointer;"><i class="layui-icon" style="font-size:20px;color:#2E8B57;">&#xe615;</i></a></li>
+<li style="float:right;"><a onclick="addlab();"><i class="layui-icon" style="font-size:15px;color:#2E8B57;">&#xe631;</i>增加</a></li>
+</ul>
+
+	<hr class="layui-bg-green"/>
+
+	<div class="layui-tab layui-tab-card"style="height:auto;border-top:1px solid #008B8B;border-bottom:1px solid white;position:relative;z-index:11111111;" id="startTop">
+  <ul class="layui-tab-title" style="background-color:#008B8B;border-left:1px solid #008B8B;">
+  <c:forEach items="${devs }" var="dev" varStatus="i">
+<c:if test="${i.count==1 }">				
+<li class="layui-this" id='li1'onclick="showyu('${dev.id }','${i.count }')"><p class="devids" style="display:none">${dev.id }</p><p name="shdev">${dev.devSty }</p></li>
+</c:if>
+<c:if test="${i.count!=1 }">
+	<li onclick="showyu('${dev.id }','${i.count }')">${dev.devSty }</li>
+</c:if>
+</c:forEach>		  
+  </ul>
+  <div class="layui-tab-content" style="height:auto;">
+   <c:forEach items="${devs }" var="dev" varStatus="i">
+   <c:if test="${i.count==1 }">
+	<div class="layui-tab-item layui-show" id="lay${i.count }"style="background-color:white;"> <p style="color:#EE2C2C;margin-left:1%;">${dev.devMod }</p>
+		<hr class="layui-bg-green"/>
+	<table style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:1720px;margin-left:0.3%;">
+	<tr style="height:40px;background-color:white;">
+	<td></td>
+	<td>00</td>
+<td>01</td>
+<td>02</td>
+<td>03</td>
+<td>04</td>
+<td>05</td>
+<td>06</td>
+<td>07</td>
+<td>08</td>
+<td>09</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+<td>17</td>
+<td>18</td>
+<td>19</td>
+<td>20</td>
+<td>21</td>
+<td>22</td>
+<td>23</td>
+	</tr></table>
+	</div> 
+</c:if>
+<c:if test="${i.count!=1 }">
+	<div class="layui-tab-item" id="lay${i.count }" style="height:auto;background-color:white;"><p style="color:#EE2C2C;margin-left:1%;">${dev.devMod }</p>
+	<hr class="layui-bg-green"/>
+	<table style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:1720px;margin-left:0.3%;">
+	<tr style="height:40px;background-color:white;">
+	<td></td>
+	<td>00</td>
+<td>01</td>
+<td>02</td>
+<td>03</td>
+<td>04</td>
+<td>05</td>
+<td>06</td>
+<td>07</td>
+<td>08</td>
+<td>09</td>
+<td>10</td>
+<td>11</td>
+<td>12</td>
+<td>13</td>
+<td>14</td>
+<td>15</td>
+<td>16</td>
+<td>17</td>
+<td>18</td>
+<td>19</td>
+<td>20</td>
+<td>21</td>
+<td>22</td>
+<td>23</td>
+	</tr></table>
+	</div> 
+</c:if>	
+</c:forEach>
+   
+  </div>
+</div>
+	
+	
+<!-- 预约实验室 -->	
+<label id="mylab" style="display:none;">${id }</label>
+	
+	<div id="calendar" style="postion:absolute"></div>
+	<%-- <span id="labsid" style=100%play:none;">设备编号id</span> --%>
+	
+<form id="add_form" action="lab_precontractDev" method="post" >
+	<div id="contracText" style="display:none;">
+
+ <input type="hidden" name="action" value="add" id="action">
+  <input type="hidden" name="id" value="" id="ids"><!-- 预约编号 -->
+  <input type="hidden" name="devId" value="" id="devId">
+<label><i class="layui-icon" style="font-size: 30px; color:#1E9FFF;;">&#xe60a;</i>  基本信息</label>
+<hr class="layui-bg-green" style="width:90%;"/>
+ 
+ <div class="layui-form-item" style="display: none;">
+    <label class="layui-form-label">标题：
+	</label>
+    <div class="layui-input-block">
+	<input type="text" class="layui-input" style="width:250px" name="calendar.title" id="title" > 
+	
+	</div>
+	</div>
+	<div class="layui-form-item">
+    <label class="layui-form-label"><font color="red" size="5px;">*</font>使用项目：
+	</label>
+
+    <div class="layui-input-block" >
+    <!-- <input type="text" name="calendar.project.projectName"class="layui-input" id="project"style="width:250px" value="">  -->
+    <select id="project" style="width:250px;height:50px;" class="form-control selectpicker" data-live-search="true" data-size="15">    	
+    	<c:forEach items="${project }" var="pro">
+    		<option value="${pro.projectName }">${pro.projectName }</option>
+    	</c:forEach>
+    </select>
+    <div style="display: block;"> <select id="projectType" style="width:180px;height:50px;" class="form-control selectpicker" data-live-search="true" data-size="15" onchange="showProjectName(project)">
+    	<option value="1" >实验室预约项目</option>
+    	<option value="2">计划项目</option>
+    </select> 
+   </div>
+	</div>
+  </div>
+	<div class="layui-form-item">
+    <label class="layui-form-label"><font color="red" size="5px;">*</font>测试项：
+	</label>
+    <div class="layui-input-block"><select  name="calendar.content" id="event" style="width:250px;height:50px;" class="form-control selectpicker" data-live-search="true" data-size="15"onchange="getContent();"><!-- multiple -->
+	                    <option value="314" >FLI-E527X-S000I</option>
+						
+</select>	
+建议耗时：<input type="text" name="advTime" id="advTime" size="4">小时
+<input type="button" value="输入温湿度值" class="button green" onclick="inputW()">
+
+	</div>
+	
+  </div>
+  
+   <div class="layui-form-item" style="display: none;" id="pro">
+    <label class="layui-form-label">关联设备：
+	</label>
+    <div class="layui-input-block">
+	
+	<select name="relevanceId" id="relevanceId">
+	<option value="0">不关联设备</option>
+	</select>
+	</div>
+	</div>
+  
+   <div class="layui-form-item">
+    <label class="layui-form-label">承载量：
+	</label>
+    <div class="layui-input-block">
+	<input type="text" class="layui-input" style="width:250px" id="useable" readonly> 
+	
+	</div>
+  </div>
+   <div class="layui-form-item">
+    <label class="layui-form-label"><font color="red" size="5px;">*</font>需要预约的承载量：
+	</label>
+    <div class="layui-input-block"><input type="text" name="used"class="layui-input" id="used"style="width:250px" onkeyup="this.value=this.value.replace(/[^\d]/g,'')"> 
+	</div>
+  </div>
+   <div class="layui-form-item"style="display:none;">
+    <label class="layui-form-label">实验室类别：
+	</label>
+    <div class="layui-input-block">
+	<input type="text" class="layui-input" id="lab" name="lab" value='设备编号'style="width:250px" readonly> 
+	
+	</div>
+  </div>
+  <div class="layui-form-item" style="display:none;">
+    <label class="layui-form-label">设备类别：
+	</label>
+    <div class="layui-input-block" style="width:250px"><input  id="dev_sty" name="dev_sty"class="layui-input"  lay-filter="dev" >        
+	</div>
+  </div>
+  <div class="layui-form-item" style="display:none;">
+    <label class="layui-form-label">设备型号：
+	</label>
+    <div class="layui-input-block"><input type="text" class="layui-input" id="dev_mod" name="dev_mod"style="width:250px"> 
+	</div>
+  </div>
+  <div class="layui-form-item" style="display:none;" >
+    <label class="layui-form-label" >资源责任人：
+	</label>
+    <div class="layui-input-block"><input type="text" class="layui-input" value='${owner }' id="onwer" name="onwer"style="width:250px"  readonly> 
+	</div>
+  </div>
+    <div class="layui-form-item">
+    <label class="layui-form-label"><font color="red" size="5px;">*</font>预订人：
+	</label>
+    <div class="layui-input-block"><input type="text" name="calendar.user.name"class="layui-input" id="user"style="width:250px" value="${sessionScope.user.name }"> 
+	</div>
+  </div>
+   
+   
+      <div class="layui-form-item">
+    <label class="layui-form-label">备注：
+	</label>
+    <div class="layui-input-block"><input type="text"  id="remark" name="calendar.remark"class="layui-input"style="width:250px" value=""> 
+	</div>
+  </div>
+<label><i class="layui-icon" style="font-size: 30px; color:#1E9FFF;;">&#xe637;</i>  时间选择</label>
+<hr class="layui-bg-green" style="width:90%;"/>
+<div class="layui-form-item">
+    <label class="layui-form-label"><font color="red" size="5px;">*</font>开始时间：
+	</label>
+    <div class="layui-input-block"><input type="text" class="layui-input" name="calendar.startTime" id="startdate" value=""  style="width:250px" readonly>
+	</div>
+  </div>
+	<div class="layui-form-item">
+    <label class="layui-form-label"><font color="red" size="5px;">*</font>结束时间：
+	</label>
+    <div class="layui-input-block"><input type="text" class="layui-input" name="calendar.endTime" id="enddate" value="" onmouseover="getTime();" style="width:250px" readonly>
+    </div>
+  </div>
+
+</div>
+
+</form>
+<input type="hidden" id="pros" value="<c:forEach items="${project }" var="pro">${pro.projectName },</c:forEach>">
+
+
+
+
+<!-- 输入温湿度值 -->
+<div id="inputW" style="display: none;">
+		<table style="margin-left:2%;"><tr style="height:30px;">
+			<td>温度：</td><td><input type="text" name="temperature" id="temperature"></td>
+			
+		</tr>
+		<tr style="height:30px;">
+			<td>湿度：</td><td><input type="text" name="humidity" id="humidity"></td>
+			
+		</tr>
+		</table>
+		
+	</div>
+
+
+<!-- 添加实验室设备 -->
+<div id="addlab" style="display:none;">
+<form  id="addlab_form" action="lab_addDev" method="post" >
+<table style="width:98%;height:100%;margin-left:1%;font-size:0.9em;" id="devtable">
+<tr style="display:none;">
+   <td style="width:50px;">实验室类别：
+	</td>
+    <td><input type="text" class="layui-input"name="lab" id='l1' value="${lab.lab}" style="width:250px" readonly> 	
+	</td>
+	<td></td>
+	<td></td>
+	<td></td>
+	</tr>
+  <tr><td>设备类别：
+	</td>
+    <td><input type="text" class="layui-input" name="dev_sty"  id="l2"style="width:150px">
+	</td><td></td><td></td><td></td></tr>
+  <tr><td>设备型号：
+	</td>
+    <td><input type="text" class="layui-input"name="dev_mod"   id="l3"style="width:150px"> 
+	</td><td></td><td></td><td></td></tr>
+  <tr>
+  <tr><td>测试项关系：
+	</td>
+    <td><select name="runs" id="run1"
+										class="form-control selectpicker" style="width:50px;"><option
+												value="false">串行</option>
+											<option value="true">并行</option></select>
+	</td><td></td><td></td><td></td></tr>
+ <tr>
+					<td >测试项：<a onclick="addcons(this);" style="cursor:pointer;"><i
+							class="layui-icon" style="font-size:20px;color:#2E8B57;">&#xe654;</i></a>
+					</td>
+					<td><!-- <input type="text" class="layui-input" name="content"
+						style="width:150px"> -->
+						<div style="width:150px;height:30px;margin:auto; position:relative">
+				<select name="cont" style="width:100%;height:30px;line-height:30px; position:absolute; left:0px; top:0px"class="form-control selectpicker sels0" 
+					onChange="set_modaul(this);" >		 
+				</select>
+				<input type="text" name="content" style="width:125px; height:35px;border-radius:4px;position:absolute; left:0px; top:0px; z-index:2;" value=""/>
+                 </div>
+</td>
+					<td ><select name="cons" class="form-control selectpicker selss0" multiple data-live-search="true" ></select></td>
+							<td>测试时间：<input type="text" name="ctimes" value=""
+								style="width:50px;height:35px;border-radius:2px;border:1px solid #E8E8E8;"></td>
+					<td>测试容量：<input type="text" name="useable" value=""
+								style="width:50px;height:35px;border-radius:2px;border:1px solid #E8E8E8;"></td>
+									<td>关&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系：<select name="run"
+										style="width:70px;height:30px;border-radius:2px;border:1px solid #E8E8E8;">
+											<option value=true>并行</option>
+											<option value="false">串行</option></select>
+						</td>
+				</tr>
+  <tr>
+  <td>备注：
+	</td>
+    <td><input type="text" class="layui-input"name="remark" id="l4"style="width:150px"> 
+	</td><td></td><td></td><td></td></tr>
+
+  <tr><td>资源责任人：${lab.owner }
+	</td>
+    <td><input type="text" class="layui-input"name="lab.onwer"  value="${lab.owner }" id="l6"style="width:150px"> 
+	</td><td><td></td><td></td></tr>
+  </table>
+</form>
+</div>
+<div style="display:none;font-size:0.9em;word-wrap:break-word;" id="bes">
+
+
+<label><i class="layui-icon" style="font-size: 30px; color:#1E9FFF;;">&#xe60a;</i>  基本信息</label>
+<hr class="layui-bg-green" style="width:90%;"/>
+ <table style="margin-left:2%;"><tr style="height:30px;"><td>日程内容：</td>
+	<td id="tl1">测试</td>
+	</tr>
+   <tr style="height:30px;"><td>预订人：
+	</td>
+	<td id="tl2">liaoqian</td>
+	</tr>
+  <tr style="height:30px;"><td>使用项目：
+	</td>
+	<td id="tl3">A153</td>
+	</tr>
+    <tr style="height:30px;"><td>备注：
+	</td>
+	<td id="tl4">
+	</td>
+	</tr>
+    <tr style="height:30px;"><td>开始时间：
+	</td>
+	<td id="tl5">2017-09-28 09:00</td>
+	</tr>
+    <tr style="height:30px;"><td>结束时间：
+	</td>
+	<td id="tl6">2017-09-28 11:00</td>
+	</tr>
+	<tr style="height:30px;"><td>测试项：
+	</td>
+	<td id="tl8">通过</td>
+	</tr>
+	<tr style="height:30px;"><td>承载量：
+	</td>
+	<td id="tl9">通过</td>
+	</tr>
+	<tr style="height:30px;"><td>状态：
+	</td>
+	<td id="tl7">通过</td>
+	</tr>
+ </table>
+
+
+</div>
+<div id="yuyue"></div>
+<div style="display:none;font-size:0.9em;word-wrap:break-word;" id="bess"></div>
+
+</body>
+	<script src="script/js/fm.selectator.jquery.js"></script>
+<script>
+
+
+function showdev(){
+	var temp;
+	 $.ajax({
+         type: "POST",
+        url: "getAllDev", //这里你根据后台地址改
+        async:false,		
+     success: function(data){
+       temp=data;
+     },
+     error : function(e) {
+       layer.msg('获取设备失败!',{time:1000});
+       console.log(e);
+     },
+    
+  });
+	return temp;
+}
+function showcon(){
+	var temp;
+	 $.ajax({
+         type: "POST",
+        url: "getAllContent", //这里你根据后台地址改
+        async:false,		
+     success: function(data){
+       temp=data;
+     },
+     error : function(e) {
+       layer.msg('获取设备失败!',{time:1000});
+       console.log(e);
+     },
+    
+  });
+	return temp;
+}
+function addcon(){
+	var temp=showcon();
+	var str=temp.substr(1, temp.length - 2).split(',');
+	var option='';
+	for(i=0;i<str.length;i++){
+		var strs=str[i].split('>>');
+		var id=strs[0];
+		var name=strs[1];
+		//option +='<option value="'+id+'">'+name+'</option>';
+		option +='<option value="'+name+'">'+name+'</option>';
+	}
+	if(document.getElementsByName('content').length>0){
+		var strs=document.getElementsByName('content');
+		var num=strs.length-1;
+		$('.selectpicker.sels'+num).html(option);	
+		$('.selectpicker.sels'+num).selectpicker('refresh');
+	}else{
+		$('.selectpicker.sels0').html(option);	
+		$('.selectpicker.sels0').selectpicker('refresh');
+	}
+}
+function addsel(){
+	var temp=showdev();
+	var str=temp.substr(1, temp.length - 2).split(',');
+	var option='';
+	for(i=0;i<str.length;i++){
+		var strs=str[i].split('>>');
+		var id=strs[0];
+		var name=strs[1];
+		option +='<option value="'+id+'">'+name+'</option>';
+	}
+	if(document.getElementsByName('content').length>0){
+		var strs=document.getElementsByName('content');
+		var num=strs.length-1;
+		$('.selectpicker.selss'+num).html(option);	
+		$('.selectpicker.selss'+num).selectpicker('refresh');
+	}else{
+		$('.selectpicker.selss0').html(option);	
+		$('.selectpicker.selss0').selectpicker('refresh');
+	}
+	
+}
+function show(){//将传来的关于模块和测试内容的数据分解成数组
+		  cities = new Object();
+		 	
+		 var rows = document.getElementById("table").rows.length; 
+         var dev_sty=document.getElementById("dev_sty");
+		 var html="";
+		 for(var i=0;i<rows;i++)
+		 {
+
+		 var caseType=$("#table tr:eq('"+i+"') td:eq(0)").text();
+		 var caseStore=$("#table tr:eq('"+i+"') td:eq(1)").text();
+		 html +='<option value="'+caseType+'">'+caseType+'</option>'
+       
+		}
+		dev_sty.innerHTML=html;
+		form.render("select");	
+}
+
+
+function devselect(obj){
+var devid=obj.value;
+var dev_mod=document.getElementById("dev_mod");
+var rows = document.getElementById("table").rows.length; 
+for(var i=0;i<rows;i++)
+		 {
+		 var caseType=$("#table tr:eq('"+i+"') td:eq(0)").text();
+		 var caseStore=$("#table tr:eq('"+i+"') td:eq(1)").text();
+		if(devid==caseType)
+		{			
+			dev_mod.value=caseStore;
+		}
+		}
+
+}
+function order(){
+	document.getElementById('dev_mod').value="";
+	show();
+	$("#dev_sty").val(dev_sty);
+     form.render("select");	
+	layer.open({
+			type:1,
+			title:'预定实验室',
+			btn:['取消','确定'],
+			
+			skin:"layui-layer-molv",
+			area: ['520px', '600px'], //宽高
+			content:$("#contracText"),
+			btn: ['确定', '取消']
+           ,yes: function(){
+			/*  var egs=times();
+		   if(egs>3){
+			   layer.msg("预约时间不得提前超过3天");
+		   }
+		   else{ */
+          // $("#add_form").submit();
+           //layer.closeAll();
+            var array=[];
+           array=getMsg();
+            $.ajax({
+ 			 type: "POST", 
+ 			 url:"precontractDev?tag=1",
+ 			 data:{"params":JSON.stringify(array)},
+ 			 dataType:"json", 
+ 			 success:function(data){
+ 		 		if(data=='success'){
+ 			 	 layer.msg('预约实验室成功!',{time:3000}); 
+ 			 	 setTimeout(function() {
+ 				 	window.location.reload();
+ 				 }, 3000); 
+ 			 	}else{
+ 			 		 layer.msg(data,{time:3000});
+	 			 		 if(data.indexOf("预定成功")!=-1){
+	 			 		  setTimeout(function() {
+	 				 	window.location.reload();
+	 				 }, 3000);
+ 			 		 }
+ 			 	}
+ 			 }, 
+ 			 error : function(e) {
+ 			 	//layer.msg('预约实验室失败!',{time:3000});
+ 				 layer.msg(e,{time:3000}); 
+ 				 	 
+ 			 } 
+ 	 	 }); 
+ 	
+			
+		   //}	
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+
+function isFireFox() {
+                var i = navigator.userAgent.toLowerCase().indexOf("firefox");
+                return i >= 0;
+            }
+function ordera(obj,e){
+if(isFireFox()){
+	 e.preventDefault();
+	}else{
+	window.event.returnValue=false;
+	}
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY;
+ /*  $('#yuyue').css('margin-top',oY-170);
+    $('#yuyue').css('margin-left',oX);
+  $('#yuyue').show(); */
+ layer.open({
+	            type: 1,
+				title:false,
+				offset: [oY-50,oX],
+				btn: ['预约','查询'],
+				shade: [0.001, '#393D49'],
+				shadeClose:true,
+				btnAlign: 'l',
+				closeBtn:0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['190px', '60px'], //宽高
+			   
+				content:$("#yuyue"),
+				yes: function(index, layero){
+ orderass();
+ layer.close(index);
+},btn2: function(){
+    layer.closeAll();
+    var tals=obj.parentNode.parentNode.parentNode.parentNode;
+    var id=$(tals).attr("id");
+    //alert(id);
+    var trs=id.substring(1,id.length);
+var tds=$(obj).prevAll().length-1;
+//alert(trs+' dd   '+tds);
+var etd=tds+1;
+var year=$('#testt').text();
+var stime=year+'-'+trs+' '+tds+':00:00';
+var etime=year+'-'+trs+' '+etd+':00:00';
+stime=new Date(stime).Format("yyyy-MM-dd HH:mm:ss");
+etime=new Date(etime).Format("yyyy-MM-dd HH:mm:ss");
+var labid=$('#mylab').text();
+var devId=document.getElementById('devId').value;
+$.ajax({
+url:"getPrecontractMsg?devId="+devId+"&startTime="+stime+"&endTime="+etime,//处理路径，查看该实验室改设备下的该时间点内被预约的时间（就是预约的时间中包含该时段）
+dataType: 'text',
+    error: function(errMsg){    
+                 alert('Error loading XML document'); 
+                console.log(errMsg);				 
+             },    
+	success:function(data){
+	
+	if(data.length>2){
+	
+	
+	var html='<label><i class="layui-icon" style="font-size: 30px; color:#1E9FFF;;">&#xe60a;</i> 预约信息</label><hr class="layui-bg-green" style="width:90%;"/>';
+		       var str=JSON.parse(data);
+			  for(i=0;i<str.length;i++){
+			   var title=str[i].title;
+			   var starttime=str[i].starttime;
+			   var endtime=str[i].endtime;
+			   var lab=str[i].l_id;
+			   var user=str[i].user;
+			   var project=str[i].project;
+			   var remark=str[i].remark;
+			   var state=str[i].state;
+			   var content=str[i].contentName;
+			   var used=str[i].used;
+			   var start=getLocalTime(starttime);
+			   var st=new Date(start).Format("yyyy-MM-dd HH:mm:ss");
+			   var end=getLocalTime(endtime);
+			   var ed=new Date(end).Format("yyyy-MM-dd HH:mm:ss");
+			   html +='标&nbsp;&nbsp;&nbsp;题：'+title+'<br/>项&nbsp;&nbsp;&nbsp目：'+project+'<br/> 时&nbsp;&nbsp;&nbsp;间:'+st+'--'+ed+'<br/>测试项：'+content+'<hr class="layui-bg-green"/>';
+			   }
+			   //alert(html);
+			   $('#bess').html(html);
+			   layer.open({
+	            type: 1,
+				title:false,
+				shadeClose:true,
+				closeBtn: 0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['300px', 'auto'], //宽高
+			   
+				content:$("#bess")
+				
+	              });
+	              }
+	              else{
+	              
+	              layer.msg("没有预约数据");}
+	}
+		
+	});
+    
+  }
+				
+	              });
+ 
+}
+
+
+
+
+
+
+function orderass(){
+/*  window.event.returnValue = false;
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY; */
+
+	var time=new Date();
+//var num=$(obj).parents("tr").find("td").index($(obj))-1;
+document.getElementById('startdate').value=new Date(time).Format("yyyy-MM-dd 09:00:00");
+	var did=document.getElementById('chuid').value;
+	document.getElementById('event').value="";
+	
+	var labid=$('#mylab').text();
+	var event=document.getElementById('event');
+	var stys=document.getElementById('dev_sty');
+	var mods=document.getElementById('dev_mod');
+	var devId=document.getElementById('devId').value;
+	var html='';
+	//var tr=obj.parentNode;
+	$.ajax({
+	url:'shows?devId='+devId,
+	type:"POST",
+	dataType: 'text',
+    error: function(errMsg){    
+                 alert('Error loading XML document'); 
+                console.log(errMsg);				 
+             },    
+	success:function(result){
+
+		var str=JSON.parse(result);
+	  
+		for(i=0;i<str.length;i++){
+			var ids=str[i].id;
+			var sty=str[i].devSty;
+			var mod=str[i].devMod;
+			var useable=str[i].useable;
+			var content=str[i].content;
+			//alert(sty);
+			document.getElementById("useable").value=useable;
+			//if(ids==did){
+				stys.value=sty;
+				mods.value=mod;
+				//alert(content);
+				if(content==null||content==""){
+				layer.msg("该设备无测试项，请增加测试项");
+				}
+				else{
+				
+				
+				var strd=content.split("、");
+				for(j=0;j<strd.length;j++)
+				{
+					var ss=strd[j].split(",");
+					//alert(ss[3]);
+					
+					if(j==0){
+					if(ss[4]!='无'){
+					var hh='';
+					//alert(ss[3]);
+					
+						var relevances=ss[4].split(">>");
+						for(var m=0;m<relevances.length;m++){
+							if(relevances[m]!=''){
+							hh+='<option value="'+relevances[m].split("-")[1]+'">'+relevances[m].split("-")[0]+'</option>';
+							}
+						}
+						hh+='<option value="0">不关联设备</option>';
+						document.getElementById('relevanceId').innerHTML=hh;
+						$("#pro").show();
+					}else{
+					document.getElementById('relevanceId').innerHTML='<option value="0"></option>';
+					$("#pro").hide();
+					}
+						document.getElementById("useable").value=ss[2];
+						document.getElementById("advTime").value=ss[3];
+					}
+					html +='<option value="'+ss[1]+'">'+ss[0]+'</option>';
+				}
+				
+				event.innerHTML=html;
+				$('#event').selectpicker('refresh');
+				}
+			//}
+			
+		}
+	
+	},
+	error:function(errMsg){
+		alert("加载失败");
+	}
+	
+	
+});
+	
+	layer.open({
+			type:1,
+			title:'预定实验室',
+			
+			btn:['取消','确定'],
+			skin:"layui-layer-molv",
+			area: ['520px', '600px'], //宽高
+			content:$("#contracText"),
+			btn: ['确定', '取消']
+           ,yes: function(){
+			// var egs=times();
+		   //if(egs>3){
+			  // layer.msg("预约时间不得提前超过3天");
+		  // }
+		   //else{
+          // $("#add_form").submit();
+			//layer.closeAll();
+		  // }	
+		   var array=[];
+           array=getMsg();
+            $.ajax({
+ 			 type: "POST", 
+ 			 url:"precontractDev?tag=1",
+ 			 data:{"params":JSON.stringify(array)},
+ 			 dataType:"json", 
+ 			 success:function(data){
+ 			 
+ 			 	if(data=='success'){
+ 			 	 layer.msg('预约实验室成功!',{time:3000}); 
+ 			 	 setTimeout(function() {
+ 				 	window.location.reload();
+ 				 }, 3000); 
+ 			 	}else{
+ 			 		 layer.msg(data,{time:3000});
+	 			 		 if(data.indexOf("预定成功")!=-1){
+	 			 		  setTimeout(function() {
+	 				 	window.location.reload();
+	 				 }, 3000);
+ 			 		 }
+ 			 	}
+ 		 		 
+ 				 
+ 			 }, 
+ 			 error : function(e,data,msg) {
+ 				 layer.msg(msg,{time:3000}); 
+ 				
+ 				 	 
+ 			 } 
+ 	 	 }); 
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+
+function times(){
+	
+	var time=new Date();
+		 var nowdate=new Date(time).Format("yyyy-MM-dd");//获取当前时间
+		 var value=document.getElementById('startdate').value;
+		// alert(value);
+    var date=value.split(' ');
+     var a=date[0].replace(/\-/gi,"/");
+    var starts=new Date(a).getTime();//选择的时间的时间戳
+	var  b=nowdate.replace(/\-/gi,"/");
+	var now=new Date(b).getTime();//获取当前时间戳
+	var eg=(starts-now)/(24*60*60*1000);
+	return eg;
+	
+}
+
+
+function addlab(){
+	addsel();
+	addcon();
+	layer.open({
+			type:1,
+			title:'增加实验室设备',
+			btn:['取消','确定'],
+			skin:"layui-layer-molv",
+			area: ['920px', '460px'], //宽高
+			content:$("#addlab"),
+			btn: ['确定', '取消']
+           ,yes: function(){
+			 
+            var array=[];
+			//获取数据，组装成json数组
+			var labid=document.getElementById('l1').value;
+			var dev_sty=document.getElementById('l2').value;
+			var dev_mod=document.getElementById('l3').value;
+			var remark=document.getElementById('l4').value;
+			var onwer=document.getElementById('l6').value;
+			var crun=document.getElementById('run1').value;
+			
+			//获取测试项、关联设备id(多选，所以是由id组成的数组)、测试时间
+			var strs=document.getElementsByName('content');
+			var a=document.getElementsByName('cons');
+		var b=document.getElementsByName('ctimes');
+		var c=document.getElementsByName('useable');
+		var d=document.getElementsByName('run');
+			
+			for(i=0;i<strs.length;i++){
+			var cont=strs[i].value;//获取测试项值
+		var gdevs=$(a[i]).val();//获取关联设备的id值集合
+		var tims=b[i].value;//获取标准执行时间
+		var useable=c[i].value;//获取容量
+		var run=d[i].value;//获取容量
+		//gdev获取的是数据，现在将其转化成字符串
+		var gdev='';
+		for(j in gdevs){
+		gdev +=gdevs[j]+',';
+		}
+		gdev = gdev.substring(0,gdev.length-1);
+		//alert(cont+"     "+gdevs+"    "+tims);
+		json={labid,dev_sty,dev_mod,remark,crun,onwer,cont,crun,gdev,tims,useable,run};
+		array.push(json);
+			}
+			console.log(array);
+		 $.ajax({
+             type: "POST",
+             url: "addDev?id"+labid, //这里你根据后台地址改
+             data:{"params":JSON.stringify(array)},
+	       	dataType:"json",		
+         success: function(data){
+            
+            layer.msg('新增测试项成功!',{time:1000});
+            setTimeout(function() {
+            	window.location.reload();
+            }, 2000)
+         },
+         error : function(e) {
+           layer.msg('新增测试项失败!',{time:1000});
+         },
+        
+      });
+		
+				 $('#addcontdev').hide();
+           },cancel: function(index, layero){ 
+          $('#addcontdev').hide();
+            }    
+           ,btn2: function(){
+           layer.closeAll();
+		    $('#addcontdev').hide();
+          }					
+		  });
+	
+}
+
+function showd(id){
+	//验证该预约是否为自己预约的
+	$.ajax({
+	url: "checkPrecontract?cid="+id,    
+    type: "POST",  
+    dataType: 'text',
+    error: function(errMsg){    
+   		alert('Error loading XML document'); 
+        console.log(errMsg);				 
+    },    
+    success: function(data){
+            if(data=='success'){
+            
+            event.cancelBubble = true
+			var ids=id;
+			layer.confirm('删除还是编辑预约？', {
+  			btn: ['删除', '编辑', '结束'] //可以无限个按钮
+  			,btn3: function(index, layero){
+  				//结束
+  			$.ajax({
+  				url:"endPrecontract?cid"+id,
+  				type:"POST",
+  				dataType:'text',
+  				error: function(errMsg){    
+                	 alert('Error loading XML document'); 
+                	console.log(errMsg);				 
+             }, 
+             success: function(data){
+             	if(data=='success'){
+             	layer.msg("结束当前预约成功",{time:3000});
+             	setTimeout(function() {
+             		window.location.reload();
+             	}, 3000);
+             	}else{
+             		layer.msg(data,{time:3000});
+             	}
+             	
+             }
+  			});
+  			}
+			}, function(index, layero){
+			
+			//删除
+			$.ajax({
+  				url:"deletePrecontract?cid="+id,
+  				type:"POST",
+  				dataType:'text',
+  				error: function(errMsg){    
+                	 alert('Error loading XML document'); 
+                	console.log(errMsg);				 
+             }, 
+             success: function(data){
+             	if(data=='success'){
+             		layer.msg("取消当前预约成功",{time:3000});
+             		setTimeout(function() {
+             		window.location.reload();
+             	}, 3000);
+             	}else{
+             	layer.msg(data,{time:3000});
+             	}
+             }
+  			});
+			}, 
+			function(index){
+			//编辑
+				$.ajax({
+				url:"editPrecontractPre?cid="+id,
+  				type:"POST",
+  				dataType:'text',
+  				error: function(errMsg){    
+                	 alert('Error loading XML document'); 
+                	console.log(errMsg);				 
+             }, 
+             success: function(data){
+             	if(data=='success'){
+             		editPrecontract(ids);//编辑前的回显
+             	}else{
+             		layer.msg(data,{time:3000});
+             	}
+             
+             }
+					
+				});
+			
+    			
+			});
+            
+            }else if(data=='fail'){
+            	layer.msg("你没有权限操作该预约",{time:3000});
+            }else{
+            	layer.msg("没有获取到相关预约信息",{time:3000});
+            }
+     }
+	});
+	
+	
+}
+function editPrecontract(ids){
+	$.ajax({  
+             		url: "search?cid="+ids+'&action=1',    
+             		type: "POST",  
+             		dataType: 'text',
+             		error: function(errMsg){    
+                	 alert('Error loading XML document'); 
+                	console.log(errMsg);				 
+             },    
+             success: function(data){//如果调用php成功   
+            // alert("搜索："+data);
+             document.getElementById("action").value='update';
+               	
+               var str=JSON.parse(data);
+               
+			   var id=str[0].id;
+			   var title=str[0].title;
+			   var starttime=str[0].starttime;
+			   var endtime=str[0].endtime;
+			   var lab=str[0].l_id;
+			   var dev_sty=str[0].dev_sty;
+			   var dev_mod=str[0].dev_mod;
+			   var onwer=str[0].onwer;
+			   var user=str[0].user;
+			   var type=str[0].type;
+			   var project=str[0].project;
+			   var remark=str[0].remark;
+			   var contentName=str[0].contentName;
+			   var num=str[0].used;
+			   var start=getLocalTime(starttime);
+			   var st=new Date(start).Format("yyyy-MM-dd HH:mm:ss");
+			   var end=getLocalTime(endtime);
+			   var ed=new Date(end).Format("yyyy-MM-dd HH:mm:ss");
+			  
+			 // alert(user);
+			  //alert(onwer);
+			  document.getElementById("ids").value=id;
+			  document.getElementById("title").value=title;
+			  document.getElementById("startdate").value=st;
+			  document.getElementById("enddate").value=ed;
+			  document.getElementById("lab").value=lab;
+			  document.getElementById("dev_sty").value=dev_sty;
+			  document.getElementById("dev_mod").value=dev_mod;
+			  document.getElementById("onwer").value=onwer;
+			  document.getElementById("user").value=user;			
+			  document.getElementById("remark").value=remark;
+			  document.getElementById("used").value=num;
+			  var devId=document.getElementById('devId').value;
+			  var event=document.getElementById('event');
+
+			 //获取系统中所有项目名称，并放到选择框中projectType
+			 
+			 $('#projectType').selectpicker('val',(type));
+			 showProjectName(project);
+
+
+			  var html='';
+			  $.ajax({
+				url:'shows?devId='+devId,
+				type:"POST",
+				dataType: 'text',
+    			error: function(errMsg){    
+                 alert('Error loading XML document'); 
+                console.log(errMsg);				 
+            	 },    
+				success:function(result){
+					var str=JSON.parse(result);
+	 		 for(i=0;i<str.length;i++){
+					var useable=str[i].useable;
+					var content=str[i].content;
+				var strd=content.split("、");
+				for(j=0;j<strd.length;j++)
+				{
+					var ss=strd[j].split(",");
+					if(contentName==ss[0]){
+					html +='<option value="'+ss[1]+'" selected="selected">'+ss[0]+'</option>';
+					document.getElementById('relevanceId').innerHTML='<option value="0"></option>';
+					$("#pro").hide();
+					document.getElementById("useable").value=ss[2];
+					document.getElementById("advTime").value=ss[3];
+					}else{
+					html +='<option value="'+ss[1]+'">'+ss[0]+'</option>';
+					}
+					
+				}
+				//alert(html);
+				event.innerHTML=html;
+					//showselect();
+				$('#event').selectpicker('refresh');
+			
+			
+		}
+
+	
+	},
+	error:function(errMsg){
+		alert("加载失败");
+	}
+	
+	
+});
+			  
+			  
+			layer.open({
+			type:1,
+			title:'修改预定实验室信息',
+			btn:['取消','确定'],
+			skin:"layui-layer-molv",
+			area: ['680px', '600px'], //宽高
+			content:$("#contracText"),
+			btn: ['确定', '取消']
+           ,yes: function(){
+           var egs=times();
+		   if(egs>3){
+			   layer.msg("预约时间不得提前超过3天");
+		   }
+		   else{
+          	var array=[];
+           array=getMsg();
+            $.ajax({
+ 			 type: "POST", 
+ 			 url:"precontractDev?tag=2",
+ 			 data:{"params":JSON.stringify(array)},
+ 			 dataType:"json", 
+ 			 success:function(data){
+ 		 		 if(data=='success'){
+ 			 	 layer.msg('编辑实验室成功!',{time:3000}); 
+ 			 	 setTimeout(function() {
+ 				 	window.location.reload();
+ 				 }, 3000); 
+ 			 	}else{
+ 			 		 layer.msg(data,{time:3000});
+	 			 		 if(data.indexOf("编辑成功")!=-1){
+	 			 		  setTimeout(function() {
+	 				 	window.location.reload();
+	 				 }, 3000);
+ 			 		 }
+ 			 	}
+ 			 }, 
+ 			 error : function(e) {
+ 			 	//layer.msg('预约实验室失败!',{time:3000});
+ 				 layer.msg(e,{time:3000}); 
+ 				 	 
+ 			 } 
+ 	 	 }); 
+}			
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  }); 
+			 }
+			 
+			  });
+}
+
+var menu=document.getElementById('bes');
+function details(id,e){
+//alert(id);
+ window.event.returnValue = false;
+  var e = e || window.event;
+  //鼠标点的坐标
+  var oX = e.clientX;
+  var oY = e.clientY;
+  //菜单出现后的位置
+e.stopPropagation();
+	$.ajax({
+		url:"search?cid="+id+'&action=1',
+		type:"POST",
+	dataType: 'text',
+    error: function(errMsg){    
+                 alert('Error loading XML document'); 
+                console.log(errMsg);				 
+             },    
+	success:function(data){
+	//alert("搜索:"+data);
+		       var str=JSON.parse(data);
+			  
+			   var title=str[0].title;
+			   var starttime=str[0].starttime;
+			   var endtime=str[0].endtime;
+			   var lab=str[0].l_id;
+			   var user=str[0].user;
+			   var project=str[0].project;
+			   var remark=str[0].remark;
+			   var state=str[0].state;
+			   var content=str[0].contentName;
+			   var used=str[0].used;
+			   var start=getLocalTime(starttime);
+			   var st=new Date(start).Format("yyyy-MM-dd HH:mm:ss");
+			   var end=getLocalTime(endtime);
+			   var ed=new Date(end).Format("yyyy-MM-dd HH:mm:ss");
+			  
+			   document.getElementById('tl1').innerHTML=title;
+			    document.getElementById('tl2').innerHTML=user;
+				 document.getElementById('tl3').innerHTML=project;
+				  document.getElementById('tl4').innerHTML=remark;
+				   document.getElementById('tl5').innerHTML=st;
+				    document.getElementById('tl6').innerHTML=ed;
+				    document.getElementById('tl7').innerHTML=state;
+				    document.getElementById('tl8').innerHTML=content;
+				    document.getElementById('tl9').innerHTML=used;
+			   layer.open({
+	            type: 1,
+				title:false,
+				
+				shadeClose:true,
+				closeBtn: 0,
+				skin: 'layui-layer-rim', //加上边框
+				area: ['300px', 'auto'], //宽高
+			   
+				content:$("#bes")
+				
+	              });
+	}
+		
+	});
+	
+	}
+	
+	
+	
+	function addcons(obj){
+		var tr=obj.parentNode.parentNode;
+	var strs=document.getElementsByName('content');
+	var num=strs.length;
+	html='<tr><td >测试项：<a onclick="deletecons(this);" style="cursor:pointer;float:right;"><i class="layui-icon" style="font-size:20px;color:#2E8B57;">&#xe640;</i></a>'+
+	'<a onclick="addcons(this);" style="cursor:pointer;"><i class="layui-icon" style="font-size:20px;color:#2E8B57;">&#xe654;</i></a></td>'+
+	'<td><div style="width:150px;height:30px;margin:auto; position:relative">'+
+	'<select name="cont" style="width:100%;height:30px;line-height:30px; position:absolute; left:0px; top:0px"class="form-control selectpicker sels'+num+'" onChange="set_modaul(this);" ></select>'+
+	'<input type="text" name="content" style="width:125px; height:35px;border-radius:4px;position:absolute; left:0px; top:0px; z-index:2;" value=""/></div></td>'+
+	'<td><select name="cons" class="form-control selectpicker selss'+num+'" multiple data-live-search="true"></select></td>'+
+	'<td>测试时间：<input type="text" name="ctimes" value="" style="width:50px;height:35px;border-radius:2px;border:1px solid #E8E8E8;"></td>'+
+	'<td>测试容量：<input type="text" name="useable" value=""style="width:50px;height:35px;border-radius:2px;border:1px solid #E8E8E8;"></td>'+
+	'<td>关&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系：'+
+	'<select name="run"style="width:70px;height:30px;border-radius:2px;border:1px solid #E8E8E8;">'+
+	'<option value="true">并行</option><option value="false">串行</option></select></td></tr>';
+
+	$(tr).after(html);
+	//$('.selectpicker.gom'+num).selectpicker('refresh');	
+	addsel();
+	addcon();
+	}
+	function hidd(){
+		$('#addcontdev').hide();
+		//叉掉之后的操作，暂时设计成将数据保存写入到隐藏域
+		var obj=addcon(obj,e);
+		alert(obj);
+	}
+	function deletecons(obj){
+		var tr=obj.parentNode.parentNode;
+		$(tr).remove();
+	}
+	function set_modaul(obj){
+	var divs=obj.parentNode;
+	var name=obj.value;
+	$(divs).find("[name='content']").val(name);
+}
+	/*
+	获取预约实验室信息
+	*/
+	function getMsg(){
+	var json={};
+	var array=[];
+	
+	var content=document.getElementById("event").value;
+	var user=document.getElementById("user").value;
+	var owner=document.getElementById("onwer").value;
+	var project=document.getElementById("project").value;
+	var remark=document.getElementById("remark").value;
+	var startTime=document.getElementById("startdate").value;
+	var endTime=document.getElementById("enddate").value;
+	var devId=document.getElementById("devId").value;
+	var used=document.getElementById("used").value;
+	var useable=document.getElementById("useable").value;
+	var temperature=document.getElementById("temperature").value;
+	var humidity=document.getElementById("humidity").value;
+	var relevanceId=document.getElementById("relevanceId").value;
+	var calendarId=document.getElementById("ids").value;
+	var type=document.getElementById("projectType").value;
+	json={content,user,owner,project,remark,startTime,endTime,devId,used,useable,temperature,humidity,relevanceId,calendarId,type};
+ 	array.push(json);
+ 	document.getElementById("temperature").value="";
+ 	document.getElementById("humidity").value="";
+ 	return array;
+}
+
+function inputW(){
+	layer.open({
+			type:1,
+			title:'填写温湿度值',
+			btn:['取消','确定'],
+			skin:"layui-layer-molv",
+			area: ['300px', '200px'], //宽高
+			content:$("#inputW"),
+			btn: ['确定']
+           
+           ,btn2: function(){
+         	 $("#inputW").hide();
+          }					
+		  }); 
+}
+
+function getContent(){
+	var contentId=document.getElementById("event").value;
+	var devId=document.getElementById("devId").value;
+	 $.ajax({
+		url:"getContentUseable?contentId="+contentId+"&devId="+devId,
+		type:"POST",
+		dataType: 'text',
+    
+		success:function(data){
+			if(data=='fail'){
+				layer.msg("获取承载量失败",{time:2000});			
+			}else{
+				document.getElementById("useable").value=data.split(",")[0];
+				document.getElementById("advTime").value=data.split(",")[2];
+				if(data.split(",")[1]!='无'){
+					var hh='';
+					
+						var relevances=data.split(",")[1].split(">>");
+						for(var m=0;m<relevances.length;m++){
+							if(relevances[m]!=''){
+							hh+='<option value="'+relevances[m].split("-")[1]+'">'+relevances[m].split("-")[0]+'</option>';
+							}
+							
+						}
+						hh+='<option value="0">不关联设备</option>';
+						document.getElementById('relevanceId').innerHTML=hh;
+						$("#pro").show();
+				}else{
+					document.getElementById('relevanceId').innerHTML='<option value="0"></option>';
+					$("#pro").hide();
+				}
+			}
+		},
+		error: function(errMsg){    
+                 alert('Error loading XML document'); 
+                console.log(errMsg);				 
+        }    
+	}); 
+	
+	//alert(contentId);
+}
+
+function getTime(){
+	var advTime=$("#advTime").val();
+	var value=$("#startdate").val();
+	var s=new Date(value).getTime();
+	var e=s+(advTime*60*60*1000);
+	var end=new Date(e).Format("yyyy-MM-dd HH:mm:ss");
+	$("#enddate").val(end);
+}
+</script>
+<script src="../script/js/scrollfix.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var fixStartTop = $("#startTop");			
+			fixStartTop.scrollFix({startTop:"#startTop"});			
+		})
+
+	function showProjectName(project){
+		var type=$("#projectType").val();
+		 $.ajax({
+		url:"getProjectName?type="+type,
+		type:"POST",
+		dataType: 'text',
+		success:function(data){
+			//alert(data);
+			var s=data.split("--");
+			var html='';
+			for(var i=0;i<s.length;i++){
+				if(s[i]!=''){
+				var projectId=s[i].split(",")[0];
+				var projectName=s[i].split(",")[1];
+				html+='<option value="'+projectName+'">'+projectName+'</option>'
+				}
+				
+			}
+			//alert(html);
+			//document.getElementById("project").innerHTML=html;
+			$("#project").html(html);
+			$('#project').selectpicker('refresh');
+			$('#project').selectpicker('val',(project));
+			//alert(data);
+		},
+		error: function(errMsg){    
+                 alert('Error loading XML document'); 
+                console.log(errMsg);				 
+        }   
+		});
+		//alert(type);
+	}
+
+	</script>
+</html>

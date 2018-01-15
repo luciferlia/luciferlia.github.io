@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+		 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+<style>
+li {
+	list-style: none;
+}
+#table td{border:1px solid #DCDCDC;
+text-align:center;vertical-align:middle;}
+.header td{color:white;}
+#table tbody tr:hover{background-color:#FFF0F5;}
+</style>
+<script>
+layui.use('layer', function(){
+  var layer = layui.layer;
+});  
+	layui.use('form', function(){
+  var form = layui.form;
+					});
+					$(document).ready(function(){
+					fen();
+					})
+				 var pageSize=5;  //每页显示的记录条数   
+        var curPage=0;   //显示第curPage页
+        var len;         //总行数
+        var page;        //总页数    
+   function fen(){    
+len =$("#table tr").length-1;   //去掉表头     
+ page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
+
+ document.getElementById("page").innerHTML=page;
+  for(var j=1;j<page+1;j++)
+		{
+		$('#curPage').append('<option value='+j+'>'+j+'</option>');
+		}
+ curPage=1;
+ displayPage();//显示第一页
+$("#nextpage").click(function(){//下一页
+   if(curPage<page){
+       curPage+=1;
+   }
+   else{
+       layer.msg("已经是最后一页");
+   }
+  displayPage();
+  });
+$("#lastpage").click(function(){//上一页
+   if(curPage>1){
+       curPage-=1;
+   }
+   else{
+     layer.msg("已经是第一页");
+   }
+   displayPage();
+   });
+$("#npage").click(function(){//跳到固定某一页
+   var npage=parseInt(document.getElementById("curPage").value);
+   if(npage>page||npage<1){
+      layer.msg("该页不存在");
+   }
+   else{
+       curPage=npage;
+   }
+   displayPage();
+   });
+}
+
+function displayPage(){  
+var begin=(curPage-1)*pageSize;//起始记录号
+var end = begin + pageSize;
+
+if(end > len ) end=len;
+$("#table tr").hide();
+$("#table tr").each(function(i){
+  if(i-1>=begin && i-1<end)//显示第page页的记录
+      {
+      $("#show_tab_one").show();
+      $(this).show();      
+      document.getElementById("curPage1").innerHTML=curPage;
+
+      }         
+});
+
+}        
+function pageSize(){
+curPage=0;   //显示第curPage页   
+pageSize=parseInt(document.getElementById("pageSize").value);
+len =$("#table tr").length-1;   //去掉表头     
+page=len % pageSize==0 ? len/pageSize : Math.floor(len/pageSize)+1;//根据记录条数，计算页数
+curPage=1;
+displayPage();//显示第一页   
+}
+            	
+ </script>
+    </head>
+
+    <body>
+      	<div class="layui-tab layui-tab-card" 
+		style="width:90%;height:99%;min-width:600px;min-height:830px;margin-left:5%;margin-top:1%;border:1px solid #4682B4;">
+		<ul class="layui-tab-title" style="background-color:#4682B4;border-left:1px solid #4682B4;">
+			<li class="layui-this">SIM卡申请审批</li>
+			<li>流程图</li>
+		</ul>
+		<div class="layui-tab-content" >
+			<div class="layui-tab-item layui-show" >
+			
+				<h4 class="glyphicon glyphicon-tasks" style="margin-left:45%;">SIM卡申请审批</h4>
+				<hr/>
+				<form class="layui-form" action="" style="margin-left:2%;" onSubmit="return check();">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">申请人</label>
+							<div class="layui-input-inline">
+								<input type="text" class="layui-input" name="">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">紧急程度</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" name="" value="一般" readonly>
+							</div>
+						</div>
+					</div>
+						<div class="layui-form-item">
+							<div class="layui-inline">
+								<label class="layui-form-label">申请项目</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-inline">
+								<label class="layui-form-label">申请小组</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" class="layui-input">
+								</div>
+							</div>
+						</div>
+                        <div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">申请时间</label>
+							<div class="layui-input-inline">
+								<input type="text" name="" class="layui-input">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">使用时间</label>
+							<div class="layui-input-block">
+								<input type="text" name="" class="layui-input">
+							</div>
+						</div>
+						</div>
+						
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">申请需求</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" name="" class="layui-textarea" style="width:600px;"></textarea>
+				</div>
+			</div>
+	</form>
+	<hr class="layui-bg-green"/>
+	<ul style="margin-top:2%;width:97%;margin-left:1%;">
+		<li style="float:right;"><input type='text' placeholder='搜索' class="layui-input" style="width:200px;"id="search"></li></ul>
+	<table id="table"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:97%;margin-left:1%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header" id="show_tab_one">
+				<td style="width:30px;">选择</td>
+				
+				<td>ICCID</td>
+				<td>运营商</td>
+				<td>MSISDN</td>
+				<td>套餐</td>				
+				<td>通话/余</td>
+				<td>流量/余</td>
+				<td>短信/余</td>
+				<td>PUK码</td>
+				<td>付费方式</td>
+				<td>服务密码</td>				
+			</tr>
+		<tbody id="show_tab_tr">  
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				
+				<td>8986011783100886913Y</td>
+				<td>4G联通</td>
+				<td>18516315919</td>
+				<td>76元</td>
+				<td>200分钟/100</td>
+				<td>800M/300</td>
+				<td>300/200</td>
+				<td>2564656</td>
+				<td>后付费（公司统一充值</td>
+				<td>741963</td>
+				
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+			
+				<td>09160041A1177808</td>
+				<td>4G移动</td>
+				<td>13611847943</td>
+				<td>58元+20元(语音信箱 呼叫限制)</td>
+				<td>100分钟/30</td>
+				<td>500M/400</td>
+				<td>0/0</td>
+				<td></td>
+				<td>后付费（公司统一充值）</td>
+				<td></td>
+				
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				
+				<td>09160041A1336839</td>
+				<td>4G移动</td>
+				<td>18201923607</td>
+				<td>58元 三方通话 固定拨号</td>
+				<td>100分钟</td>
+				<td>500M</td>
+				<td>0</td>
+				<td>11718293</td>
+				<td>后付费（公司统一充值）</td>
+				<td>741963</td>
+				
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				
+				<td>8986011583101871523L</td>
+				<td>4G联通</td>
+				<td>18521321782</td>
+				<td>76元</td>
+				<td>200分钟</td>
+				<td>800M</td>
+				<td>300</td>
+				<td>50081166</td>
+				<td>后付费（公司统一充值）</td>
+				<td>741963</td>
+				
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				
+				<td>09160041A11177598</td>
+				<td>4G移动</td>
+				<td>15221026037</td>
+				<td>158元 大流量卡</td>
+				<td>300分钟</td>
+				<td>3G</td>
+				<td></td>
+				<td></td>
+				<td>后付费（公司统一充值）</td>
+				<td></td>
+				
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				
+				<td>89852000008755479715 66</td>
+				<td>香港卡</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				
+   			</tr>
+			</tbody>
+		</table>
+		<table style="width:97%;font-size:0.9em;margin-left:1%;"><tr><td>
+                    共&nbsp;&nbsp;<span id="page" ></span>&nbsp;&nbsp;页&nbsp;&nbsp;|&nbsp;&nbsp;第&nbsp;&nbsp;<span id="curPage1"></span>&nbsp;&nbsp;页
+                     <span style="float:right;">
+                    <input id="lastpage" type="button" value="上一页" class="button">
+   <input id="nextpage" type="button" value="下一页" class="button">
+   <select id="curPage"></select>
+    <input id="npage" type="button" value="确定" class="button"></span>
+   
+    </td></tr></table>
+	<button class="layui-btn layui-btn-normal layui-btn-radius" type="submit" style="float:right;">确定</button>
+	</div>
+	
+	<div class="layui-tab-item"><img src="images/liucheng.png"></div>
+	</div>
+	</div>
+	<script>
+	layui.use('laydate', function(){
+  var laydate = layui.laydate;
+   laydate.render({
+    elem: '#day1' //指定元素
+  });
+   laydate.render({
+    elem: '#day2' //指定元素
+  });
+});
+	
+		
+	</script>	
+	<script>
+function search(){
+  $("#table tr:gt(0)").hide();
+     var $d = $("#table tr:gt(0)").filter(":contains('"+$.trim($("#search").val())+"')");
+          $d.show();
+          
+}
+$('#search').bind('input propertychange',function(){
+search();
+})
+</script>
+    </body>
+</html>

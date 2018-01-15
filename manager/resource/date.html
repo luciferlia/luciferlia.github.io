@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>无标题文档 </title> 
+ <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+  <style>
+#search{
+	width:90%;
+	height:120px;
+	margin-left:2%;
+	border-radius:10px;
+	border:4px solid #DCDCDC;
+}
+.layui-input{width:150px;}
+  </style>
+
+<script>
+var form;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var element = layui.element;  
+  $('.layd').each(function(){
+    laydate.render({
+        elem: this
+		,type: 'month'
+   })
+})
+});
+/*function time(obj){
+ laydate.render({
+    elem: obj //指定元素
+	 ,type: 'month'
+  });
+}*/
+function add(){
+var html='<input type="text" class="layd layui-input"><br/>';
+$('#add').html(html);
+  $('.layd').each(function(){
+    laydate.render({
+        elem: this
+		,type: 'month'
+   })
+})
+}
+</script>
+</head> 
+
+<body> 
+<!--根据条件筛选，统计数据-->
+<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#xe629;</i>实验室预约数据统计</span> 
+<hr class="layui-bg-green"/>
+<input type="text" class="layd layui-input"><br/>
+<input type="text" class="layd layui-input"><br/>
+<input type="text" class="layd layui-input"><br/>
+<input type="text" class="layd layui-input"><br/>
+<input type="text" class="layd layui-input"><br/>
+<input type="text" class="layd layui-input"><br/>
+<input type="text" class="layd layui-input"><br/>
+<input type="text" class="layd layui-input"><br/>
+<div id="add"></div>
+<button onclick="add()">增加</button>
+</body>
+</html>

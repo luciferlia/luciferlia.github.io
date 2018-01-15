@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>测试管理系统</title>
+  <link rel="shortcut icon" href="images/logio.ico" />
+        <meta name="description" content="">
+        <meta name="author" content="">
+<script src="script/js/jquery.min.js"></script>
+  <script src="script/ie.js"></script>
+        <!-- CSS -->
+       
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <script src="script/ie.js"></script>
+        <![endif]-->
+<style>
+#bodyimg{position:absolute;
+top:150px;
+left:0;
+height:392px;
+width:100%;
+min-width:1000px;
+background:url(images/banner1.jpg) no-repeat left top;
+}
+#bodyimg img{
+max-width: 100%;
+max-height: 100%;
+}
+#copyright{
+position:absolute;
+width:100%;
+height:40px;
+left:0;
+top:600px;
+color:#A9A9A9;
+text-align:center;
+}
+a{
+text-decoration:none;
+cursor:pointer;
+}
+
+.logindiv{ 
+height: 392px;
+  width: 400px;
+  margin-top:150px;
+  margin-left:75%;
+   box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+  position: absolute;
+transition: .4s, box-shadow .3s .4s;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+}
+.alert{
+	width:310px;
+	height:200px;
+	position:absolute;
+	 box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+	border-radius:5px;
+	top:-40%;
+	left:50%;
+	background-color:white;
+	margin: -101px 0 0 -151px;
+}
+.alert table td{
+text-align: center;vertical-align: middle;
+}
+.btn{
+padding:5px 15px;
+color:#fff;
+	cursor:pointer;
+	background:#72D1FF;
+	border:1px solid #72D1FF;
+	border-radius:4px;
+}
+input{  
+background: rgba(255, 255, 255, 0.45);
+  width: 300px;
+  padding: 8px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  color: #F0FFFF;
+  font-size: 20px;
+  }
+  #submit {
+    cursor: pointer;
+    width: 300px;
+    height: 44px;
+    margin-top: 25px;
+    padding: 0;
+    background: #ef4300;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 0px;
+    -moz-box-shadow:
+        0 15px 30px 0 rgba(255,255,255,.25) inset,
+        0 2px 7px 0 rgba(0,0,0,.2);
+    -webkit-box-shadow:
+        0 15px 30px 0 rgba(255,255,255,.25) inset,
+        0 2px 7px 0 rgba(0,0,0,.2);
+    box-shadow:
+        0 15px 30px 0 rgba(255,255,255,.25) inset,
+        0 2px 7px 0 rgba(0,0,0,.2);
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.1);
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s;
+}
+
+.connect {
+  
+    margin: 0 auto 0 auto;
+    font-size: 1.2em;
+    font-weigth:bold;
+   
+}
+.connect p{
+    position:relative;
+	left:-140%;
+	top:0;
+	color:white;
+}
+
+
+</style>
+<script>
+
+
+   function valiCheck(){
+   		$.ajax({
+   			type:"post",
+			url:"logLogin",
+   		
+   		});
+   	
+   }
+</script>
+    </head>
+
+    <body oncontextmenu="return false">
+<div id="particles">
+      	  <div id="bodyimg"></div>
+           <div class="logindiv">
+         
+           <div style="margin-left:15%;margin-top:2%;">
+           <img src="images/view.png" style="margin-left:30%;">
+          
+                       <div class="connect">
+                <p>&nbsp;WIND Test Management System</p>
+				
+            </div>
+         
+					<input type="text" name="username"  class="username" placeholder="用户名" autocomplete="off"  minlength="2" maxlength="18" />
+				<br/>
+		        <input type="password" name="password" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false"  minlength="2" maxlength="16"/>
+              
+                
+                <button id="submit" type="submit">登录</button>
+                <div style="margin-top:10px;"> 
+               <a href="laboratory/reg.html" style="float:left;"><font color="white">访客注册</font></a>
+                <span  style="float:right"> <a href="wind/forget.html"><font color="white">忘记密码</font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                </div>
+           
+             </div>
+           
+            
+        </div>
+           
+		<div class="alert" style="display:none">
+			<table style="width:100%;height:100%;margin-top:0px; margin-bottom:0px;">
+			<tr style="background-color:#00B2EE;height:50px;"><td><h2>消息</h2></td></tr>
+			<tr><td><p id="ts"></p></td></tr>
+			<tr  style="height:50px;"><td><button class="btn" id="btn">确定</button></span></td></tr>
+			</table>			
+		</div>
+	
+		<div id="copyright">
+		Copyright <font style="font-size:1.3em;">©</font> 2017 LIAOQIAN. All rights reserved.
+		
+		</div>
+</div>
+        <!-- Javascript -->
+		<script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+ 
+		<script>
+		$(".btn").click(function(){
+			is_hide();
+		});
+		var u = $("input[name=username]");
+		var p = $("input[name=password]");
+		$("#submit").live('click',function(){
+		    if(u.val()=='admin'&&p.val()=='123456'){
+			window.location.href='wind/all.html';
+			}else{
+			$("#ts").html("用户名或密码错误~");
+				is_show();
+				return false;			
+			}
+			
+		});
+		window.onload = function()
+		{
+			$(".connect p").eq(0).animate({"left":"0%"}, 600);
+			$(".connect p").eq(1).animate({"left":"0%"}, 400);
+		};
+		function is_hide(){ $(".alert").animate({"top":"-40%"}, 300) }
+		function is_show(){ $(".alert").show().animate({"top":"45%"}, 300) }
+		$(document).ready(function() {
+  $('#particles').particleground({
+    dotColor: '#BFEFFF',
+    lineColor: '#BFEFFF'
+  });
+  $('.intro').css({
+    'margin-top': -($('.intro').height() / 2)
+  });
+});
+		</script>
+    </body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+		 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+<style>
+li {
+	list-style: none;
+}
+.table td{border:1px solid #DCDCDC;
+text-align:center;vertical-align:middle;}
+.header td{color:white;}
+.table tbody tr:hover{background-color:#FFF0F5;}
+.remark p{margin-left:50px;margin-top:5px;}
+.table tr{height:50px;}
+</style>
+<script>
+var form;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var element = layui.element;
+  
+  //执行一个laydate实例
+ 
+   laydate.render({
+    elem: '#day1' //指定元素
+  });
+   laydate.render({
+    elem: '#day2' //指定元素
+  });
+  
+});
+					
+					function check(){
+					var a1=document.getElementsByName('')[0].value;
+					var a2=document.getElementsByName('')[0].value;
+					var a3=document.getElementsByName('')[0].value;
+					var a4=document.getElementsByName('')[0].value;
+					var a5=document.getElementsByName('')[0].value;
+					var a6=document.getElementsByName('')[0].value;
+					var a7=document.getElementsByName('')[0].value;
+					var a8=document.getElementsByName('')[0].value;
+					var a9=document.getElementsByName('')[0].value;
+					var a10=document.getElementsByName('')[0].value;
+					var a11=document.getElementsByName('')[0].value;
+					var a12=document.getElementsByName('')[0].value;
+					var a13=document.getElementsByName('')[0].value;
+					if(a1==""||a1==null)
+					{
+					lay.msg("标题不能为空");
+					return false;
+					}else if(a2==""||a2==null)
+					{
+					lay.msg("紧急程度不能为空");
+					return false;
+					}
+					else if(a3==""||a3==null)
+					{
+					lay.msg("申请人不能为空");
+					return false;
+					}
+					else if(a4==""||a4==null)
+					{
+					lay.msg("申请小组不能为空");
+					return false;
+					}
+					else if(a5==""||a5==null)
+					{
+					lay.msg("项目名称不能为空");
+					return false;
+					}
+					else if(a6==""||a6==null)
+					{
+					lay.msg("测试阶段不能为空");
+					return false;
+					}
+					else if(a7==""||a7==null)
+					{
+					lay.msg("设备名称不能为空");
+					return false;
+					}
+					else if(a8==""||a8==null)
+					{
+					lay.msg("设备版本不能为空");
+					return false;
+					}
+					else if(a9==""||a9==null)
+					{
+					lay.msg("设备协议不能为空");
+					return false;
+					}
+					else if(a10==""||a10==null)
+					{
+					lay.msg("借用数量不能为空");
+					return false;
+					}
+					else if(a11==""||a11==null)
+					{
+					lay.msg("起始日期不能为空");
+					return false;
+					}
+					else if(a12==""||a12==null)
+					{
+					lay.msg("截止日期不能为空");
+					return false;
+					}
+					else if(a13==""||a13==null)
+					{
+					lay.msg("借用事由不能为空");
+					return false;
+					}
+					else{
+					return true;
+					}
+					}
+ </script>
+    </head>
+
+    <body>
+      	<div class="layui-tab layui-tab-card" 
+		style="width:90%;height:92%;min-width:600px;min-height:830px;margin-left:5%;margin-top:2%;border:1px solid #F5F5F5;">
+		<ul class="layui-tab-title" style="background-color:#F5F5F5;border-left:1px solid #F5F5F5;">
+		<li class="layui-this">CTS在测版本</li>
+			<li >CTS排队版本</li>
+			<li >CTS已测版本</li>
+			<li>流程资源与需求说明</li>
+			<li>CTS说明表</li>
+		</ul>
+		<div class="layui-tab-content" >
+		<div class="layui-tab-item layui-show" >
+		<label>服务器被占用 <font style="color:red;">9 </font>台，可用 <font style="color:red;">0</font> 台，
+		总共可测项目 <font style="color:red;">10</font> ，现可测项目 <font style="color:red;">1</font>个</label>	
+				<h4 class="glyphicon glyphicon-tasks" style="margin-left:45%;font-weight:bold;color:#00868B;">与德CTS在测项目</h4>
+				<hr/>
+				<table id="table" class="table"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:98%;margin-left:1%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header">
+				
+				<td style="width:80px;">客户名称</td>
+				<td>项目名称</td>
+				<td style="width:80px;">测试经理</td>
+				<td style="width:80px;">研发经理</td>
+				<td>版本及地址</td>
+				<td style="width:100px;">开始日期</td>				
+				<td style="width:100px;">预计结束日期</td>
+				<td style="width:80px;">测试进度</td>
+				
+				<td>备注</td>
+				
+				<td>操作</td>
+			</tr>
+		
+			<tr>
+				
+				<td>BLU</td>
+				<td>V303 </td>
+				<td>许丁双</td>
+				<td>李琴</td>
+				<td>\\10.0.10.2\sw04临时软件版本\V303\沃尔玛\正式版本\BLU-V303X-K010N_V01.00B01</td>
+				<td>2017/7/8</td>
+				<td>2017/7/11</td>
+				<td>85%</td>
+				
+				<td>报告已归档，送测，停测等等</td>
+				
+				<td><a> 临时停止 </a></td></tr>
+			<tr>
+				
+				<td>MEIZU</td>
+				<td>Z205</td>
+				<td>叶静</td>
+				<td>江奇</td>
+				<td>Z205_ FLYME 0930 版本</td>
+				<td>2017/9/30</td>
+				<td>2017/9/30</td>
+				<td>80%</td>
+				
+				<td>GTS5.0</td>
+				
+				<td><a> 临时停止 </a></td>
+   			</tr>
+			<tr>
+				
+				<td>GIG</td>
+				<td>D629</td>
+				<td>许丁双</td>
+				<td>霍守懿</td>
+				<td>版本路径：  \\10.0.10.2\sw04临时软件版本\D629\GIG\正式版本\GIG-D629F-U000E_V1.7B08(低配)</td>
+				<td>2017/10/1</td>
+				<td>2017/10/6</td>
+				<td>70%</td>
+				
+				<td>使用CTS R13  进行测试，GTS请使用5.0_r1进行全测</td>
+				
+				<td><a> 临时停止 </a></td></tr>
+			<tr>
+				<td>ASUS</td>
+				<td>E260</td>
+				<td>卫立峰</td>
+				<td>王兆松</td>
+				<td>\\10.0.10.2\sw03临时软件版本\E260</td>
+				<td>2017/10/6</td>
+				<td>2017/10/10</td>
+				<td>70%</td>
+				
+				<td>使用CTS R13  进行测试，GTS请使用5.0_r1进行全测,verfier</td>
+				
+				<td><a> 临时停止 </a></td></tr>
+			<tr>
+				<td>Alcatel</td>
+				<td>A153</td>
+				<td>梁柳虹</td>
+				<td>董仲林</td>
+				<td>\\10.0.10.2\sw01临时软件版本\A153\系统版本\4049G_LATAM_单卡\4049G_AVCL\4049G_AVCL_V1.5_20170930</td>
+				<td>2017/10/10</td>
+				<td>2017/10/14</td>
+				<td>50%</td>
+				
+				<td>CTS R21 GTS 4.1 </td>
+			
+				<td><a> 临时停止 </a></td></tr>
+			<tr>
+				<td>ZTE</td>
+				<td>E183</td>
+				<td>许丁双</td>
+				<td>张惠强</td>
+				<td> \\10.0.10.2\sw01临时软件版本\E183L\系统版本\E183L新加坡SG1\DIS_SG1_P635T36V1.0.0B02</td>
+				<td>2017/10/10</td>
+				<td>2017/10/14</td>
+				<td>20%</td>
+				
+				<td>6.0-R22包+GTS/GTS4.1_r2 5.0_r1测试,量产版本，优先级高</td>
+				
+				<td><a> 临时停止 </a></td></tr>
+					<tr>
+				<td>富士康</td>
+				<td>E400</td>
+				<td>奚小玲</td>
+				<td>杨绪迎</td>
+				<td>\\10.0.10.2\sw02临时软件版本\E400_N\临时版本\E400_MorePatch_Version_0928</td>
+				<td>2017/10/6</td>
+				<td>2017/10/10</td>
+				<td>70%</td>
+				
+				<td>使用CTS 7.0_R13，GTS请使用5.0_r1进行全测</td>
+				
+				<td><a> 临时停止 </a></td></tr>
+			<tr>
+				<td>Alcatel</td>
+				<td>A156</td>
+				<td>梁柳虹</td>
+				<td>党树玲</td>
+				<td>\\10.0.10.2\sw01临时软件版本\A156\系统版本\UFMX\4047A_UFMX_V1.5_20170927</td>
+				<td>2017/10/10</td>
+				<td>2017/10/14</td>
+				<td>40%</td>
+				
+				<td>CTS R21 GTS 4.1 </td>
+			
+				<td><a> 临时停止 </a></td></tr>
+			<tr>
+				<td>ASUS</td>
+				<td>E262</td>
+				<td>卫立峰</td>
+				<td>肖海棠</td>
+				<td>\\10.0.10.2\sw03临时软件版本\E262L\其它版本\临时版本\CTS专用版本\ASUS_X018D_WW_V1.0B091007</td>
+				<td>2017/10/10</td>
+				<td>2017/10/14</td>
+				<td>90%</td>
+				
+				<td>使用CTS R13  进行测试，GTS请使用5.0_r1进行全测,verfier</td>
+				
+				<td><a> 临时停止 </a></td></tr>
+		</table>
+	</div>
+	
+			<div class="layui-tab-item" >
+			
+				<h4 class="glyphicon glyphicon-tasks" style="margin-left:45%;font-weight:bold;color:#00868B;">与德CTS测试项目状态更踪表</h4>
+				<hr/>
+				<table id="table" class="table"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:98%;margin-left:1%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header">
+				
+				<td style="width:80px;">客户名称</td>
+				<td>项目名称</td>
+				<td style="width:80px;">测试经理</td>
+				<td style="width:80px;">研发经理</td>
+				<td>版本及地址</td>
+				<td style="width:100px;">开始日期</td>				
+			
+				<td style="width:80px;">测试进度</td>
+				<td style="width:80px;">紧急程度</td>
+				<td>备注</td>
+				
+				<td>操作</td>
+			</tr>
+				<tr>
+				<td>ASUS</td>
+				<td>E260</td>
+				<td>卫立峰</td>
+				<td>王兆松</td>
+				<td>\\10.0.10.2\sw03临时软件版本\E260</td>
+				<td>2017/10/6</td>
+				
+				<td>排队中</td>
+				<td>一般</td>
+				<td>使用CTS R13  进行测试，GTS请使用5.0_r1进行全测,verfier</td>
+				
+				<td><a> 开始测试 </a></td></tr>
+			<tr>
+				<td>Alcatel</td>
+				<td>A153</td>
+				<td>梁柳虹</td>
+				<td>董仲林</td>
+				<td>\\10.0.10.2\sw01临时软件版本\A153\系统版本\4049G_LATAM_单卡\4049G_AVCL\4049G_AVCL_V1.5_20170930</td>
+				<td>2017/10/10</td>
+				
+				<td>排队中</td>
+				<td>一般</td>
+				<td>CTS R21 GTS 4.1 </td>
+			
+				<td><a> 开始测试 </a></td></tr>
+			
+			<tr>
+				<td>ZTE</td>
+				<td>E183</td>
+				<td>许丁双</td>
+				<td>张惠强</td>
+				<td> \\10.0.10.2\sw01临时软件版本\E183L\系统版本\E183L新加坡SG1\DIS_SG1_P635T36V1.0.0B02</td>
+				<td>2017/10/10</td>
+				
+				<td>排队中</td>
+				<td>重要</td>
+				<td>6.0-R22包+GTS/GTS4.1_r2 5.0_r1测试,量产版本，优先级高</td>
+				
+				<td><a> 开始测试 </a></td></tr>
+			<tr>
+				
+				<td>BLU</td>
+				<td>V303 </td>
+				<td>许丁双</td>
+				<td>李琴</td>
+				<td>\\10.0.10.2\sw04临时软件版本\V303\沃尔玛\正式版本\BLU-V303X-K010N_V01.00B01</td>
+				<td>2017/7/8</td>
+				
+				<td>排队中</td>
+				<td>紧急</td>
+				<td>报告已归档，送测，停测等等</td>
+				
+				<td><a> 开始测试 </a></td></tr>
+		
+	
+		</table>
+	</div>
+	<div class="layui-tab-item" >
+			
+				<h4 class="glyphicon glyphicon-tasks" style="margin-left:45%;font-weight:bold;color:#00868B;">与德CTS测试项目状态更踪表</h4>
+				<hr/>
+				<table id="table" class="table"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:98%;margin-left:1%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header">
+				
+				<td style="width:80px;">客户名称</td>
+				<td>项目名称</td>
+				<td style="width:80px;">测试经理</td>
+				<td style="width:80px;">研发经理</td>
+				<td>版本及地址</td>
+				<td style="width:100px;">开始日期</td>				
+				<td style="width:100px;">结束日期</td>
+				<td style="width:80px;">测试进度</td>
+				<td style="width:80px;">版本状态</td>
+				<td>备注</td>
+			</tr>
+				<tr>
+				<td>ASUS</td>
+				<td>E260</td>
+				<td>卫立峰</td>
+				<td>王兆松</td>
+				<td>\\10.0.10.2\sw03临时软件版本\E260</td>
+				<td>2017/10/6</td>
+				<td>2017/10/10</td>
+				<td>已完成</td>
+				<td>pass</td>
+				<td>使用CTS R13  进行测试，GTS请使用5.0_r1进行全测,verfier</td>
+				
+				</tr>
+			<tr>
+				<td>Alcatel</td>
+				<td>A153</td>
+				<td>梁柳虹</td>
+				<td>董仲林</td>
+				<td>\\10.0.10.2\sw01临时软件版本\A153\系统版本\4049G_LATAM_单卡\4049G_AVCL\4049G_AVCL_V1.5_20170930</td>
+				<td>2017/10/3</td>
+				<td>2017/10/7</td>
+				<td>已完成</td>
+				<td>pass</td>
+				<td>CTS R21 GTS 4.1 </td>
+			
+				</tr>
+			<tr>
+				<td>ZTE</td>
+				<td>E183</td>
+				<td>许丁双</td>
+				<td>张惠强</td>
+				<td> \\10.0.10.2\sw01临时软件版本\E183L\系统版本\E183L新加坡SG1\DIS_SG1_P635T36V1.0.0B02</td>
+				<td>2017/10/1</td>
+				<td>2017/10/4</td>
+				<td>已完成</td>
+				<td>pass</td>
+				<td>6.0-R22包+GTS/GTS4.1_r2 5.0_r1测试,量产版本，优先级高</td>
+				
+				</tr>
+			<tr>
+				
+				<td>BLU</td>
+				<td>V303 </td>
+				<td>许丁双</td>
+				<td>李琴</td>
+				<td>\\10.0.10.2\sw04临时软件版本\V303\沃尔玛\正式版本\BLU-V303X-K010N_V01.00B01</td>
+				<td>2017/10/6</td>
+				<td>2017/10/10</td>
+				<td>已完成</td>
+				<td>pass</td>
+				<td>报告已归档，送测，停测等等</td>
+				
+				</tr>
+			<tr>
+				
+				<td>MEIZU</td>
+				<td>Z205</td>
+				<td>叶静</td>
+				<td>江奇</td>
+				<td>Z205_ FLYME 0930 版本</td>
+				<td>2017/9/30</td>
+				<td>2017/9/30</td>
+				<td>已完成</td>
+				<td>fail</td>
+				<td>GTS5.0</td>
+				
+				</tr>
+			<tr>
+				
+				<td>GIG</td>
+				<td>D629</td>
+				<td>许丁双</td>
+				<td>霍守懿</td>
+				<td>版本路径：  \\10.0.10.2\sw04临时软件版本\D629\GIG\正式版本\GIG-D629F-U000E_V1.7B08(低配)</td>
+				<td>2017/10/1</td>
+				<td>2017/10/6</td>
+				<td>已完成</td>
+				<td>fail</td>
+				<td>使用CTS R13  进行测试，GTS请使用5.0_r1进行全测</td>
+				
+				</tr>
+	
+		</table>
+	</div>
+	     <div class="layui-tab-item">
+		<h4 class="glyphicon glyphicon-tasks" style="margin-left:45%;font-weight:bold;color:#00868B;">CTS测试需求流程</h4>
+				<hr/>
+				<div style="align:center;border-radius:10px;border:1px solid #E6E6FA;width:80%;margin-left:10%;" class="remark">
+		 <p>1.研发部需列出修改点和版本用途，版本同步邮件通知软件测试部测试经理、主测、自动化测试负责人、软件测试部部门</p><br/>
+		 <p>2.测试经理、主测根据项目计划，制定测试计划，合理安排CTS测试，同步RTX告知测试项目、版本、测试计划（原则上所有测试任务由测试经理或者主测下发），填写申请表</p><br/>
+		 <p>3.根据项目的计划，初步区分项目的优先级，自动化组安排测试给出预计完成日期</p><br/>
+		 <p>4.测试过程中问题及时反馈到项目组成员、测试经理、主测、自动化测试负责人（RTX，严重问题邮件），并详细说明测试详情</p><br/>
+		 <p>5.如果项目版本修改或计划变更，测试计划进行更新也请同步通知到自动化测试组</p><br/>
+		 <p>6.测试完成后，测试报告及时邮件通知到项目组成员、测试经理、主测、自动化测试负责人、软件测试部，并将结果进行归档服务器</p><br/>	 
+		 <p style="font-weight:bold;">备注：试验室资源目前可用资源九台服务器，同时在测版本十个版本左右，安排顺序按申请日期排列(周期4天)，如有紧急情况，请各测试经理自行商量告知</p><br/>	 
+		 <p style="font-weight:bold;">查看当前版本进度和在测版本可  进行筛选测试进度 </p><br/>
+		 <p></p><br/>
+		 <p></p><br/>
+			</div>					 
+		 </div>
+	  
+	   <div class="layui-tab-item">
+	   
+	   
+		<h4 class="glyphicon glyphicon-tasks" style="margin-left:45%;font-weight:bold;color:#00868B;">Google  CTS  Date</h4>
+				<hr/>
+	   <table class="table" style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:80%;margin-left:10%;">
+	  
+	    <tr><td  style="width:130px;">TOOLS</td><td ondblclick="ShowElement(this)">DATE</td></tr>
+		<tr><td>Android 7.0 R9 and 7.1 R5 </td><td ondblclick="ShowElement(this)">2017.10.25</td></tr>
+		<tr><td>GMS 8.0 R1</td><td ondblclick="ShowElement(this)">2017.10.02</td></tr>
+		<tr><td>GTS 5.0 R1</td><td ondblclick="ShowElement(this)">2017.10.26</td></tr>
+		<tr><td>CTS_TOOLS </td><td ondblclick="ShowElement(this)">7.0_R12\7.1R8\6.0R21\5.1R22   2017-09-15强制切换</td></tr>
+		<tr><td>GTS_TOOLS </td><td ondblclick="ShowElement(this)">5.0R1 Android 5.1 -8.0  2017-09-29强制切换</td></tr>
+		<tr><td>CTS_TOOLS </td><td ondblclick="ShowElement(this)">7.1 R9, 7.0 R13, 6.0 R22, 5.1 R23. ----October 16, 2017</td></tr>
+	   </table>
+	   
+	   </div>
+	 </div>
+	</div>
+	<script>
+	
+	function ShowElement(element) {
+             var oldhtml = element.innerHTML;
+             //如果已经双击过，内容已经存在input，不做任何操作
+            if(oldhtml.indexOf('type="text"') > 0){
+                return;
+            }
+            //创建新的input元素
+            var newobj = document.createElement('input');
+           //为新增元素添加类型
+           newobj.type = 'text';
+		   //为新增元素添加class属性
+		   newobj.className='layui-input';
+            //为新增元素添加value值
+            newobj.value = oldhtml;
+           //为新增元素添加光标离开事件
+           newobj.onblur = function() {
+                element.innerHTML = this.value == oldhtml ? oldhtml : this.value;
+              //当触发时判断新增元素值是否为空，为空则不修改，并返回原有值 
+           }
+            //设置该标签的子节点为空
+           element.innerHTML = '';
+           //添加该标签的子节点，input对象
+           element.appendChild(newobj);
+           //设置选择文本的内容或设置光标位置（两个参数：start,end；start为开始位置，end为结束位置；如果开始位置和结束位置相同则就是光标位置）
+            newobj.setSelectionRange(0, oldhtml.length);
+            //设置获得光标
+            newobj.focus();
+         }
+	</script>
+    </body>
+</html>

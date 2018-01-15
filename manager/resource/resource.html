@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+		 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+<style>
+.table12 td{border:1px solid #DCDCDC; font-size:0.8em;
+text-align:center;vertical-align:middle;}
+.header td{color:white;}
+#add td{font-size:0.8em;}
+#addlan td{font-size:0.8em;}
+.table12 tbody tr:hover{background-color:#FFF0F5;}
+.hides{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+</style>
+<script>
+var form;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form()
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var element = layui.element;
+  
+});
+function showadd(){
+shownull();
+layer.open({
+			type: 1,
+			title:'新增无线资源',
+			skin: 'layui-layer-molv', //加上边框
+			area: ['750px', '600px'], //宽高
+			content:$("#add"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				$('#adds').submit();
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+function showadds(){
+shownulllan();
+layer.open({
+			type: 1,
+			title:'新增蓝牙设备',
+			skin: 'layui-layer-molv', //加上边框
+			area: ['750px', '500px'], //宽高
+			content:$("#addlan"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				$('#addslan').submit();
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+function shownull(){
+document.getElementById('l1').value='';
+document.getElementById('l2').value='';
+document.getElementById('l3').value='';
+document.getElementById('l4').value='';
+document.getElementById('l5').value='';
+document.getElementById('l6').value='';
+document.getElementById('l7').value='';
+document.getElementById('l8').value='';
+document.getElementById('l9').value='';
+document.getElementById('l10').value='';
+document.getElementById('l11').value='';
+document.getElementById('l12').value='';
+document.getElementById('l13').value='';
+document.getElementById('l14').value='';
+}
+function shownulllan(){
+document.getElementById('la1').value='';
+document.getElementById('la2').value='';
+document.getElementById('la3').value='';
+document.getElementById('la4').value='';
+document.getElementById('la5').value='';
+document.getElementById('la6').value='';
+document.getElementById('la7').value='';
+document.getElementById('la8').value='';
+document.getElementById('la9').value='';
+document.getElementById('la10').value='';
+}
+function showedit(obj){
+var tr=obj.parentNode.parentNode;
+document.getElementById('l1').value=$(tr).children('td').eq(1).text();
+document.getElementById('l2').value=$(tr).children('td').eq(2).text();
+document.getElementById('l3').value=$(tr).children('td').eq(3).text();
+document.getElementById('l4').value=$(tr).children('td').eq(4).text();
+document.getElementById('l5').value=$(tr).children('td').eq(5).text();
+document.getElementById('l6').value=$(tr).children('td').eq(6).text();
+document.getElementById('l7').value=$(tr).children('td').eq(7).text();
+document.getElementById('l8').value=$(tr).children('td').eq(8).text();
+document.getElementById('l9').value=$(tr).children('td').eq(9).text();
+document.getElementById('l10').value=$(tr).children('td').eq(10).text();
+document.getElementById('l11').value=$(tr).children('td').eq(11).text();
+document.getElementById('l12').value=$(tr).children('td').eq(12).text();
+document.getElementById('l13').value=$(tr).children('td').eq(13).text();
+document.getElementById('l14').value=$(tr).children('td').eq(14).text();
+layer.open({
+			type: 1,
+			title:'修改无线资源',
+			skin: 'layui-layer-rim', //加上边框
+			area: ['750px', '600px'], //宽高
+			content:$("#add"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				$('#adds').submit();
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+
+function showedits(obj){
+var tr=obj.parentNode.parentNode;
+document.getElementById('la1').value=$(tr).children('td').eq(1).text();
+document.getElementById('la2').value=$(tr).children('td').eq(2).text();
+document.getElementById('la3').value=$(tr).children('td').eq(3).text();
+document.getElementById('la4').value=$(tr).children('td').eq(4).text();
+document.getElementById('la5').value=$(tr).children('td').eq(5).text();
+document.getElementById('la6').value=$(tr).children('td').eq(6).text();
+document.getElementById('la7').value=$(tr).children('td').eq(7).text();
+document.getElementById('la8').value=$(tr).children('td').eq(8).text();
+document.getElementById('la9').value=$(tr).children('td').eq(9).text();
+document.getElementById('la10').value=$(tr).children('td').eq(10).text();
+layer.open({
+			type: 1,
+			title:'修改蓝牙设备',
+			skin: 'layui-layer-rim', //加上边框
+			area: ['750px', '500px'], //宽高
+			content:$("#addlan"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				$('#addslan').submit();
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+$(function (){
+$('td.longs').mouseenter(function (event){
+	$(this).removeClass('hides');
+	
+});
+$('td.longs').mouseleave(function (event){
+$(this).addClass('hides');
+});
+
+})
+
+ </script>
+    </head>
+    <body><div class="layui-tab layui-tab-card"
+		style="height:auto;width:96%;margin-left:2%;min-width:1000px;">
+		<ul class="layui-tab-title">
+			<li class="layui-this">无线资源</li>
+			<li>蓝牙设备</li>
+		</ul>
+		<div class="layui-tab-content" style="height:auto;">
+			<div class="layui-tab-item layui-show">
+      	<ul style="margin-top:2%;width:96%;margin-left:2%;">
+		<li style="float:left;"><a onclick="showadd()" type="button" class="layui-btn layui-btn-radius layui-btn-normal">增加</a></li>
+		<li style="float:left;"><button onclick="console('delete','')" class="layui-btn layui-btn-radius layui-btn-danger">删除</button></li>
+		<li style="float:left;"><a href="resource/re_apply.jsp"type="button" class="layui-btn layui-btn-radius layui-btn-normal">申请</a></li>
+		<li style="float:right;"><input type='text' placeholder='搜索' class="layui-input" style="width:200px;"id="search"></li>
+		</ul>
+	<hr class="layui-bg-green"/>
+	<table id="table1" class="table12"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:96%;margin-left:2%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header">
+				<td style="width:30px;"><input type="checkbox"  lay-skin="primary"  name="all" id="all" /></td>
+				<td>设备</td>
+				<td>品牌</td>
+				<td>登录地址及账号密码</td>
+				<td>支持网络模式</td>
+				<td>无线加密</td>
+				<td>支持wps？</td>
+				<td>可单独设置的带宽模式</td>
+				<td>备注1</td>
+				<td>资产数量</td>
+				<td>单价(RMB)</td>
+				<td>小计</td>
+				<td>公司抬头</td>
+				<td>下单日期</td>
+				<td>备注2</td>
+				<td>状态</td>				
+				
+				<td>操作</td>
+			</tr>
+		
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>路由</td>
+				<td>友讯D-LINK DIR-616 </td>
+				<td class="longs hides">登录地址： 192.168.1.1
+				账号：admin
+                                         密码：直接回车进入</td>
+				<td class="longs hides">2.4GHz 802.11n
+2.4GHz802.11b/g
+2.4GHz802.11b/g/n</td>
+				<td class="longs hides">1.不加密
+2..WEP(开放系统+共享密钥）+64bit/128bit
+3.WPA-PSK+AES/TKIP/TKIP&AES
+4.WPA2-PSK+AES/TKIP/TKIP&AES
+5.WPA/WPA2-PSK+AES/TKIP/TKIP&AE</td>
+				<td>否</td>
+				<td>20MHz、20/40MHz</td>
+				<td></td>
+				<td>1</td>
+				<td>/</td>
+				<td>/</td>
+				<td>/</td>
+				<td>/</td>				
+				<td>原有资产，原价不详</td>				
+				<td>可用</td>
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+			
+		</table>
+		</div>
+			<div class="layui-tab-item">
+					<ul style="margin-top:2%;width:96%;margin-left:2%;">
+		<li style="float:left;"><a onclick="showadds()" type="button" class="layui-btn layui-btn-radius layui-btn-normal">增加</a></li>
+		<li style="float:left;"><button onclick="console('delete','')" class="layui-btn layui-btn-radius layui-btn-danger">删除</button></li>
+		<li style="float:left;"><a href="resource/re_apply.jsp"type="button" class="layui-btn layui-btn-radius layui-btn-normal">申请</a></li>
+		<li style="float:right;"><input type='text' placeholder='搜索' class="layui-input" style="width:200px;"id="search"></li>
+		</ul>
+	<hr class="layui-bg-green"/>
+	<table id="table2" class="table12"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:95%;margin-left:3%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header">
+				<td style="width:30px;"><input type="checkbox"  lay-skin="primary"  name="all" id="all" /></td>
+				<td>资源类别</td>
+				<td>资源名称</td>
+				<td>资源类型</td>
+				<td>支持协议</td>
+				<td>资产数量</td>
+				<td>单价(RMB)</td>
+				<td>小计</td>
+				<td>公司抬头</td>
+				<td>下单日期</td>
+				<td>备注</td>
+				<td>状态</td>				
+				
+				<td>操作</td>
+			</tr>
+		
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>路由</td>
+				<td>友讯D-LINK DIR-616 </td>
+				<td>20MHz、20/40MHz</td>
+				<td></td>
+				<td>1</td>
+				<td>/</td>
+				<td>/</td>
+				<td>/</td>
+				<td>/</td>				
+				<td>原有资产，原价不详</td>				
+				<td>可用</td>
+				<td><a onclick="showedits(this);"> 编辑 </a>|<a href=""> 删除 </a></td>
+   			</tr>
+			
+		</table>
+			</div>
+		</div>
+	</div>
+		<div id="add" style="display:none;">
+		<form action="" method="post" id="adds">
+		<table style="width:95%;height:100%;margin-left:2%;">
+		<tr>
+		<td style="width:70px;">设备</td><td><input type='text' class="layui-input" style="width:200px;" id="l1"></td>
+		<td style="width:70px;">品牌</td><td><input type='text' class="layui-input" style="width:200px;" id="l2"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">登录地址及账号密码</td><td colspan="3"><textarea class="layui-textarea" id="l3"style="min-height:20px;width:100%;"></textarea></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">支持网络模式</td><td colspan="3"><textarea class="layui-textarea"id="l4" style="min-height:20px;width:100%;"></textarea></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">无线加密</td><td colspan="3"><textarea class="layui-textarea" id="l5"style="min-height:20px;width:100%;"></textarea></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">支持WPS?</td><td><input type='text' class="layui-input" id="l6"style="width:200px;" ></td>
+		<td style="width:70px;">可单独设置的带宽模式</td><td><input type='text' class="layui-input" id="l7" style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">备注1</td><td><input type='text' class="layui-input" id="l8"style="width:200px;"></td>
+		<td style="width:70px;">资产数量</td><td><input type='text' class="layui-input" id="l9"style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">单价(RMB)</td><td><input type='text' class="layui-input"id="l10" style="width:200px;"></td>
+		<td style="width:70px;">小计<td><input type='text' class="layui-input"id="l11" style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">公司抬头</td><td><input type='text' class="layui-input"id="l12" style="width:200px;"></td>
+		<td style="width:70px;">下单日期</td><td><input type='text' class="layui-input"id="l13" style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">备注2</td><td colspan="3"><textarea class="layui-textarea" id="l14"style="min-height:20px;width:100%;"></textarea></td>
+		</tr>
+		</table>
+		</form>
+		</div>
+		<div id="addlan" style="display:none;">
+		<form action="" method="post" id="addslan">
+		<table style="width:95%;height:100%;margin-left:2%;">
+		<tr>
+		<td style="width:70px;">资源类别</td><td><input type='text' class="layui-input" id="la1" style="width:200px;"></td>
+		<td style="width:70px;">资源名称</td><td><input type='text' class="layui-input" id="la2" style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">资源类型</td><td><input type='text' class="layui-input"id="la3"  style="width:200px;" ></td>
+		<td style="width:70px;">支持协议</td><td><input type='text' class="layui-input"id="la4"  style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">资产数量</td><td><input type='text' class="layui-input" id="la5" style="width:200px;"></td>
+		<td style="width:70px;">单价(RMB)</td><td><input type='text' class="layui-input" id="la6" style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">小计</td><td><input type='text' class="layui-input" id="la7" style="width:200px;"></td>
+		<td style="width:70px;">公司抬头<td><input type='text' class="layui-input" id="la8" style="width:200px;"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">下单日期</td><td><input type='text' class="layui-input"id="la9"  style="width:200px;"></td>
+		<td style="width:70px;"></td><td></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">备注2</td><td colspan="3"><textarea class="layui-textarea" id="la10" style="min-height:20px;width:100%;"></textarea></td>
+		</tr>
+		</table>
+		</form>
+		</div>
+    </body>
+<script>
+function search(){
+  $("#table tr:gt(0)").hide();
+     var $d = $("#table tr:gt(0)").filter(":contains('"+$.trim($("#search").val())+"')");
+          $d.show();
+}
+$('#search').bind('input propertychange',function(){
+search();
+})
+</script>
+</html>
+

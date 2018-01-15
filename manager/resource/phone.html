@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+		 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+<style>
+#table td{border:1px solid #DCDCDC;
+text-align:center;vertical-align:middle;}
+.header td{color:white;}
+#table tbody tr:hover{background-color:#FFF0F5;}
+</style>
+<script>
+layui.use('layer', function(){
+  var layer = layui.layer;
+ 
+});
+
+layui.use('element', function(){
+  var element = layui.element;
+  
+});
+function showadd(){
+shownull();
+layer.open({
+			type: 1,
+			title:'新增样机资源',
+			skin: 'layui-layer-rim', //加上边框
+			area: ['750px', '320px'], //宽高
+			content:$("#add"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+function shownull(){
+document.getElementById('l1').value='';
+document.getElementById('l2').value='';
+document.getElementById('l3').value='';
+document.getElementById('l4').value='';
+document.getElementById('l5').value='';
+document.getElementById('l6').value='';
+document.getElementById('l7').value='';
+
+
+}
+function showedit(obj){
+var tr=obj.parentNode.parentNode;
+document.getElementById('l1').value=$(tr).children('td').eq(1).text();
+document.getElementById('l2').value=$(tr).children('td').eq(2).text();
+document.getElementById('l3').value=$(tr).children('td').eq(3).text();
+document.getElementById('l4').value=$(tr).children('td').eq(4).text();
+document.getElementById('l5').value=$(tr).children('td').eq(5).text();
+document.getElementById('l6').value=$(tr).children('td').eq(6).text();
+document.getElementById('l7').value=$(tr).children('td').eq(7).text();
+
+
+layer.open({
+			type: 1,
+			title:'修改样机资源',
+			skin: 'layui-layer-rim', //加上边框
+			area: ['750px', '320px'], //宽高
+			content:$("#add"),
+				btn: ['确定', '取消']
+           ,yes: function(){layer.closeAll();
+				
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+}
+ </script>
+    </head>
+
+    <body>
+      	<div class="layui-tab layui-tab-card" style="width:90%;margin-left:5%;">
+  <ul class="layui-tab-title">
+    <li class="layui-this">样机资源</li>
+    <li>测试机资源</li>
+   
+  </ul>
+  <div class="layui-tab-content" style="height:auto;">
+    <div class="layui-tab-item layui-show">
+	<ul style="margin-top:1%;width:95%;margin-left:3%;">
+		<li style="float:left;"><a onclick="showadd()"
+			type="button" class="layui-btn layui-btn-radius layui-btn-normal">增加</a></li>
+		<li style="float:left;"><button onclick="console('delete','')" class="layui-btn layui-btn-radius layui-btn-danger">删除</button></li>
+		<li style="float:left;"><a href="phoneapply.html" type="button" class="layui-btn layui-btn-radius layui-btn-normal">申请</a></li>
+		<li style="float:left;"><a href="SIMbuy.html" type="button" class="layui-btn layui-btn-radius layui-btn-normal">购买申请</a></li>
+		<li style="float:right;"><input type='text' placeholder='搜索' class="layui-input" style="width:200px;"id="search"></li></ul>
+	<hr class="layui-bg-green"/>
+	<table id="table"
+				style="TABLE-LAYOUT:fixed;WORD-BREAK:break-all;width:95%;margin-left:3%;">
+			<tr style="background-color:#4682B4;height:40px;" class="header">
+				<td style="width:30px;"><input type="checkbox"  lay-skin="primary"  name="all" id="all" /></td>
+				<td>组别</td>
+				<td>项目名称</td>
+				<td>项目主测</td>
+				<td>品牌名称</td>
+				<td>数量</td>
+				<td>是否采购</td>				
+				<td>备注</td>
+				<td>持有人</td>
+				
+				<td>操作</td>
+			</tr>
+		
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>项目一组</td>
+				<td>Z210X </td>
+				<td>戚焕灵</td>
+				<td>OPPO R9</td>
+				<td>1</td>
+				<td>是</td>
+				<td></td>
+				<td>戚焕灵</td>
+			
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a><span class="shen">|<a href="phoneapply.html">申请</a></span></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>项目五组</td>
+				<td>E260</td>
+				<td>吴和院</td>
+				<td>OPPO A77</td>
+				<td>1</td>
+				<td>否</td>
+				<td>PM 杨峰提供</td>
+				<td>吴和院</td>
+			
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a><span class="shen">|<a href="phoneapply.html">申请</a></span></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>库存</td>
+				<td></td>
+				<td></td>
+				<td>OPPO F1S</td>
+				<td>1</td>
+				<td>是</td>
+				<td></td>
+				<td></td>
+			
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a><span class="shen">|<a href="phoneapply.html">申请</a></span></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>库存</td>
+				<td></td>
+				<td></td>
+				<td>红米note3</td>
+				<td>1</td>
+				<td>是</td>
+				<td></td>
+				<td></td>
+			
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a><span class="shen">|<a href="phoneapply.html">申请</a></span></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>库存</td>
+				<td></td>
+				<td></td>
+				<td>LG nexus</td>
+				<td>1</td>
+				<td>是</td>
+				<td></td>
+				<td></td>
+			
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a><span class="shen">|<a href="phoneapply.html">申请</a></span></td>
+   			</tr>
+			<tr style="height:40px;">
+				<td><input type="checkbox" lay-skin="primary" name="checkedId" id="checkedId" class=" id-checkbox" value=""/><span style="font-size:0;overflow:hidden;"></span></td>
+				<td>库存</td>
+				<td></td>
+				<td></td>
+				<td>MEIZU MX5</td>
+				<td>1</td>
+				<td>是</td>
+				<td></td>
+				<td></td>
+				
+				<td><a onclick="showedit(this);"> 编辑 </a>|<a href=""> 删除 </a><span class="shen">|<a href="phoneapply.html">申请</a></span></td>
+   			</tr>
+		</table>
+	
+	
+	
+	</div>
+    <div class="layui-tab-item">2</div>
+    
+  </div>
+</div>
+
+		<div id="add" style="display:none;">
+		<table style="width:95%;height:100%;margin-left:2%;">
+		<tr>
+		<td style="width:70px;">组别</td><td><input type='text' class="layui-input" style="width:200px;" id="l1"></td>
+		<td style="width:70px;">项目名称</td><td><input type='text' class="layui-input" style="width:200px;" id="l2"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">项目主测</td><td><input type='text' class="layui-input" style="width:200px;" id="l3"></td>
+		<td style="width:70px;">品牌名称</td><td><input type='text' class="layui-input" style="width:200px;" id="l4"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">数量</td><td><input type='text' class="layui-input" style="width:200px;" id="l5"></td>
+		<td style="width:70px;">是否采购</td><td><input type='text' class="layui-input" style="width:200px;" id="l6"></td>
+		</tr>
+		<tr>
+		<td style="width:70px;">备注</td><td colspan="3"><textarea placeholder="请输入内容" name="" class="layui-textarea" id="l7"style="width:100%;"></textarea></td>
+		
+		</tr>
+		
+		</table>
+		</div>
+    </body>
+<script>
+function search(){
+  $("#table tr:gt(0)").hide();
+     var $d = $("#table tr:gt(0)").filter(":contains('"+$.trim($("#search").val())+"')");
+          $d.show();
+}
+$('#search').bind('input propertychange',function(){
+search();
+})
+</script>
+</html>

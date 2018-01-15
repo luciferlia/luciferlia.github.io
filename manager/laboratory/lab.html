@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<meta charset="UTF-8">
+<title>与德测试信息管理系统</title>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css" media="all">
+<script src="../script/layui/layui.js"></script>
+
+<style>
+li {
+	float:left;
+}
+
+button{color:black;cursor:pointer;}
+
+.layui-table td{
+	font-size:0.7em;
+}
+
+
+.mytest{
+  background: linear-gradient(-45deg,#00BFFF,#40E0D0);
+display:-moz-inline-box;
+display:inline-block;
+  text-align: center;   
+  text-decoration: none;
+width: 20%;
+height:90px; 
+font-size:0.9em;
+border:1px solid #8DEEEE;
+border-radius:15px;
+ box-shadow: 1px 9px #9C9C9C;
+ margin:5px 5px 5px 5px;
+ transition: all 0.3s;
+ font-weight:bold;
+ }		
+.mytest p {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.mytest:hover{
+	 box-shadow: 0 5px #666;
+  transform: translateY(4px);
+  color:white;
+  font-size:1em;
+}
+.mytest p:after {
+  content: '»';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.1s;
+}
+
+.mytest:hover p {
+  padding-right: 25px;
+}
+
+.mytest:hover p:after {
+  opacity: 1;
+  right: 0;
+ 
+}        
+.mytest:before{
+	content:'';
+  background: rgba(255, 255, 255, 0.3);
+  height: 0;
+  width: 45px;
+   top: 0;
+  left: 100px;
+	position:absolute;
+	transform:skew(-45deg);
+	transition:0s;
+}	
+.mytest:hover:before{
+	 height: 90px;
+	left:70%;
+	transition:.3s;
+}		
+		.scroll{  display:inline-block;
+                         _zoom:1;
+                         _display:inline;}
+						
+</style>
+
+<script>
+var form;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form()
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+   var element = layui.element;
+});
+
+ </script>
+
+</head>
+<body>
+<ul style="margin-top:1%;">
+	<li>
+	<a onclick="addlab();" ><i class="layui-icon" style="font-size:25px;color:#2E8B57;">&#xe631;</i>增加实验室</a>
+	</li>
+	<li>
+	<a href="lab_showLabProject" ><i class="layui-icon" style="font-size:25px;color:#2E8B57;">&#xe631;</i>实验室项目</a>
+	</li>
+	
+	<li style="float:right;">
+	<a href="lab_showAllLabList?tag=1" ><i class="layui-icon" style="font-size:25px;color:#2E8B57;">&#xe631;</i>编辑实验室</a>&nbsp;&nbsp;&nbsp;&nbsp;
+	</li></ul>
+	<hr class="layui-bg-green"/>
+	
+	
+	<div style="width:85%;height:auto;margin-left:10%;margin-top:1%;">
+	<!--循环输出实验室，并且每隔五个就换行，在后面追加<br/>-->
+	
+	<!--<button class="mytest" onclick="showdev('${lab.id}')"><p>${lab.lab }<br/>${lab.elab }</p></button>-->
+    <button class="mytest" onclick="showdev()"><p>测试实验室<br/>test lab</p></button>
+	</div>		
+
+	<!--<c:if test="${msg!='' }"><center style="color:red;font-size:10px;">${msg }</center></c:if>-->
+	
+<div id="addlab" style="display:none;">
+<form  id="addlab_form" action="lab_addLab?tag=0" method="post" class="layui-form" style="margin-top:10px;">
+ <div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red;font-size:1.3em;">*</span>实验室中文名称：
+	</label>
+    <div class="layui-input-block" ><input type="text" class="layui-input" name="lab.lab" id="lab" style="width:250px">
+	</div>
+  </div>
+   <div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red;font-size:1.3em;">*</span>实验室英文名称：
+	</label>
+    <div class="layui-input-block" ><input type="text" class="layui-input" name="lab.elab" id="elab" style="width:250px">
+	</div>
+  </div>
+ <div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red;font-size:1.3em;">*</span>资源责任人：
+	</label>
+    <div class="layui-input-block"><input type="text" class="layui-input"name="lab.owner" id="owner" style="width:250px"> 
+	</div>
+  </div>
+   <div class="layui-form-item">
+    <label class="layui-form-label"><span style="color:red;font-size:1.3em;">*</span>紧急责任人：
+	</label>
+    <div class="layui-input-block"><input type="text" class="layui-input"name="lab.emergencyOwner" id="emer"style="width:250px"> 
+	</div>
+  </div>
+   <div class="layui-form-item">
+    <label class="layui-form-label">备注：
+	</label>
+    <div class="layui-input-block"><input type="text" class="layui-input"name="lab.remark" style="width:250px"> 
+	</div>
+  </div>
+</form>
+</div>
+
+</body>
+<script>
+function showdev(){
+
+	//window.location.href="lab_showDeviceList?id="+id;
+
+	window.location.href="devlist.html";
+
+	  		 
+}
+function addlab(){
+	layer.open({
+			type:1,
+			title:'增加实验室',
+			btn:['取消','确定'],
+			skin:"layui-layer-molv",
+			area: ['520px', '460px'], //宽高
+			content:$("#addlab"),
+			btn: ['确定', '取消']
+           ,yes: function(){
+			 
+        	   var a=document.getElementById('lab').value;//实验室中文名
+     		    var b=document.getElementById('elab').value;//实验室英文名
+     		    var c =document.getElementById('owner').value;//实验室负责人
+     		    var d =document.getElementById('emer').value;//紧急负责人
+     		       if(a==""||a==null)
+     		     {
+     		     layer.msg("实验室中文名不能为空");
+     		     return false;
+     		     }else if(b==""||b==null){
+     		    	 layer.msg("实验室英文名不能为空");
+         		     return false; 
+     		     }else if(c==""||c==null){
+     		    	 layer.msg("实验室负责人不能为空");
+         		     return false; 
+     		     }else if(d==""||d==null){
+     		    	 layer.msg("紧急负责人不能为空");
+         		     return false; 
+  		     } else{
+  		    	$("#addlab_form").submit();
+  		    }
+           
+			layer.closeAll();
+				
+           }
+           ,btn2: function(){
+           layer.closeAll();
+          }					
+		  });
+	
+}
+</script>
+</html>

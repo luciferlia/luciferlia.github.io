@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>无标题文档 </title> 
+ <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+  <script src="../script/layui/layui.js" charset="utf-8"></script>
+  <style>
+#search{
+	width:90%;
+	height:120px;
+	margin-left:2%;
+	border-radius:10px;
+	border:4px solid #DCDCDC;
+}
+  </style>
+
+<script>
+var form;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var element = layui.element;
+ 
+    laydate.render({
+    elem: '#st' //指定元素
+	 ,type: 'month'
+  });
+  laydate.render({
+    elem: '#et' 
+	 ,type: 'month'//指定元素
+  });
+ 
+});
+</script>
+</head> 
+
+<body> 
+<!--根据条件筛选，统计数据-->
+<span style="float:left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="layui-icon" style="font-size: 30px; color: #1E9FFF;">&#xe629;</i>实验室预约数据统计</span> 
+<hr class="layui-bg-green"/>
+<form action=""method="post" id="search" class="layui-form">
+<div class="layui-form-item">
+						<div class="layui-inline" style="margin-top:10px;">
+							<label class="layui-form-label">实验室</label>
+							<div class="layui-input-inline">
+							<!--根据进来人的身份显示实验室-->
+								<select name="">
+									<option value="0">全部</option>
+									<option value="1">实验室1</option>
+									<option value="2">实验室2</option>
+								</select>
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">数据类型</label>
+							<div class="layui-input-block">
+								<select name="">
+									<option value="0">利用率</option>
+									<option value="1">跨部门情况</option>
+									<option value="2">使用时间</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-inline">
+							<label class="layui-form-label">开始时间</label>
+							<div class="layui-input-inline">
+								<input type="text" id="st"class="layui-input" name="">
+							</div>
+						</div>
+						<div class="layui-inline">
+							<label class="layui-form-label">结束时间</label>
+							<div class="layui-input-block">
+								<input type="text" class="layui-input" id="et"  name="">
+							</div>
+						</div>
+						<a  onclick="" class="layui-btn layui-btn-normal layui-btn-radius" type="button" style="float:right;">确定</a>
+					</div>
+					
+    </form>
+    <hr class="layui-bg-green"/>
+</body>
+</html>
