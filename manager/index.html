@@ -12,8 +12,6 @@
 <script src="script/js/jquery.min.js"></script>
   <script src="script/ie.js"></script>
         <!-- CSS -->
-       
-
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -196,16 +194,13 @@ background: rgba(255, 255, 255, 0.45);
 		
 		</div>
 </div>
-        <!-- Javascript -->
-		<script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
- 
 		<script>
 		$(".btn").click(function(){
 			is_hide();
 		});
 		var u = $("input[name=username]");
 		var p = $("input[name=password]");
-		$("#submit").live('click',function(){
+		$("#submit").on('click',function(){
 		    if(u.val()=='admin'&&p.val()=='123456'){
 			window.location.href='wind/all.html';
 			}else{
@@ -222,15 +217,7 @@ background: rgba(255, 255, 255, 0.45);
 		};
 		function is_hide(){ $(".alert").animate({"top":"-40%"}, 300) }
 		function is_show(){ $(".alert").show().animate({"top":"45%"}, 300) }
-		$(document).ready(function() {
-  $('#particles').particleground({
-    dotColor: '#BFEFFF',
-    lineColor: '#BFEFFF'
-  });
-  $('.intro').css({
-    'margin-top': -($('.intro').height() / 2)
-  });
-});
+		
 		</script>
     </body>
 </html>

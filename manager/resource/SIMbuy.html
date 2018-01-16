@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Document</title>
-		 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
-<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
-  <script src="../script/layui/layui.js" charset="utf-8"></script>
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<script src="../script/js/jquery.js"></script>
+<script src="../script/js/jquery.min.js"></script>
+<link rel="stylesheet" href="../script/layui/css/layui.css"  media="all">
+<script src="../script/layui/layui.js" charset="utf-8"></script>
 <style>
 li {
 	list-style: none;
@@ -16,9 +16,15 @@ li {
 layui.use('layer', function(){
   var layer = layui.layer;
 });  
-	layui.use('form', function(){
-  var form = layui.form;
-					});
+	var form;
+	layui.use(['form', 'layedit', 'laydate','element'], function(){
+  form = layui.form()
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+  var element = layui.element;
+  
+});
  </script>
     </head>
 
