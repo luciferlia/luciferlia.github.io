@@ -1,0 +1,215 @@
+<!DOCTYPE htm> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>无标题文档 </title> 
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+var EventUtil = {
+     addHandler:function(element,type,handler){ //添加事件
+      if(element.addEventListener){ 
+         element.addEventListener(type,handler,false);  //使用DOM2级方法添加事件
+      }else if(element.attachEvent){                    //使用IE方法添加事件
+         element.attachEvent("on"+type,handler);
+      }else{
+         element["on"+type]=handler;          //使用DOM0级方法添加事件
+      }
+   },  
+
+   removeHandler:function(element,type,handler){  //取消事件
+      if(element.removeEventListener){
+         element.removeEventListener(type,handler,false);
+      }else if(element.detachEvent){
+         element.detachEvent("on"+type,handler);
+      }else{
+         element["on"+type]=null;
+      }
+   },
+
+   getEvent:function(event){  //使用这个方法跨浏览器取得event对象
+      return event?event:window.event;
+   },
+	
+   getTarget:function(event){  //返回事件的实际目标
+      return event.target||event.srcElement;
+   },
+	
+   preventDefault:function(event){   //阻止事件的默认行为
+      if(event.preventDefault){
+         event.preventDefault(); 
+      }else{
+         event.returnValue=false;
+      }
+   },
+
+   stopPropagation:function(event){  //立即停止事件在DOM中的传播
+                                     //避免触发注册在document.body上面的事件处理程序
+      if(event.stopPropagation){
+         event.stopPropagation();
+      }else{
+         event.cancelBubble=true;
+      }
+   },
+		
+   getRelatedTarget:function(event){  //获取mouseover和mouseout相关元素
+      if(event.relatedTarget){
+         return event.relatedTarget;
+      }else if(event.toElement){      //兼容IE8-
+         return event.toElement;
+      }else if(event.formElement){
+         return event.formElement;
+      }else{
+         return null;
+      }
+   },
+		
+   getButton:function(event){    //获取mousedown或mouseup按下或释放的按钮是鼠标中的哪一个
+      if(document.implementation.hasFeature("MouseEvents","2.0")){
+         return event.button;
+      }else{
+         switch(event.button){   //将IE模型下的button属性映射为DOM模型下的button属性
+            case 0:
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+               return 0;  //按下的是鼠标主按钮（一般是左键）
+            case 2:
+            case 6:
+               return 2;  //按下的是中间的鼠标按钮
+            case 4:
+               return 1;  //鼠标次按钮（一般是右键）
+         }
+      }
+   },
+		
+   getWheelDelta:function(event){ //获取表示鼠标滚轮滚动方向的数值
+      if(event.wheelDelta){
+         return event.wheelDelta;
+      }else{
+         return -event.detail*40;
+      }
+   },
+		
+   getCharCode:function(event){   //以跨浏览器取得相同的字符编码，需在keypress事件中使用
+      if(typeof event.charCode=="number"){
+         return event.charCode;
+      }else{
+         return event.keyCode;
+      }
+   }
+		
+};
+EventUtil.addHandler(window,"load",function(event){
+alert("loaded");
+});
+EventUtil.addHandler(window,"unload",function(event){
+alert("unloaded");
+});
+/*EventUtil.addHandler(window,"resize",function(event){
+alert("resize");
+});*/
+EventUtil.addHandler(window,"scroll",function(event){
+if(document.compatMode=="css1Compat"){
+alert(document.documentElement.scrollTop);
+}else{
+alert('body'+document.body.scrollTop);
+}
+});
+EventUtil.addHandler(window,"load",function(){
+frames['richedit'].document.designMode="on";
+})
+/*
+var div=document.getElementById('myDiv');
+EventUtil.addHandler(div,'click',function(event){
+event=EventUtil.getEvent(event);
+var keys=new Array();
+if(event.shiftKey){
+keys.push("shift");
+}
+if(event.ctrlKey){
+keys.push("ctrl");
+}
+if(event.altKey){
+keys.push("alt");
+}
+if(event.metaKey){
+keys.push("meta");
+}
+alert(keys.join(","));
+});*/
+
+var parser=new DOMParser();
+var xmldom=parser.parseFromString("<root><child/></root>","text/xml");
+alert(xmldom.documentElement.tagname);
+alert(xmldom.documentElement.firstChild.tagname);
+var anotherChild=xmldom.createElement("child");
+xmldom.documentElement.appendChild(anotherChild);
+var children=xmldom.getElementsByTagName("child");
+alert(children.length);
+function parseXml(xml){
+var xmldom=null;
+if(typeof DOMParser !='undefined'){
+xmldom=(new DOMParser()).parseFromString(xml,"text/xml");
+var errors=xmldom.getElementsByTagName('parsererror');
+if(errors.length){
+throw new Error('XML PARSING ERRROR:'+errors[0].textContent);
+}
+}else if(typeof ActiveXObject != "undefined"){
+xmldom=createDocument();
+xmldom.loadXML(xml);
+if(xmldom.parseError != 0){
+throw new Error("XML parsing error:"+xmldom.parseError.reason);
+}
+}
+else{
+throw new Error("No XML parser avaiable");
+}
+return xmldom;
+}
+</script>
+</head> 
+<body onload="alert('onload')"> 
+<img src="images/2.jpg" style="border-radius:40%;" onload="alert('images loaded')">
+<input type="text" value="" placeholder="哇偶" >
+<div id="myDiv"></div>
+<ul>
+<li><input type="text" name="tel1" id="txtTel1" maxlength="3">--</li>
+<li><input type="text" name="tel2" id="txtTel2" maxlength="4">--</li>
+<li><input type="text" name="tel3" id="txtTel3" maxlength="4"></li>
+</ul>
+<iframe name="richedit" style="height:200px;width:200px;border:1px solid red;" src="2.html"></iframe>
+</body>
+<script>
+
+(function(){
+function tabForward(event){
+
+event=EventUtil.getEvent(event);
+var target=EventUtil.getTarget(event);
+
+if(target.value.length==target.maxLength){
+var form=target.form;
+console.log(form.elements.length);
+for(var i=0,len=form.elements.length;i<len;i++){
+if(form.elements[i]==target){
+console.log(form.elements[i+1]);
+if(form.elements[i+1]){
+form.elements[i+1].focus();
+}
+return;
+}
+}
+}
+}
+var textbox1=document.getElementById('txtTel1');
+var textbox2=document.getElementById('txtTel2');
+var textbox3=document.getElementById('txtTel3');
+
+EventUtil.addHandler(textbox1,"keyup",tabForward);
+EventUtil.addHandler(textbox2,"keyup",tabForward);
+EventUtil.addHandler(textbox3,"keyup",tabForward);
+})();
+</script>
+</html>

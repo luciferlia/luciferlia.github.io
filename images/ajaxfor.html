@@ -1,0 +1,58 @@
+<!DOCTYPE htm> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>无标题文档 </title> 
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.js"></script>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+function createXHR(){
+if(typeof XMLHttpRequest !="undefined"){
+return new XMLHttpRequest();
+}else if(typeof ActiveXObject !="undefined"){
+if(typeof arguments.callee.activeXString !="string"){
+var versions=["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"],
+i,len=versions.length;
+for(i=0;i<len;i++){
+try{
+new ActiveXObject(versions[i]);
+arguments.callee.activeXString=versionsp[i];
+console.log(versionsp[i])
+break;
+}catch(ex){
+console.log(ex);
+}
+}
+}
+return new ActiveXObject(arguments.callee.activeXString);
+}else{
+throw new Error("No XHR object available");
+}
+}
+var xhr=createXHR();
+
+xhr.onreadystatechange=function(){
+if((xhr.status>=200&& xhr.status<300)||xhr.status==304){
+alert(xhr.responseText);
+}else{
+alert('Request was unsucceful:'+xhr.staus);
+}}
+xhr.open("get","exmple.php",true);
+xhr.timeout=1000;//将超时设置为1秒中
+xhr.ontimeout=function(){alert("request did not return in a second");};
+xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+var from=document.getElementById('form');
+xhr.send(serialize(form));
+//向现有的URL的末尾添加查询字符串参数
+function addURLParam(url,name,value){
+url +=(url.indexOf("?")==-1? "?" :"&");
+url +=encodeURIComponent(name) +"="+encodeURIComponent(value);
+return url;
+}
+</script>
+</head> 
+<body onload="alert('onload')"> 
+
+</body>
+
+</html>

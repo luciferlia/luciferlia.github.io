@@ -24,13 +24,13 @@ social:
 # 百度统计 
 # 使用博客模板请去掉或者更换 id 
 baidu:
-    id: 770a4ac62c4d64e5bdc1e59443d24cfc
+    id: 90bd318650bb3f6ba18d2a06473260ad
 
 # Google Analytics
 # 使用博客模板请去掉或者更换 id
-ga:
-    id: UA-89432883-1
-    host: auto
+#ga:
+    #id: UA-89432883-1
+    #host: auto
 
     
 # 《----------------- 上面的信息修改成你自己的 ---------------------------》
