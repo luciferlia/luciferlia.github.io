@@ -63,7 +63,7 @@ nav:
     
 # Build settings
 kmarkdown: kramdown
-theme: minima
+theme: jekyll-theme-cayman
 gems: [jekyll-paginate]
 paginate: 5
 paginate_path: "page/:num/"
